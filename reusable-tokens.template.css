@@ -2,6 +2,7 @@
    Li& 系列 · 品牌令牌骨架（Tailwind CSS 4）
 
    用法（详见同目录 REUSABLE-BRAND-SCHEME.md §4.2）：
+   ⚠️ 本模板仅首次设计时复制使用，落地后以项目内文件为准。
    1. 复制本文件到新项目 frontend/src/index.css
    2. 全局替换 {{PROJECT_PREFIX}} 为项目技术标识（如 lipass / chat）
    3. 按槽位表填入主色、中性色、语义色（明暗两套）

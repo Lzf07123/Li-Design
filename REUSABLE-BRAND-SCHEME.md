@@ -4,6 +4,7 @@
 > **存放位置**：Li&ProJect/Li&Design 独立仓库（与各子项目同级），作为所有子项目的共用参考。
 > **提取来源**：Li&Pass 现有设计系统——[../Li&Pass/design-system/lipass/BRAND.md](../Li&Pass/design-system/lipass/BRAND.md)（品牌意图）、[../Li&Pass/design-system/lipass/MASTER.md](../Li&Pass/design-system/lipass/MASTER.md)（实现速览）、`../Li&Pass/frontend/src/index.css`（代码事实）、`../Li&Pass/frontend/src/lib/brand.ts`（品牌资产）。
 > **配套模板**：[reusable-tokens.template.css](reusable-tokens.template.css)（复制、改前缀、填色值后即可用）。
+> **使用边界**：本仓库仅在项目第一次设计时参考；首次设计完成后必须在项目内生成适用方案（见 §1.1、§1.2），后续开发以项目内方案为准。
 
 ---
 
@@ -25,6 +26,19 @@
 > 本文档面向「Li& 系列」产品家族；若某个项目需要独立品牌，至少保留第 2.2 节五大原则、第 2.4 节动效铁律与第 6 章无障碍/性能条款，其余可按需放开。
 
 ---
+
+### 1.1 使用边界（重要）
+
+> 本仓库只在项目**第一次设计**时作为参考起点。首次设计完成后，必须把结果实例化为**当前项目自己的设计方案**（见 1.2），后续所有开发与视觉决策以项目内方案为准；本仓库仅用于模板升级时的对照，不作为任何项目的运行时依赖。
+
+### 1.2 首次设计必交产出（在项目内生成）
+
+| 产出物 | 位置 | 说明 |
+| --- | --- | --- |
+| 项目品牌方案 | `design-system/<project>/BRAND.md` | 第 2 章品牌内核 + 第 3 章已填槽位的项目版 |
+| 实现速览 | `design-system/<project>/MASTER.md` | 令牌、组件、页面模式的落地快照 |
+| 令牌落地 | `frontend/src/index.css` | 复制 [reusable-tokens.template.css](reusable-tokens.template.css)、换前缀、填色值 |
+| 品牌单点 | `frontend/src/lib/brand.ts` | 名称 / slogan / Logo / 备案的唯一出处 |
 
 ## 2. 品牌内核（跨项目不变层）
 
