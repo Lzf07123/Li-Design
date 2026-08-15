@@ -1,8 +1,8 @@
 # Li& 系列 · 可复用品牌设计方案
 
 > **版本**：V1.0 ｜ **日期**：2026-08-16 ｜ **状态**：可复用基准（后续项目以此为起点实例化）
-> **存放位置**：Li&ProJect/Li&Design 独立仓库（与各子项目同级），作为所有子项目的共用参考。
-> **提取来源**：Li&Pass 现有设计系统——[../Li&Pass/design-system/lipass/BRAND.md](../Li&Pass/design-system/lipass/BRAND.md)（品牌意图）、[../Li&Pass/design-system/lipass/MASTER.md](../Li&Pass/design-system/lipass/MASTER.md)（实现速览）、`../Li&Pass/frontend/src/index.css`（代码事实）、`../Li&Pass/frontend/src/lib/brand.ts`（品牌资产）。
+> **存放位置**：独立模板仓库，可置于任意位置（与各子项目同级或克隆到其他机器），供所有子项目共用参考。
+> **提取来源**：Li&Pass 现有设计系统——BRAND.md（品牌意图）、MASTER.md（实现速览）、`index.css`（代码事实）、`brand.ts`（品牌资产）——已提炼内联于本文档，不依赖源仓库路径。
 > **配套模板**：[reusable-tokens.template.css](reusable-tokens.template.css)（复制、改前缀、填色值后即可用）。
 > **使用边界**：本仓库仅在项目第一次设计时参考；首次设计完成后必须在项目内生成适用方案（见 §1.1、§1.2），后续开发以项目内方案为准。
 
@@ -189,8 +189,8 @@
 | 新项目目标文件 | 来源 |
 | --- | --- |
 | `frontend/src/index.css` | 复制 [reusable-tokens.template.css](reusable-tokens.template.css)，全局替换 `{{PROJECT_PREFIX}}`，填入槽位 7–12、16 色值 |
-| `frontend/src/lib/brand.ts` | 仿照 `../Li&Pass/frontend/src/lib/brand.ts` 重建，填入槽位 1、3、18 与 Logo 路径 |
-| `frontend/index.html` | 仿照 `../Li&Pass/frontend/index.html`：favicon、明暗 `theme-color`、`description`、首帧主题脚本（存储键 = 槽位 17） |
+| `frontend/src/lib/brand.ts` | 按本方案槽位 1、3、18 与 3.2 资产规则新建，名称/slogan/Logo/备案全部从此文件读取 |
+| `frontend/index.html` | 按槽位 20 配置：favicon、明暗 `theme-color`、`description`、首帧主题脚本（存储键 = 槽位 17） |
 | `frontend/public/` | 放入 `brand-logo.webp`、`favicon.webp`、备案徽章、`icons.svg` |
 | `design-system/<project>/BRAND.md` + `MASTER.md` | 以本文档第 2 章为内核模板重写，记录项目槽位决策 |
 
@@ -277,18 +277,20 @@
 
 ## 附录 A：事实来源映射（本次提取的可追溯清单）
 
+> 表中「参考实现」指首个实例化项目 Li&Pass 的同名文档（BRAND.md / MASTER.md / index.css / brand.ts / index.html），仅作来源注明；本仓库不包含、也不依赖这些外部文件。
+
 | 提取内容 | 来源 |
 | --- | --- |
-| 定位、人格、承诺、避免清单 | `../Li&Pass/design-system/lipass/BRAND.md` §1 |
-| 五大原则 | `../Li&Pass/design-system/lipass/BRAND.md` §2 |
-| 色彩系统、字体、形状间距、Logo 图标 | `../Li&Pass/design-system/lipass/BRAND.md` §3 |
-| 四模式动效、错峰、联动、移动端降级 | `../Li&Pass/design-system/lipass/BRAND.md` §4 |
-| 页面品牌应用、文案语调、治理 | `../Li&Pass/design-system/lipass/BRAND.md` §5–7 |
-| 组件规格、页面模式、反模式、交付清单 | `../Li&Pass/design-system/lipass/MASTER.md` 全文 |
-| 令牌实际值（浅/深）、阴影、缓动、组件类 | `../Li&Pass/frontend/src/index.css` |
-| 品牌名、slogan、Logo、备案槽位 | `../Li&Pass/frontend/src/lib/brand.ts` |
-| 浏览器品牌位、首帧主题脚本 | `../Li&Pass/frontend/index.html` |
-| 氛围层 Canvas 接入参数 | `../Li&Pass/design-system/lipass/MASTER.md` §FloatingBackground + `../Li&Pass/docs/superpowers/specs/2026-08-14-ambient-background-design.md` |
+| 定位、人格、承诺、避免清单 | `参考实现 BRAND.md` §1 |
+| 五大原则 | `参考实现 BRAND.md` §2 |
+| 色彩系统、字体、形状间距、Logo 图标 | `参考实现 BRAND.md` §3 |
+| 四模式动效、错峰、联动、移动端降级 | `参考实现 BRAND.md` §4 |
+| 页面品牌应用、文案语调、治理 | `参考实现 BRAND.md` §5–7 |
+| 组件规格、页面模式、反模式、交付清单 | `参考实现 MASTER.md` 全文 |
+| 令牌实际值（浅/深）、阴影、缓动、组件类 | `参考实现 index.css` |
+| 品牌名、slogan、Logo、备案槽位 | `参考实现 brand.ts` |
+| 浏览器品牌位、首帧主题脚本 | `参考实现 index.html` |
+| 氛围层 Canvas 接入参数 | `参考实现 MASTER.md` §FloatingBackground + `参考实现 ambient-background-design 规格` |
 
 ## 附录 B：Li&Pass 令牌快照（供对照与回滚）
 
@@ -319,12 +321,11 @@
 本方案的通用标准与 ui-ux-pro-max 规则库交叉验证（2026-08-16 检索）：
 
 - **color / `trust security corporate blue`**：首位结果（Insurance Platform）主色 `#0369A1`、Ring `#0369A1`、Destructive `#DC2626`，与 Li&Pass 主色一致；Notes 明确「Security blue + protected green [Accent adjusted for WCAG 3:1]」。
-- **typography / `corporate trust professional`**：首位「Corporate Trust」组合 Lexend（标题）+ Source Sans 3（正文），Notes「Lexend designed for readability. Excellent accessibility.」——与 BRAND.md 3.2 的可选自托管建议一致，正文保持系统字体栈 + 中文回退。
+- **typography / `corporate trust professional`**：首位「Corporate Trust」组合 Lexend（标题）+ Source Sans 3（正文），Notes「Lexend designed for readability. Excellent accessibility.」——与参考实现 BRAND.md §3.2 的自托管建议一致，正文保持系统字体栈 + 中文回退。
 - **ux / `reduced motion accessibility performance`**：三条均 Severity High——必须检查 `prefers-reduced-motion`、避免强制滚动特效、每个视图最多动画 1–2 个关键元素。与本方案 2.4 铁律一致。
-- Li&Pass 设计时已验证：`--design-system "sso identity authentication security trust enterprise portal"` 输出「Enterprise Gateway / Trust & Authority」模式，主色同为 `#0369A1`（见 lipass/BRAND.md 附录）。
+- Li&Pass 设计时已验证：`--design-system "sso identity authentication security trust enterprise portal"` 输出「Enterprise Gateway / Trust & Authority」模式，主色同为 `#0369A1`（见参考实现 BRAND.md 附录）。
 
-## 附录 D：现状差距与下一步建议
+## 附录 D：实例化样例与后续建议
 
-- **Li&Pass（母本项目）**：与本文档完全对齐，作为「已实例化样例」；后续改动按第 7 章流程治理。
-- **Li&Chat（首个适配候选）**：当前为独立样式（主色 `#2f6fed`、系统字体、无令牌体系、无深色模式定制、无氛围动效），与家族品牌尚未对齐。建议下一步以本文档对 Li&Chat 走 4.2 实例化流程——先把 `static/style.css` 迁移到令牌骨架（前缀 `chat`），补 `brand.ts` 等效单点、深色模式与极低浓度氛围层，再按第 6 章验收。**该对齐属于另一个仓库的改动，需在 Li&Chat 工作区单独执行。**
-- **设计预览**：`../Li&Pass/design-system/lipass/preview/` 下 10 张页面截图（login/dashboard/admin/consent 等，明暗各一）可作为新项目视觉对齐的参照基准。
+- **首个实例化样例**：Li&Pass。本方案按其提炼；其项目内已具备 `design-system/<project>/BRAND.md` 与 `MASTER.md`，符合 §1.2 的要求。
+- **视觉对齐参照**：各项目把页面截图/预览保存在各自 `design-system/<project>/preview/`，作为项目内对照基准；本仓库不提供外部图片引用。
