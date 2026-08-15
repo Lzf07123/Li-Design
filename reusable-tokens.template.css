@@ -1,0 +1,310 @@
+/* =============================================================
+   Li& 系列 · 品牌令牌骨架（Tailwind CSS 4）
+
+   用法（详见同目录 REUSABLE-BRAND-SCHEME.md §4.2）：
+   1. 复制本文件到新项目 frontend/src/index.css
+   2. 全局替换 {{PROJECT_PREFIX}} 为项目技术标识（如 lipass / chat）
+   3. 按槽位表填入主色、中性色、语义色（明暗两套）
+   4. 组件一律引用语义类（bg-primary 等），禁止硬编码 hex
+
+   铁律：
+   - 深色 = 去饱和浅色调变体，不是简单反色
+   - 阴影透明度总和 < 0.1；只动 transform/opacity
+   - 尊重 prefers-reduced-motion；移动端减量省电
+============================================================= */
+
+@import "tailwindcss";
+
+/* 基于 class 的深色模式（html.dark） */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* 字体：不加载远程字体，优先本机，中文回退 PingFang SC / 微软雅黑 */
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", sans-serif;
+
+  /* 语义别名：组件只引用这一层，值由 :root / .dark 提供 */
+  --color-background: var(--{{PROJECT_PREFIX}}-bg);
+  --color-surface: var(--{{PROJECT_PREFIX}}-surface);
+  --color-surface-2: var(--{{PROJECT_PREFIX}}-surface-2);
+  --color-foreground: var(--{{PROJECT_PREFIX}}-fg);
+  --color-muted: var(--{{PROJECT_PREFIX}}-muted);
+  --color-border: var(--{{PROJECT_PREFIX}}-border);
+
+  --color-primary: var(--{{PROJECT_PREFIX}}-primary);
+  --color-primary-hover: var(--{{PROJECT_PREFIX}}-primary-hover);
+  --color-primary-soft: var(--{{PROJECT_PREFIX}}-primary-soft);
+  --color-primary-foreground: var(--{{PROJECT_PREFIX}}-primary-fg);
+
+  --color-success: var(--{{PROJECT_PREFIX}}-success);
+  --color-success-soft: var(--{{PROJECT_PREFIX}}-success-soft);
+  --color-warning: var(--{{PROJECT_PREFIX}}-warning);
+  --color-warning-soft: var(--{{PROJECT_PREFIX}}-warning-soft);
+  --color-destructive: var(--{{PROJECT_PREFIX}}-destructive);
+  --color-destructive-soft: var(--{{PROJECT_PREFIX}}-destructive-soft);
+  --color-destructive-foreground: var(--{{PROJECT_PREFIX}}-destructive-fg);
+
+  --color-ring: var(--{{PROJECT_PREFIX}}-ring);
+}
+
+/* 浅色模式：中性底色 + 单一主色强调（60/30/10 比例） */
+:root {
+  --{{PROJECT_PREFIX}}-bg: #f8fafc;
+  --{{PROJECT_PREFIX}}-surface: #ffffff;
+  --{{PROJECT_PREFIX}}-surface-2: #f1f5f9;
+  --{{PROJECT_PREFIX}}-fg: #0f172a;
+  --{{PROJECT_PREFIX}}-muted: #64748b;
+  --{{PROJECT_PREFIX}}-border: #e2e8f0;
+
+  --{{PROJECT_PREFIX}}-primary: #0369a1;
+  --{{PROJECT_PREFIX}}-primary-hover: #075985;
+  --{{PROJECT_PREFIX}}-primary-soft: #e0f2fe;
+  --{{PROJECT_PREFIX}}-primary-fg: #ffffff;
+
+  --{{PROJECT_PREFIX}}-success: #15803d;
+  --{{PROJECT_PREFIX}}-success-soft: #f0fdf4;
+  --{{PROJECT_PREFIX}}-warning: #b45309;
+  --{{PROJECT_PREFIX}}-warning-soft: #fffbeb;
+  --{{PROJECT_PREFIX}}-destructive: #dc2626;
+  --{{PROJECT_PREFIX}}-destructive-soft: #fef2f2;
+  --{{PROJECT_PREFIX}}-destructive-fg: #ffffff;
+
+  --{{PROJECT_PREFIX}}-ring: #0369a1;
+
+  /* 弥散阴影（透明度总和 < 0.1，三层叠加） */
+  --shadow-sm: 0px 0.6px 1.8px rgba(15, 23, 42, 0.02),
+    0px 2.4px 7.2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0px 0.6px 1.8px rgba(15, 23, 42, 0.02),
+    0px 2.4px 7.2px rgba(15, 23, 42, 0.04),
+    0px 8px 24px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0px 0.6px 1.8px rgba(15, 23, 42, 0.02),
+    0px 2.4px 7.2px rgba(15, 23, 42, 0.04),
+    0px 8px 32px rgba(15, 23, 42, 0.08);
+
+  /* 缓动曲线与时长 */
+  --ease-out: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-in: cubic-bezier(0.55, 0.06, 0.68, 0.19);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-fast: 150ms;
+  --motion-base: 250ms;
+  --motion-slow: 350ms;
+
+  color-scheme: light;
+}
+
+/* 深色模式：去饱和的浅色调变体，主色取 300–400 亮度档 */
+.dark {
+  --{{PROJECT_PREFIX}}-bg: #0b1220;
+  --{{PROJECT_PREFIX}}-surface: #111a2c;
+  --{{PROJECT_PREFIX}}-surface-2: #1b2740;
+  --{{PROJECT_PREFIX}}-fg: #e2e8f0;
+  --{{PROJECT_PREFIX}}-muted: #94a3b8;
+  --{{PROJECT_PREFIX}}-border: #263449;
+
+  --{{PROJECT_PREFIX}}-primary: #38bdf8;
+  --{{PROJECT_PREFIX}}-primary-hover: #7dd3fc;
+  --{{PROJECT_PREFIX}}-primary-soft: rgba(56, 189, 248, 0.14);
+  --{{PROJECT_PREFIX}}-primary-fg: #082f49;
+
+  --{{PROJECT_PREFIX}}-success: #4ade80;
+  --{{PROJECT_PREFIX}}-success-soft: rgba(74, 222, 128, 0.12);
+  --{{PROJECT_PREFIX}}-warning: #fbbf24;
+  --{{PROJECT_PREFIX}}-warning-soft: rgba(251, 191, 36, 0.12);
+  --{{PROJECT_PREFIX}}-destructive: #f87171;
+  --{{PROJECT_PREFIX}}-destructive-soft: rgba(248, 113, 113, 0.12);
+  --{{PROJECT_PREFIX}}-destructive-fg: #450a0a;
+
+  --{{PROJECT_PREFIX}}-ring: #38bdf8;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-foreground;
+  }
+
+  /* 键盘焦点始终可见：2px 主色描边 + 2px 偏移 */
+  :focus-visible {
+    outline: 2px solid var(--{{PROJECT_PREFIX}}-ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* 尊重系统减弱偏好：全部动效收敛为单帧 */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* 卡片：表面 + 边框 + 16px 圆角 + 弥散阴影；hover 仅 1px 上移 + 阴影变化 */
+  .card {
+    @apply rounded-2xl border border-border bg-surface shadow-sm;
+    transition:
+      transform var(--motion-base) var(--ease-out),
+      box-shadow var(--motion-base) var(--ease-out);
+    will-change: transform;
+  }
+  .card:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* 按钮：统一 8px 圆角；可点击必须有 cursor-pointer；按压 scale(0.97) */
+  .btn {
+    @apply relative inline-flex cursor-pointer select-none items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-lg px-4 py-3 text-sm font-medium leading-none disabled:pointer-events-none disabled:opacity-50;
+    transition:
+      color var(--motion-fast) var(--ease-out),
+      background-color var(--motion-fast) var(--ease-out),
+      border-color var(--motion-fast) var(--ease-out),
+      box-shadow var(--motion-fast) var(--ease-out),
+      transform var(--motion-base) var(--ease-spring);
+    will-change: transform;
+  }
+  .btn:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+  .btn:not(:disabled):active {
+    transform: translateY(0) scale(0.97);
+  }
+  .btn-primary {
+    @apply text-primary-foreground shadow-sm;
+    background-image: linear-gradient(
+      180deg,
+      var(--{{PROJECT_PREFIX}}-primary),
+      var(--{{PROJECT_PREFIX}}-primary-hover)
+    );
+    background-size: 100% 200%;
+    background-position: 50% 0;
+  }
+  .btn-primary:not(:disabled):hover {
+    background-position: 50% 100%;
+    box-shadow: var(--shadow-md);
+  }
+  .btn-secondary {
+    @apply border border-border bg-surface text-foreground hover:bg-surface-2;
+  }
+  .btn-ghost {
+    @apply text-muted hover:bg-surface-2 hover:text-foreground;
+  }
+  .btn-danger {
+    @apply bg-destructive text-destructive-foreground shadow-sm hover:opacity-90;
+  }
+  .btn-link {
+    @apply cursor-pointer whitespace-nowrap px-0 py-0 text-primary hover:underline;
+  }
+
+  /* 表单 */
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-foreground;
+  }
+  .input {
+    @apply w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-sm text-foreground shadow-sm placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
+    transition:
+      border-color var(--motion-fast) var(--ease-out),
+      box-shadow var(--motion-fast) var(--ease-out),
+      background-color var(--motion-fast) var(--ease-out);
+  }
+
+  /* 徽章 */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap;
+  }
+  .badge-success {
+    @apply bg-success-soft text-success;
+  }
+  .badge-warning {
+    @apply bg-warning-soft text-warning;
+  }
+  .badge-danger {
+    @apply bg-destructive-soft text-destructive;
+  }
+  .badge-muted {
+    @apply bg-surface-2 text-muted;
+  }
+  .badge-primary {
+    @apply bg-primary-soft text-primary;
+  }
+}
+
+@layer utilities {
+  /* 路由切换：整页淡入上移 */
+  @keyframes page-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .page-enter {
+    animation: page-fade-up var(--motion-slow) var(--ease-out) both;
+  }
+
+  /* 骨架扫光（background-position 动画，不触发重排） */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--{{PROJECT_PREFIX}}-surface-2) 25%,
+      rgba(255, 255, 255, 0.65) 37%,
+      var(--{{PROJECT_PREFIX}}-surface-2) 63%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* 加载旋转 */
+  .spinner {
+    display: inline-block;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 9999px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/* =============================================================
+   环境呼吸层：接入 Canvas 版 FloatingBackground（无第三方依赖）
+   - 画布 z-0 垫底、pointer-events: none、父容器 relative
+   - 认证高浓度（10）/ 授权低（4）/ 中心中（10 + scrollWind）/ 后台极低（4 × 0.5）
+   - calm：表单聚焦速度减半；adaptive：<768px 限 6 个、更慢更淡
+   - reduced-motion 下只绘制静态单帧
+============================================================= */
