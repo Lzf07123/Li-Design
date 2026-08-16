@@ -13,7 +13,7 @@ Li&Design 是 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&
 | 内容 | 位置 |
 | --- | --- |
 | 概览、目录结构、快速上手、治理 | [README.md](./README.md) |
-| 主方案：品牌内核 + 20 项槽位表 + 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（§8） | [REUSABLE-BRAND-SCHEME.md](./REUSABLE-BRAND-SCHEME.md) |
+| 主方案：品牌内核 + 22 项槽位表 + 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（§8） | [REUSABLE-BRAND-SCHEME.md](./REUSABLE-BRAND-SCHEME.md) |
 | 令牌骨架（Tailwind CSS 4）：`{{PROJECT_PREFIX}}` 占位符与明暗两套色板 | [reusable-tokens.template.css](./reusable-tokens.template.css) |
 
 **文档与代码冲突时**：`reusable-tokens.template.css` 是令牌事实，`REUSABLE-BRAND-SCHEME.md` 是意图。先核对差异，再决定改哪边；改一边必须同步另一边（见第六节）。
@@ -84,7 +84,7 @@ AGENTS.md                        本手册
 ## 七、验证命令
 
 ```bash
-# 令牌模板占位符数量应恰为 60 处（注释示例 1 处 + 变量定义/引用 59 处）；新增/删除槽位令牌会改变此数
+# 令牌模板占位符数量应恰为 128 处（V1.2 海玻璃：新增 secondary/六强调色/按钮着色/品牌文字/流光线/科技光效令牌）；新增/删除槽位令牌会改变此数
 rg -F -o '{{PROJECT_PREFIX}}' reusable-tokens.template.css | wc -l
 
 # 方案文档与令牌模板的引用一致性（如 --<prefix>-primary 应在 @theme/:root/.dark 中成对出现）
@@ -107,4 +107,5 @@ ls README.md REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css AGENTS.md
 - **子模块不会自动更新**：Li&Chat / Li&Pass 以子模块方式引用本仓库，模板改动后需在各自项目手动 `git submodule update --init`（对齐锁定提交），`--remote` 要评审后谨慎使用。
 - **槽位表与令牌模板失配**：新增槽位（如新语义色）必须在模板中同步加变量，否则实例化时会漏令牌。
 - **附录 B 与模板色值漂移**：两处都写有 Li&Pass 色值，改一处必须核对另一处。
-- **占位符计数**：`{{PROJECT_PREFIX}}` 全文件 60 处是当前基准；只改一处容易造成明暗两套不一致。
+- **占位符计数**：`{{PROJECT_PREFIX}}` 全文件 128 处是 V1.2 基准；只改一处容易造成明暗两套不一致。
+- **科技光效层关键帧缺失**：只写 `animation` 引用、漏定义 `@keyframes` 会让网格/光束/光点完全静止（光束基态 `opacity:0` 且不可见）；实例化时逐一核对「每个 animation 都有 @keyframes」。

@@ -1,6 +1,6 @@
 # Li& 系列 · 可复用品牌设计方案
 
-> **版本**：V1.1 ｜ **日期**：2026-08-16 ｜ **状态**：可复用基准（后续项目以此为起点实例化；V1.1 新增第 8 章多 Agents 协作方法）
+> **版本**：V1.2 ｜ **日期**：2026-08-17 ｜ **状态**：可复用基准（后续项目以此为起点实例化；V1.2 同步 Li&Pass「海玻璃全淡色系 + 科技光效 + BlurText/CountUp + 按钮状态规范」定稿）
 > **存放位置**：独立模板仓库，可置于任意位置（与各子项目同级或克隆到其他机器），供所有子项目共用参考。
 > **提取来源**：Li&Pass 现有设计系统——BRAND.md（品牌意图）、MASTER.md（实现速览）、`index.css`（代码事实）、`brand.ts`（品牌资产）——已提炼内联于本文档，不依赖源仓库路径。
 > **配套文件**：[reusable-tokens.template.css](reusable-tokens.template.css)（复制、改前缀、填色值后即可用）、[AGENTS.md](AGENTS.md)（模板仓库的多 Agents 协作手册，与第 8 章配合使用）。
@@ -59,7 +59,7 @@
 ### 2.2 五大设计原则（TRUST 内核）
 
 1. **信任优先（Trust First）**：色彩、字体、徽章、文案都传递「安全但不唬人」。安全提示清晰可行动，避免恐吓式文案；关键安全能力用可见但克制的方式呈现。
-2. **克制的科技感（Restrained Tech）**：中性底色 + 单一主色强调，不用霓虹渐变、不用 AI 紫粉、不做夸张玻璃拟态。科技感来自干净、精确与动效质感，而不是色彩浓度。
+2. **淡色科技感（Light-Toned Tech，V1.2 修订）**：中性或淡色底色 + 单一主色强调，**全淡色系、无粉色、无大面积重色**（Li&Pass 定稿「海玻璃」主色 `#2F7F74`）；按钮用半透明单色着色而非渐变色块；科技感来自雾面粉彩层次、网格/光束/光点的流动光效与动效质感。霓虹渐变、AI 紫粉、夸张玻璃拟态仍禁止。
 3. **以动衬静（Motion as Breath）**：入场动效是一次性「打招呼」，环境循环动效是恒定的「呼吸」。所有氛围动效极慢、极淡、GPU 加速、永不阻塞交互；尊重 `prefers-reduced-motion`，低端设备自动降级。
 4. **单一事实来源（Single Source of Truth）**：颜色/间距/阴影/动效只存在 `index.css` 的令牌里；品牌文案与资源只存在 `lib/brand.ts` 里。组件内禁止硬编码 hex 值与文案。
 5. **无障碍与节能（Accessible & Efficient）**：正文对比度 ≥ 4.5:1，键盘焦点始终可见，可点击目标 ≥ 44×44px 或等价热区，动效尊重系统减弱偏好，移动端减量省电。
@@ -96,6 +96,22 @@
 - 错峰公式：`animation-delay = (元素索引 / 总元素数) × 最大错峰时间 + 随机余量(±2s)`。
 - 交互联动：表单聚焦时 `.is-typing` 使周期 ×2（速度减半）；列表页滚动越快飘动越快（0.5x–1.5x）。
 - `prefers-reduced-motion: reduce` 时全部缩短为 `0.01ms` 单帧；移动端（<768px）元素数 ≤6、速度更慢、透明度更低。
+
+#### 2.4.1 科技光效层（TechAmbience，V1.2 新增，可选变体）
+
+在几何暗线之外，可选叠加一层**可见但克制**的科技光效，由三个纯 CSS 装饰组成（Li&Pass 定稿参数）：
+
+| 元素 | 说明 | 节奏 |
+| --- | --- | --- |
+| 缓移网格 `.tech-grid` | 56px 基线 + 336px 亮线双层 repeating-gradient，径向渐隐遮罩，`background-position` 漂移（移动整数倍周期保证无缝循环） | 12s |
+| 扫掠光束 `.tech-beam` | 斜切 16° 的透明渐变带，`translateX` 扫过并长停顿；多条错峰 | 10s（错峰 0.8/4.2/7.5s） |
+| 呼吸光点 `.tech-dot` | 7px 圆点 + 辉光，`opacity/transform` 脉动并上下浮动 | 6s |
+
+**铁律（补充）**：
+
+- 光效层 `aria-hidden` + `pointer-events: none`；认证页默认浓度，工作台 `soft`，后台可接入 `soft`（表格区保持不透明表面，可读性优先）。
+- **每个 `animation` 必须存在对应 `@keyframes`**——历史缺陷：只写 `animation` 引用、漏定义关键帧导致光束基态 `opacity:0` 且完全不运动、不可见；验收时逐一核对。
+- 光效层只动 `transform/opacity/background-position`；`prefers-reduced-motion` 单帧；移动端隐藏光束/光点并停用网格动画。
 
 典型参数区间（可在项目内微调，但保持「极慢极淡」的量级）：
 
@@ -144,28 +160,33 @@
 | 4 | 品牌承诺 | 一句可验证的长期承诺 | 一次验证，永久通行；每一步都被审计、每一次授权都明示 |
 | 5 | 人格比喻 | 一位可靠的角色，克制、可靠 | 守门人 |
 | 6 | 符号隐喻 | 沿用 2.3 五个符号，重映射语义 | 直线=路径、Z 形=门径、方块=凭证、锁钥=安全、光斑=会话 |
-| 7 | 主色（浅） | 主色 / hover / soft / fg 四件套 | `#0369A1` / `#075985` / `#E0F2FE` / `#FFFFFF` |
-| 8 | 主色（深） | 深色取去饱和浅色调变体（亮度 300–400 档） | `#38BDF8` / `#7DD3FC` / `rgba(56,189,248,0.14)` / `#082F49` |
-| 9 | 中性色（浅） | bg / surface / surface-2 / fg / muted / border | `#F8FAFC` / `#FFFFFF` / `#F1F5F9` / `#0F172A` / `#64748B` / `#E2E8F0` |
-| 10 | 中性色（深） | 同序 | `#0B1220` / `#111A2C` / `#1B2740` / `#E2E8F0` / `#94A3B8` / `#263449` |
+| 7 | 主色（浅） | 主色 / hover / soft / fg 四件套 | `#2F7F74` / `#27685F` / `#D9F4EE` / `#FFFFFF` |
+| 8 | 主色（深） | 深色取雾面浅色调变体 | `#7FD4C6` / `#A5E4D9` / `rgba(127,212,198,0.16)` / `#17332E` |
+| 9 | 中性色（浅） | bg / surface / surface-2 / fg / muted / border | `#F6FBF9` / `#FFFFFF` / `#EEF6F3` / `#35423F` / `#71807A` / `#E1ECE8` |
+| 10 | 中性色（深） | 同序（D1 雾灰，不压黑） | `#3A3F45` / `#434950` / `#4B5259` / `#F0F2F4` / `#B8C0C7` / `#545C64` |
 | 11 | 语义色（浅/深） | 成功 / 警告 / 危险，及 soft 底色 | 见附录 B 令牌快照 |
-| 12 | 焦点环 | 2px 主色描边 + 2px offset，`focus-visible` 全局生效 | 浅 `#0369A1`，深 `#38BDF8` |
+| 12 | 焦点环 | 2px 主色描边 + 2px offset，`focus-visible` 全局生效 | 浅 `#2F7F74`，深 `#7FD4C6` |
 | 13 | 字体栈 | 家族默认栈 + 中文回退；不加载远程字体 | Inter → 系统栈 → PingFang SC / 微软雅黑 |
 | 14 | 可选标题字体 | 如需品牌辨识度，自托管（`font-display: swap` + subset），不做 CDN 引用 | Lexend（Corporate Trust 组合，仅页面标题） |
 | 15 | Logo / favicon | 透明底 512×512 WebP 单格式；最小 32px；周围净空 ≥ 1/4 图标边 | `brand-logo.webp` / `favicon.webp` |
 | 16 | 令牌前缀 | `index.css` 的 CSS 变量前缀，逐项目唯一 | `portal`（`--portal-bg` 等） |
 | 17 | 主题存储键 | 首帧主题脚本与 `useTheme` 共用 | `portal-theme` |
 | 18 | slogan / 备案 | 从 `brand.ts` 读取；备案上线前留空，禁止假占位号 | slogan + ICP/公安备案占位 |
-| 19 | 氛围浓度 | 认证 / 授权 / 中心 / 后台的 shapeCount | 10 / 4 / 10 / 4（后台 opacity 0.5） |
+| 19 | 氛围浓度 | 认证 / 授权 / 中心 / 后台的 shapeCount + 光效层 | 10 / 4 / 10 / 4（后台 opacity 0.5；光效层：认证默认、中心/后台 soft） |
 | 20 | 浏览器品牌位 | favicon、`theme-color`（浅/深）、`description`、首帧主题脚本 | 见 `frontend/index.html` |
+| 21 | 强调色板 | 六色相 strong/soft（浅/深各一套），稳定哈希分配 | ice `#4A8FBF`/aqua `#2F7F74`/lilac `#7A6FC4`/sage `#6E8F5E`/mint `#3F8F63`/sand `#A9865B`（深色见附录 B） |
+| 22 | 按钮与光效风格 | 按钮着色方式、深色明度、光效浓度基调 | 半透明单色按钮（浅 10% / 深 13% + 细描边）；深色雾灰中间调；光效「可见但克制」 |
 
 ### 3.1 取色方法
 
 - 主色按产品域选择：用 ui-ux-pro-max 规则库 `--design-system "<product> <industry> <keywords>"` 检索推荐，再按 WCAG AA 校验前后景对比（正文 ≥ 4.5:1，UI 组件 ≥ 3:1）。
+- **全淡色变体（Li&Pass 定稿口径）**：底色/表面保持浅色雾面，主色取该色相 700 档的雾面值（浅）/300 档（深）；**全站无粉色系、无大面积重色**；深色模式可用「雾灰中间调」（如 `#3A3F45`）替代近黑底，平均亮度显著提升。
+- **强调色板**：六个低饱和色相（strong/soft 各一套）只做装饰性小面积（图标瓦片、图例、分区规则线、Bento 标签），合计 ≤ 15% 可视面积；strong-on-soft 文本对比 ≥ 4.5:1；实体 → 色相用稳定哈希，刷新不跳色。
+- **按钮**：主按钮用半透明单色着色（浅 10% / 深 13% 透明度）+ 1px 同色细描边 + 深/浅文字，hover 只加深底色并抬升阴影；避免多色渐变色块造成的「违和感」。
 - 用色比例约 **60/30/10**：中性色 ≈ 60%，表面内容 ≈ 30%，主色 + 语义色 ≈ 10%。主色永远是小面积强调，不做大面积主色背景。
 - 语义色只表达状态，不用于装饰。
-- 深色模式用**去饱和的浅色调变体**，不是简单反色；主色深色版取该色相 300–400 亮度档，soft 底色用 `rgba(主色, 0.12–0.16)`。
-- 禁用清单：大面积 AI 紫粉渐变、霓虹渐变、纯黑 `#000`、低对比灰字、装饰性色块。低透明度的氛围点缀与卡片渐变描边除外（只出现在背景与描边层）。
+- 深色模式用**去饱和的浅色调变体**，不是简单反色；主色深色版取该色相 300–400 亮度档，soft 底色用 `rgba(主色, 0.12–0.18)`。
+- 禁用清单：**粉色系（粉红/品红/玫瑰）**、大面积重色背景、霓虹渐变、纯黑 `#000`、低对比灰字、装饰性色块。低透明度的氛围点缀与卡片渐变描边除外（只出现在背景与描边层）。
 
 ### 3.2 资产规则
 
@@ -198,7 +219,7 @@
 
 ### 4.2 实例化十步
 
-1. **填槽位**：完整填写第 3 章槽位表（1–20 项），记录到 `design-system/<project>/BRAND.md`。
+1. **填槽位**：完整填写第 3 章槽位表（1–22 项），记录到 `design-system/<project>/BRAND.md`。
 2. **铺令牌**：复制 `reusable-tokens.template.css` → `frontend/src/index.css`，替换前缀并填色值；`@theme` 只暴露语义别名（`bg-primary` 等），组件不直接引用 `--<prefix>-*`。
 3. **建品牌单点**：按模板创建 `frontend/src/lib/brand.ts`，名称/slogan/Logo/备案全部从该文件读取。
 4. **配浏览器品牌位**：`index.html` 配 favicon、明暗 `theme-color`、`description` 与首帧主题脚本（避免明暗闪烁），兜底背景色同步到令牌 bg。
@@ -213,10 +234,10 @@
 
 | 页面类型 | 外壳 | 氛围浓度 | 关键约束 |
 | --- | --- | --- | --- |
-| 认证页（登录/注册/找回/验证等） | `AuthShell`：居中 `max-w-md` 卡片 + 极光背景 + 顶部品牌 + 底部备案 | 高（默认 10） | 卡片及其上方 120px 禁飘；品牌名与 slogan 必须出现 |
+| 认证页（登录/注册/找回/验证等） | `AuthShell`：居中 `max-w-md` 卡片 + 极光背景 + 科技光效层 + 顶部品牌 + 底部备案 | 高（默认 10 + TechAmbience 默认） | 卡片及其上方 120px 禁飘；品牌名与 slogan 必须出现 |
 | 授权/信任关键时刻 | `AuthShell` 变体 | 低（4） | 氛围减半；核心内容绝对清晰 |
-| 用户中心/工作台 | `AppHeader` + `max-w-7xl` + `SiteFooter` | 中（10 + 滚动联动） | 卡片区域不遮字 |
-| 管理后台 | `AppHeader` + 顶部标签页 | 极低（4 × opacity 0.5） | 表格区域完全禁飘 |
+| 用户中心/工作台 | `AppHeader` + `max-w-7xl` + `SiteFooter` | 中（10 + 滚动联动；极光/光效层 `soft`） | 卡片区域不遮字 |
+| 管理后台 | `AppHeader` + 顶部标签页 | 低（4 × opacity 0.5；极光/光效层 `soft`） | 表格区域保持不透明表面，飘动元素不侵入表内文字 |
 
 ---
 
@@ -224,8 +245,9 @@
 
 | 组件 | 类名 / 文件 | 复用要点 |
 | --- | --- | --- |
-| 按钮 | `.btn` 系列（primary/secondary/danger/ghost/link） | 主按钮用「主色 → 主色悬停」纵向渐变 + `background-position` 过渡；`disabled` 时 `opacity-50` |
+| 按钮 | `.btn` 系列（primary/secondary/danger/ghost/link） | 主按钮半透明单色着色 + 细描边 + `::after` 扫光；`disabled` 时 `opacity-50` 且关闭扫光 |
 | 卡片 | `.card`、`.card-signature`、`.card-interactive` | 认证卡用 padding-box 表面 + border-box 低饱和品牌渐变描边双背景 |
+| 认证卡辉光 | `.card-halo`、`.brand-halo` | 卡后浅主色呼吸辉光 + Logo 辉光，`isolation: isolate` 保证垫底 |
 | 表单 | `.label` / `.input` / `.input-sm` | focus 主色边框 + `ring-2 ring-primary/20`；placeholder 用 `text-muted` |
 | 徽章/提示条 | `.badge-*`、`.notice-*` | 语义色 + soft 底色；带状态图标 |
 | 弹窗/Toast | `.modal-*`、`.toast-*` | Toast `z-80` 高于 Modal `z-70`；Toast 带进度条与进入/离开动画 |
@@ -233,8 +255,16 @@
 | 标签栏 | `ScrollTabs`、`PillTabs` | 单行横滑、隐藏滚动条、snap 吸附、活动标签自动居中；PillTabs 依赖 gsap，按需引入 |
 | 概览网格 | `MagicBento` | 深色 Bento 卡 + 光标聚光；依赖 gsap，按需引入；移动端与 reduced-motion 下自动静置 |
 | 氛围层 | `FloatingBackground` + `useFloatingBackground` | 纯 Canvas 复合运动（水平漂移 + 垂直正弦），无第三方依赖 |
+| 极光层 | `AuroraBackground` | 3–4 枚弥散光斑缓慢漂移（18–28s 档）；`aurora-soft` 供工作台/后台降浓度 |
+| 科技光效层 | `TechAmbience` | 缓移网格 + 3 条错峰光束 + 8 枚光点；认证默认、工作台/后台 `soft`；**核对关键帧已定义** |
 | 主题切换 | `ThemeToggle`、`useTheme` | 存储键来自槽位 17；首帧前内联脚本应用 `html.dark` |
-| 反馈微件 | `AnimatedNumber`、`PageSkeleton`、`shimmer`、`.spinner`、`.btn-ripple` | 入场 150–350ms；骨架扫光用 `background-position` |
+| 文字浮现 | `BlurText`（`motion/react`） | 按词/字错峰模糊浮现；`prefers-reduced-motion` 静态渲染 |
+| 数字滚动 | `CountUp`（`motion/react` 弹簧） | 全部「共 N…」与统计数值；无 rAF/reduced-motion 直接落定目标值 |
+| 反馈微件 | `PageSkeleton`、`shimmer`、`.spinner`、`.btn-ripple` | 入场 150–350ms；骨架扫光用 `background-position` |
+
+**按钮状态纪律（V1.2）**：成对/并列按钮的 pending 状态**只属于被点击的按钮**——各按钮独立
+action 或按目标区分状态，其它按钮仅 `disabled` 防并发；触发按钮与确认弹窗分离时，运行状态只显示在
+弹窗确认按钮上；不要两个按钮同时转圈误导用户。
 
 **移植纪律**：只移植需要的组件；带 gsap 的组件（PillTabs/MagicBento/StrokeText）确认体积与 CSP 约束后再引入；生产环境 `style-src 'self'`（无 `unsafe-inline`），动效必须尊重 `prefers-reduced-motion`。
 
@@ -254,6 +284,9 @@
 - [ ] 移动端无横向滚动
 - [ ] 令牌无硬编码 hex（组件内），文案无硬编码（从 `brand.ts` 读取）
 - [ ] 明暗模式切换无闪烁、无对比度丢失
+- [ ] 全淡色口径（若采用）：无粉色系、无大面积重色；强调色 strong-on-soft ≥ 4.5:1
+- [ ] 每个 `animation` 都有对应 `@keyframes`（尤其科技光效层三组关键帧）
+- [ ] 成对/并列按钮的 pending 只出现在被点击的按钮上
 
 **动效专项验收**：
 
@@ -264,6 +297,7 @@
 - [ ] 表格/核心阅读区无循环元素侵入
 - [ ] 移动端（<768px）元素数 ≤ 6
 - [ ] `prefers-reduced-motion` 下循环静止为单帧
+- [ ] BlurText/CountUp 在 reduced-motion 或无 rAF 环境下直接落定最终内容
 - [ ] Chrome Performance 录制 60s：无 Layout Shift，GPU 内存稳定
 
 ---
@@ -271,7 +305,7 @@
 ## 7. 治理与演进规则
 
 - **变更流程**：新视觉决策先写 BRAND.md（意图 + 理由）→ 再在 `index.css` 以令牌落地 → 复用既有组件模式 → 对照本文档差距自查。
-- **允许偏离的情形**：主色因产品域调整（走 3.1 取色方法）；符号隐喻重映射；确需新模式时先写 spec 再更新 MASTER.md 页面模式清单。
+- **允许偏离的情形**：主色因产品域调整（走 3.1 取色方法）；符号隐喻重映射；确需新模式时先写 spec 再更新 MASTER.md 页面模式清单。**Li&Pass 2026-08-17 已按用户明确指令偏离**：全站切换海玻璃全淡色系（无粉无重）、新增科技光效层并接入后台、按钮改半透明着色——已在项目 `design-system/lipass/DESIGN-SOLUTION.md` 与 BRAND.md V2.x 记录理由。
 - **禁止偏离的情形**：五大原则、动效铁律、单一事实来源分层、无障碍/节能底线。
 - **漂移治理**：任何 PR 涉及视觉，对照第 6 章清单与项目 BRAND.md 差距表自查；代码与文档冲突时以代码为事实，并回写文档。
 
@@ -294,7 +328,7 @@
 
 | Task | 内容 | 产出文件 | 依赖 | 验收证据 |
 | --- | --- | --- | --- | --- |
-| T1 填槽位 | 第 3 章槽位 1–20 | `design-system/<project>/BRAND.md` | 本方案 | 20 项齐全、每项有决策理由 |
+| T1 填槽位 | 第 3 章槽位 1–22 | `design-system/<project>/BRAND.md` | 本方案 | 22 项齐全、每项有决策理由 |
 | T2 令牌落地 | 第 4.1 节、槽位 7–12/16 | `frontend/src/index.css` | T1 | 无 `{{PROJECT_PREFIX}}` 残留、明暗两套齐全 |
 | T3 品牌单点 | 槽位 1/3/18、3.2 资产规则 | `frontend/src/lib/brand.ts` | T1 | 品牌文案仅存在于该文件 |
 | T4 浏览器品牌位 | 槽位 16/17/20 | `frontend/index.html` | T1、T3 | favicon / theme-color / description / 首帧主题脚本齐全 |
@@ -344,30 +378,42 @@
 | 品牌名、slogan、Logo、备案槽位 | `参考实现 brand.ts` |
 | 浏览器品牌位、首帧主题脚本 | `参考实现 index.html` |
 | 氛围层 Canvas 接入参数 | `参考实现 MASTER.md` §FloatingBackground + `参考实现 ambient-background-design 规格` |
+| 海玻璃全量方案（V1.2 决策时间线与完整令牌） | `参考实现 DESIGN-SOLUTION.md`（本次视觉刷新汇总） |
 
 ## 附录 B：Li&Pass 令牌快照（供对照与回滚）
 
-浅色模式（`:root`）：
+浅色模式（`:root`，海玻璃）：
 
 | 角色 | 值 |
 | --- | --- |
-| bg / surface / surface-2 | `#F8FAFC` / `#FFFFFF` / `#F1F5F9` |
-| fg / muted / border | `#0F172A` / `#64748B` / `#E2E8F0` |
-| primary / hover / soft / fg | `#0369A1` / `#075985` / `#E0F2FE` / `#FFFFFF` |
-| success / warning / destructive | `#15803D` / `#B45309` / `#DC2626` |
-| ring | `#0369A1` |
+| bg / surface / surface-2 | `#F6FBF9` / `#FFFFFF` / `#EEF6F3` |
+| fg / muted / border | `#35423F` / `#71807A` / `#E1ECE8` |
+| primary / hover / soft / fg | `#2F7F74` / `#27685F` / `#D9F4EE` / `#FFFFFF` |
+| secondary / soft | `#4A8FBF` / `#DFF1FA` |
+| success / warning / destructive | `#2F8F5F` / `#A16207` / `#CF3D3D` |
+| ring | `#2F7F74` |
+| 强调色 ice / aqua / lilac | `#4A8FBF` / `#2F7F74` / `#7A6FC4`（soft `#DFF1FA`/`#D9F4EE`/`#EDEAFB`） |
+| 强调色 sage / mint / sand | `#6E8F5E` / `#3F8F63` / `#A9865B`（soft `#EAF2E3`/`#E3F6E9`/`#F7EFE0`） |
+| 按钮 / 文字 | bg `rgba(47,127,116,.10)`、hover `.17`、描边 `.26`；文字 `#24433E` |
 
-深色模式（`.dark`）：
+深色模式（`.dark`，D1 雾灰）：
 
 | 角色 | 值 |
 | --- | --- |
-| bg / surface / surface-2 | `#0B1220` / `#111A2C` / `#1B2740` |
-| fg / muted / border | `#E2E8F0` / `#94A3B8` / `#263449` |
-| primary / hover / soft / fg | `#38BDF8` / `#7DD3FC` / `rgba(56,189,248,0.14)` / `#082F49` |
-| success / warning / destructive | `#4ADE80` / `#FBBF24` / `#F87171` |
-| ring | `#38BDF8` |
+| bg / surface / surface-2 | `#3A3F45` / `#434950` / `#4B5259` |
+| fg / muted / border | `#F0F2F4` / `#B8C0C7` / `#545C64` |
+| primary / hover / soft / fg | `#7FD4C6` / `#A5E4D9` / `rgba(127,212,198,.16)` / `#17332E` |
+| secondary / soft | `#A8D4F0` / `rgba(168,212,240,.16)` |
+| success / warning / destructive | `#86D6AC` / `#EAD48E` / `#E8A49A` |
+| ring | `#7FD4C6` |
+| 强调色 ice / aqua / lilac | `#A8CBE8` / `#7FD4C6` / `#B0A8DE`（soft 同色 16–18% rgba） |
+| 强调色 sage / mint / sand | `#B0C79E` / `#9ADFAD` / `#D9C49E` |
+| 按钮 / 文字 | bg `rgba(127,212,198,.13)`、hover `.21`、描边 `.30`；文字 `#D7EFEA` |
 
-阴影与动效：`--shadow-sm/md/lg` 三档弥散阴影（透明度总和 < 0.1）；`--ease-out`（入场）、`--ease-spring`（按压/弹窗）；`--motion-fast/base/slow = 150/250/350ms`。
+阴影与动效：`--shadow-sm/md/lg` 三档水绿 tint 弥散阴影（透明度总和 < 0.1）；`--ease-out`（入场）、
+`--ease-spring`（按压/弹窗）；`--motion-fast/base/slow = 150/250/350ms`。科技光效层节奏：
+网格 12s、光束 10s（错峰 0.8/4.2/7.5s）、光点 6s；极光四斑 18/22/28/24s；签名描边 9s、
+流光线 5s、按钮扫光 4s、卡片辉光 4.5s。
 
 ## 附录 C：规则库交叉验证结论
 
@@ -377,6 +423,8 @@
 - **typography / `corporate trust professional`**：首位「Corporate Trust」组合 Lexend（标题）+ Source Sans 3（正文），Notes「Lexend designed for readability. Excellent accessibility.」——与参考实现 BRAND.md §3.2 的自托管建议一致，正文保持系统字体栈 + 中文回退。
 - **ux / `reduced motion accessibility performance`**：三条均 Severity High——必须检查 `prefers-reduced-motion`、避免强制滚动特效、每个视图最多动画 1–2 个关键元素。与本方案 2.4 铁律一致。
 - Li&Pass 设计时已验证：`--design-system "sso identity authentication security trust enterprise portal"` 输出「Enterprise Gateway / Trust & Authority」模式，主色同为 `#0369A1`（见参考实现 BRAND.md 附录）。
+- **V1.2 更新（2026-08-17）**：海玻璃主色 `#2F7F74` 由 `aurora-ui` / Web3 紫科技等检索结果淡色化推导，
+  经 WCAG AA 核算后按用户指令定稿；早期「Trust & Authority」安全蓝结论仅作历史记录，不再是 Li&Pass 现值。
 
 ## 附录 D：实例化样例与后续建议
 
