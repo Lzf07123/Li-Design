@@ -77,12 +77,12 @@
   --{{PROJECT_PREFIX}}-muted: #71807a;
   --{{PROJECT_PREFIX}}-border: #e1ece8;
 
-  --{{PROJECT_PREFIX}}-primary: #2f7f74;
-  --{{PROJECT_PREFIX}}-primary-hover: #27685f;
+  --{{PROJECT_PREFIX}}-primary: #25786d;
+  --{{PROJECT_PREFIX}}-primary-hover: #1f6359;
   --{{PROJECT_PREFIX}}-primary-soft: #d9f4ee;
   --{{PROJECT_PREFIX}}-primary-fg: #ffffff;
 
-  --{{PROJECT_PREFIX}}-secondary: #4a8fbf;
+  --{{PROJECT_PREFIX}}-secondary: #2f678f;
   --{{PROJECT_PREFIX}}-secondary-soft: #dff1fa;
 
   --{{PROJECT_PREFIX}}-success: #2f8f5f;
@@ -93,20 +93,20 @@
   --{{PROJECT_PREFIX}}-destructive-soft: #fdeeee;
   --{{PROJECT_PREFIX}}-destructive-fg: #ffffff;
 
-  --{{PROJECT_PREFIX}}-accent-ice: #4a8fbf;
+  --{{PROJECT_PREFIX}}-accent-ice: #2f678f;
   --{{PROJECT_PREFIX}}-accent-ice-soft: #dff1fa;
-  --{{PROJECT_PREFIX}}-accent-aqua: #2f7f74;
+  --{{PROJECT_PREFIX}}-accent-aqua: #25786d;
   --{{PROJECT_PREFIX}}-accent-aqua-soft: #d9f4ee;
-  --{{PROJECT_PREFIX}}-accent-lilac: #7a6fc4;
+  --{{PROJECT_PREFIX}}-accent-lilac: #51488f;
   --{{PROJECT_PREFIX}}-accent-lilac-soft: #edeafb;
-  --{{PROJECT_PREFIX}}-accent-sage: #6e8f5e;
+  --{{PROJECT_PREFIX}}-accent-sage: #557546;
   --{{PROJECT_PREFIX}}-accent-sage-soft: #eaf2e3;
-  --{{PROJECT_PREFIX}}-accent-mint: #3f8f63;
+  --{{PROJECT_PREFIX}}-accent-mint: #2f7c52;
   --{{PROJECT_PREFIX}}-accent-mint-soft: #e3f6e9;
-  --{{PROJECT_PREFIX}}-accent-sand: #a9865b;
+  --{{PROJECT_PREFIX}}-accent-sand: #876741;
   --{{PROJECT_PREFIX}}-accent-sand-soft: #f7efe0;
 
-  --{{PROJECT_PREFIX}}-ring: #2f7f74;
+  --{{PROJECT_PREFIX}}-ring: #25786d;
 
   /* 主按钮：半透明单色着色 + 细描边（浅色侧），文字用深青 */
   --{{PROJECT_PREFIX}}-btn-primary-bg: rgba(47, 127, 116, 0.1);
