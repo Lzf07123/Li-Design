@@ -8,7 +8,7 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 
 | 文件 | 用途 |
 | --- | --- |
-| [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) | 主方案：品牌内核（不变层）+ 项目适配槽位表（20 项）+ 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（第 8 章） |
+| [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) | 主方案：品牌内核（不变层）+ 项目适配槽位表（22 项）+ 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（第 8 章） |
 | [reusable-tokens.template.css](reusable-tokens.template.css) | Tailwind CSS 4 令牌骨架，含 `{{PROJECT_PREFIX}}` 占位符与明暗两套色板 |
 | [AGENTS.md](AGENTS.md) | 模板仓库的多 Agents 协作手册：事实来源、硬性规则、协作规范、验证命令 |
 
@@ -31,8 +31,9 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 ## 核心原则（速记）
 
 - 信任优先、克制科技感、以动衬静、单一事实来源、无障碍节能。
-- 60/30/10 用色比例；深色 = 去饱和浅色调变体；主色永远小面积强调。
-- 动效只动 `transform/opacity`，尊重 `prefers-reduced-motion`，移动端减量省电。
+- 60/30/10 用色比例；深色 = 去饱和浅色调变体（可选「雾灰中间调」不压黑）；主色永远小面积强调。
+- V1.2 海玻璃示例：全淡色、无粉色、无重色；主按钮半透明着色；六强调色板 + 科技光效层（网格/光束/光点）。
+- 动效只动 `transform/opacity/background-position`，每个 animation 必须有 @keyframes，尊重 `prefers-reduced-motion`，移动端减量省电。
 - 令牌只存在 `index.css`，品牌文案只存在 `brand.ts`，组件禁止硬编码。
 - 多 Agents 协作：单一事实来源、一个任务一个 owner、并行任务零文件重叠（方案第 8 章 + [AGENTS.md](AGENTS.md)）。
 
