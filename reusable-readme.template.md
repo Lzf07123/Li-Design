@@ -7,17 +7,12 @@
 1. 替换全部 {{PLACEHOLDER}}：{{PROJECT_NAME}}、{{REPO_NAME}}、{{TAGLINE}}、{{STATUS}}、{{ROLE}}、{{FOCUS}}、{{TECH}}、{{COLOR}}、{{SLUG}}、{{OFFICIAL_URL}}、{{PROJECT_DESCRIPTION}}、{{IDENTITY}}、{{DIRECTION}}、{{METHOD}}、{{GOAL}}、{{DOMAIN}}、{{DETAIL}}、{{DEADLINE}}、{{SHORT_TERM}}、{{MID_TERM}}、{{LONG_TERM}}、{{YEAR}}、{{AUTHOR}}、{{FILE}}、{{PURPOSE}}
 2. 没有对应内容的板块整节删除，不留空占位符
 3. 技术徽章从文末「徽章速查」注释块复制需要的行，并链接到对应官网
+4. 只列实际掌握的技术；借助 AI 构建项目时用到的技术不列入技能徽章
 -->
 
 ![Status](https://img.shields.io/badge/status-{{STATUS}}-brightgreen)
 ![Role](https://img.shields.io/badge/role-{{ROLE}}-blue)
 ![Focus](https://img.shields.io/badge/focus-{{FOCUS}}-orange)
-
-**学习方向**
-
-[![{{TECH}}](https://img.shields.io/badge/{{TECH}}-{{COLOR}}?logo={{SLUG}}&logoColor=white)]({{OFFICIAL_URL}})
-
-**项目实践**
 
 [![{{TECH}}](https://img.shields.io/badge/{{TECH}}-{{COLOR}}?logo={{SLUG}}&logoColor=white)]({{OFFICIAL_URL}})
 
@@ -98,4 +93,5 @@
 
 品牌色速查：Linux FCC624 · Docker 2496ED · Kubernetes 326CE5 · Python 3776AB · FastAPI 009688 · React 61DAFB（logoColor=black）· TypeScript 3178C6 · PostgreSQL 4169E1 · Redis DC382D · Tailwind CSS 06B6D4 · Markdown 000000。
 simple-icons 无对应 logo 的技术（WebSocket、WebRTC）用纯文字徽章。
+只列实际掌握的技术；借助 AI 构建项目时用到的技术不列入技能徽章。
 -->
