@@ -10,6 +10,7 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 | --- | --- |
 | [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) | 主方案：品牌内核（不变层）+ 项目适配槽位表（22 项）+ 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（第 8 章） |
 | [reusable-tokens.template.css](reusable-tokens.template.css) | Tailwind CSS 4 令牌骨架，含 `{{PROJECT_PREFIX}}` 占位符与明暗两套色板 |
+| [reusable-readme.template.md](reusable-readme.template.md) | 可复用 README 模板：结构约定 + 徽章规则 + 写作原则，含占位符与使用说明 |
 | [AGENTS.md](AGENTS.md) | 模板仓库的多 Agents 协作手册：事实来源、硬性规则、协作规范、验证命令 |
 
 ## 快速上手（新项目 3 步）
@@ -17,6 +18,48 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 1. 复制 `reusable-tokens.template.css` 到新项目 `frontend/src/index.css`，把 `{{PROJECT_PREFIX}}` 换成项目技术标识（如 `lipass`、`chat`），按槽位表填色值。
 2. 按 [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) 第 3 章逐项填写适配槽位（名称、定位、主色、语义色、字体、Logo、氛围浓度等）。
 3. 按第 4 章搭建组件与页面外壳，最后过第 6 章 Pre-Delivery Checklist；多 Agents 协作实例化见第 8 章。
+
+## README 模板（Li&About 规范）
+
+由 Li&About 个人主页沉淀的可复用 README 结构，适用于项目主页与个人主页。
+
+### 用法（3 步）
+
+1. 复制 `reusable-readme.template.md` 到新项目根目录，改名 `README.md`
+2. 替换全部 `{{PLACEHOLDER}}` 占位符
+3. 删除不适用的小节与注释块，不留空占位符
+
+### 结构约定
+
+| 板块 | 说明 |
+| --- | --- |
+| 标题 + 一句话定位 | `# 项目 · 仓库` + `> tagline` |
+| 顶部徽章 | 状态/角色/方向 + 技术栈徽章组 |
+| 目录 | README 较长时启用，锚点与标题一致 |
+| 关于 | 1–2 段介绍 + 关键信息表 |
+| 技能栈 | 徽章组 + 领域详情表 |
+| 项目 | 项目/简介/技术栈/状态四列表 |
+| 当前目标 | 目标/说明/期限表 |
+| 路线图 | 近期/中期/远期 |
+| 仓库结构 | text 代码块目录树 |
+| 许可 | `© 年份 作者` |
+
+### 徽章规则
+
+- 状态/角色/方向徽章：shields.io 默认样式（如 `status-active-brightgreen`）
+- 技术徽章：`style=for-the-badge` + `logo=<simple-icons slug>` + 官方品牌色，并链接到技术官网
+- 格式：`[![TECH](https://img.shields.io/badge/TECH-COLOR?style=for-the-badge&logo=SLUG&logoColor=white)](OFFICIAL_URL)`
+- 常用品牌色：Linux `FCC624`、Docker `2496ED`、Kubernetes `326CE5`、Python `3776AB`、FastAPI `009688`、React `61DAFB`（黑字）、TypeScript `3178C6`、PostgreSQL `4169E1`、Redis `DC382D`、Tailwind CSS `06B6D4`、Markdown `000000`
+- simple-icons 无对应 logo 的技术（如 WebSocket、WebRTC）用纯文字徽章
+
+### 写作原则
+
+- 只写真实信息，不编造熟练度、数据或链接
+- 详细数据放独立文件（如 profile.md），README 只引用，保持单一事实来源
+- 没有对应内容就删除该小节，不留 TBD/TODO
+- 托管项目链托管地址，未托管用相对路径
+- 技术名保持官方大小写：FastAPI、TypeScript、PostgreSQL、Kubernetes、Tailwind CSS、WebRTC
+- 表情克制，技术类 README 每 3–5 段最多 1 个表情
 
 ## 首次设计必交产出（在项目内生成）
 

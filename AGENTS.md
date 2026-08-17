@@ -15,6 +15,7 @@ Li&Design 是 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&
 | 概览、目录结构、快速上手、治理 | [README.md](./README.md) |
 | 主方案：品牌内核 + 22 项槽位表 + 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（§8） | [REUSABLE-BRAND-SCHEME.md](./REUSABLE-BRAND-SCHEME.md) |
 | 令牌骨架（Tailwind CSS 4）：`{{PROJECT_PREFIX}}` 占位符与明暗两套色板 | [reusable-tokens.template.css](./reusable-tokens.template.css) |
+| 可复用 README 模板：结构约定 + 徽章规则 + 写作原则 | [reusable-readme.template.md](./reusable-readme.template.md) |
 
 **文档与代码冲突时**：`reusable-tokens.template.css` 是令牌事实，`REUSABLE-BRAND-SCHEME.md` 是意图。先核对差异，再决定改哪边；改一边必须同步另一边（见第六节）。
 
@@ -24,6 +25,7 @@ Li&Design 是 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&
 README.md                        概览、快速上手、交付清单、治理
 REUSABLE-BRAND-SCHEME.md         主方案（不变层 + 槽位层 + 执行层 + 协作方法）
 reusable-tokens.template.css     令牌骨架（唯一代码事实）
+reusable-readme.template.md      README 模板（结构/徽章/占位符）
 AGENTS.md                        本手册
 ```
 
@@ -91,7 +93,7 @@ rg -F -o '{{PROJECT_PREFIX}}' reusable-tokens.template.css | wc -l
 rg -n 'PROJECT_PREFIX|primary|surface-2' REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css
 
 # README 与方案文档的内部链接必须可解析（同目录文件存在）
-ls README.md REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css AGENTS.md
+ls README.md REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css reusable-readme.template.md AGENTS.md
 ```
 
 > 附录 B（Li&Pass 令牌快照）是回滚对照表：改模板色值时同步核对快照，避免明暗两套错位。
