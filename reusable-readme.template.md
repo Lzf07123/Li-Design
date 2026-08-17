@@ -15,11 +15,11 @@
 
 **学习方向**
 
-[![{{TECH}}](https://img.shields.io/badge/{{TECH}}-{{COLOR}}?style=for-the-badge&logo={{SLUG}}&logoColor=white)]({{OFFICIAL_URL}})
+[![{{TECH}}](https://img.shields.io/badge/{{TECH}}-{{COLOR}}?logo={{SLUG}}&logoColor=white)]({{OFFICIAL_URL}})
 
 **项目实践**
 
-[![{{TECH}}](https://img.shields.io/badge/{{TECH}}-{{COLOR}}?style=for-the-badge&logo={{SLUG}}&logoColor=white)]({{OFFICIAL_URL}})
+[![{{TECH}}](https://img.shields.io/badge/{{TECH}}-{{COLOR}}?logo={{SLUG}}&logoColor=white)]({{OFFICIAL_URL}})
 
 ## 目录
 
@@ -81,20 +81,20 @@
 
 <!--
 徽章速查（复制需要的行到顶部徽章组，删除本注释块）：
-[![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://www.linux.org/)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
-[![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
-[![Shell](https://img.shields.io/badge/Shell-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white)](https://www.gnu.org/software/bash/)
-[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![WebSocket](https://img.shields.io/badge/WebSocket-4A4A55?style=for-the-badge)](https://websockets.spec.whatwg.org/)
-[![WebRTC](https://img.shields.io/badge/WebRTC-333333?style=for-the-badge)](https://webrtc.org/)
-[![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)](https://daringfireball.net/projects/markdown/)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)](https://www.linux.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+[![Shell](https://img.shields.io/badge/Shell-4EAA25?logo=gnubash&logoColor=white)](https://www.gnu.org/software/bash/)
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)](https://redis.io/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![WebSocket](https://img.shields.io/badge/WebSocket-4A4A55)](https://websockets.spec.whatwg.org/)
+[![WebRTC](https://img.shields.io/badge/WebRTC-333333)](https://webrtc.org/)
+[![Markdown](https://img.shields.io/badge/Markdown-000000?logo=markdown&logoColor=white)](https://daringfireball.net/projects/markdown/)
 
 品牌色速查：Linux FCC624 · Docker 2496ED · Kubernetes 326CE5 · Python 3776AB · FastAPI 009688 · React 61DAFB（logoColor=black）· TypeScript 3178C6 · PostgreSQL 4169E1 · Redis DC382D · Tailwind CSS 06B6D4 · Markdown 000000。
 simple-icons 无对应 logo 的技术（WebSocket、WebRTC）用纯文字徽章。
