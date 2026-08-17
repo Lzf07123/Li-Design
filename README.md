@@ -47,8 +47,8 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 ### 徽章规则
 
 - 状态/角色/方向徽章：shields.io 默认样式（如 `status-active-brightgreen`）
-- 技术徽章：`style=for-the-badge` + `logo=<simple-icons slug>` + 官方品牌色，并链接到技术官网
-- 格式：`[![TECH](https://img.shields.io/badge/TECH-COLOR?style=for-the-badge&logo=SLUG&logoColor=white)](OFFICIAL_URL)`
+- 技术徽章：shields.io 默认 flat 样式 + `logo=<simple-icons slug>` + 官方品牌色，并链接到技术官网
+- 格式：`[![TECH](https://img.shields.io/badge/TECH-COLOR?logo=SLUG&logoColor=white)](OFFICIAL_URL)`
 - 常用品牌色：Linux `FCC624`、Docker `2496ED`、Kubernetes `326CE5`、Python `3776AB`、FastAPI `009688`、React `61DAFB`（黑字）、TypeScript `3178C6`、PostgreSQL `4169E1`、Redis `DC382D`、Tailwind CSS `06B6D4`、Markdown `000000`
 - simple-icons 无对应 logo 的技术（如 WebSocket、WebRTC）用纯文字徽章
 
