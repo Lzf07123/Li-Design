@@ -13,8 +13,9 @@ Li&Design 是 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&
 | 内容 | 位置 |
 | --- | --- |
 | 概览、目录结构、快速上手、治理 | [README.md](./README.md) |
+| 全家族实现总览：项目矩阵、已验证参数、效果对照表、防复制治理 | [PROJECTS-IMPLEMENTATION-INDEX.md](./PROJECTS-IMPLEMENTATION-INDEX.md) |
 | 主方案：品牌内核 + 22 项槽位表 + 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（§8） | [REUSABLE-BRAND-SCHEME.md](./REUSABLE-BRAND-SCHEME.md) |
-| 令牌骨架（Tailwind CSS 4）：`{{PROJECT_PREFIX}}` 占位符与明暗两套色板 | [reusable-tokens.template.css](./reusable-tokens.template.css) |
+| 令牌骨架（Tailwind CSS 4）：`{{PROJECT_PREFIX}}` 占位符、明暗两套色板、极光/科技光效与完整组件 CSS | [reusable-tokens.template.css](./reusable-tokens.template.css) |
 | 可复用 README 模板：结构约定 + 徽章规则 + 写作原则 | [reusable-readme.template.md](./reusable-readme.template.md) |
 
 **文档与代码冲突时**：`reusable-tokens.template.css` 是令牌事实，`REUSABLE-BRAND-SCHEME.md` 是意图。先核对差异，再决定改哪边；改一边必须同步另一边（见第六节）。
@@ -23,6 +24,7 @@ Li&Design 是 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&
 
 ```text
 README.md                        概览、快速上手、交付清单、治理
+PROJECTS-IMPLEMENTATION-INDEX.md 全家族实现总览（项目矩阵/效果对照/防复制治理）
 REUSABLE-BRAND-SCHEME.md         主方案（不变层 + 槽位层 + 执行层 + 协作方法）
 reusable-tokens.template.css     令牌骨架（唯一代码事实）
 reusable-readme.template.md      README 模板（结构/徽章/占位符）
@@ -39,6 +41,8 @@ AGENTS.md                        本手册
 4. **分层不可混**：改品牌内核需明确理由并在方案中记录；示例取值来自 Li&Pass，新项目按第 3 章填自己的槽位。
 5. **完成 = 验证 + 文档**：声称完成前给出第七节验证输出；涉及方案结构变更时同步 README。
 6. **命名**：模板仓库为 `Li&Design`；`{{PROJECT_PREFIX}}` 只是占位符，子项目技术标识由其槽位 2 决定（如 `lipass`、`chat`），不在模板中固化任何项目前缀。
+7. **禁止跨项目复制（V1.3）**：子项目不得从 Li&Pass / Li&Chat / Li&Blog / Li&Panel 复制样式或组件文件；一律从模板实例化。新效果/新调校先回写模板（含参数与验收证据），再在项目内引用。
+8. **AA 调校与深色软底（V1.3）**：浅色语义色默认用调校值（muted `#64736C` / success `#2A7C52` / warning `#9A5C05` / destructive `#C43737`）；深色带文字软底组件必须用 `*-soft-solid` + `*-soft-fg`。
 
 ## 五、多 Agents 协作规范
 
@@ -86,14 +90,20 @@ AGENTS.md                        本手册
 ## 七、验证命令
 
 ```bash
-# 令牌模板占位符数量应恰为 128 处（V1.2 海玻璃：新增 secondary/六强调色/按钮着色/品牌文字/流光线/科技光效令牌）；新增/删除槽位令牌会改变此数
+# 令牌模板占位符数量应恰为 181 处（V1.3：AA 调校语义色 + btn-sweep/aurora/soft-solid/soft-fg + 组件 CSS 全量内置）；新增/删除槽位令牌会改变此数
 rg -F -o '{{PROJECT_PREFIX}}' reusable-tokens.template.css | wc -l
 
 # 方案文档与令牌模板的引用一致性（如 --<prefix>-primary 应在 @theme/:root/.dark 中成对出现）
-rg -n 'PROJECT_PREFIX|primary|surface-2' REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css
+rg -n 'PROJECT_PREFIX|primary|surface-2|soft-solid|aurora|btn-sweep' REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css
+
+# 每个 animation 都有 @keyframes（科技光效/极光/签名描边/扫光/涟漪/Toast/Modal 共 24 组）
+comm -23 <(rg -o 'animation(?:-name)?: [a-z0-9-]+' reusable-tokens.template.css | sed 's/.*: //' | grep -v '^none$' | sort -u) <(rg -o '@keyframes [a-z0-9-]+' reusable-tokens.template.css | sed 's/@keyframes //' | sort -u)
+
+# 浅色语义色必须是 V1.3 调校值（muted/success/warning/destructive）
+rg -n '--\{\{PROJECT_PREFIX\}\}-(muted|success|warning|destructive):' reusable-tokens.template.css
 
 # README 与方案文档的内部链接必须可解析（同目录文件存在）
-ls README.md REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css reusable-readme.template.md AGENTS.md
+ls README.md PROJECTS-IMPLEMENTATION-INDEX.md REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css reusable-readme.template.md AGENTS.md
 ```
 
 > 附录 B（Li&Pass 令牌快照）是回滚对照表：改模板色值时同步核对快照，避免明暗两套错位。
@@ -109,5 +119,10 @@ ls README.md REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css reusable-read
 - **子模块不会自动更新**：Li&Chat / Li&Pass 以子模块方式引用本仓库，模板改动后需在各自项目手动 `git submodule update --init`（对齐锁定提交），`--remote` 要评审后谨慎使用。
 - **槽位表与令牌模板失配**：新增槽位（如新语义色）必须在模板中同步加变量，否则实例化时会漏令牌。
 - **附录 B 与模板色值漂移**：两处都写有 Li&Pass 色值，改一处必须核对另一处。
-- **占位符计数**：`{{PROJECT_PREFIX}}` 全文件 128 处是 V1.2 基准；只改一处容易造成明暗两套不一致。
+- **占位符计数**：`{{PROJECT_PREFIX}}` 全文件 181 处是 V1.3 基准（V1.2 为 128）；只改一处容易造成明暗两套不一致。
+- **跨项目复制（Panel 教训）**：Li&Panel 曾按用户要求 1:1 复刻 Li&Pass（`--portal-*` 逐字一致），模板更新无法传导；任何新项目禁止此做法，一律从模板实例化，实例化后做「仅槽位差」校验。
+- **旧语义色坑**：Li&Pass / Li&Panel 仍为 V1.2 值（muted `#71807A` / success `#2F8F5F`，对比不达 4.5）；新项目必须用 V1.3 调校值，存量项目按 §7 历史差异处理对齐。
+- **深色软底坑**：rgba 软底 + 同色浅字对比上限 ≈3.9；带文字组件必须回退 `*-soft-solid` + `*-soft-fg`，只有图标/图形可用 rgba 软底。
+- **模板缺科技光效 CSS 的历史坑**：V1.2 模板只写了光效层说明、没有 `.aurora/.tech-*` CSS；V1.3 已补全全部类与关键帧，实例化时不再需要从项目抄 CSS。
+- **零依赖等价坑**：无远程资源项目按附录 F 使用原生等价实现（blur-unit/countUp/ripple/ambient.js），不要为了实现效果引入 motion/gsap，也不要为了省事把 Chat 的 JS 文件原样复制（按模板规范重写）。
 - **科技光效层关键帧缺失**：只写 `animation` 引用、漏定义 `@keyframes` 会让网格/光束/光点完全静止（光束基态 `opacity:0` 且不可见）；实例化时逐一核对「每个 animation 都有 @keyframes」。

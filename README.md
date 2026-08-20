@@ -4,20 +4,23 @@
 
 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证的设计系统提炼，供所有子项目（Li&Chat 及后续新项目）按「填槽位 → 复制令牌 → 过验收」的方式实例化。
 
+> **V1.3（2026-08-20）**：完成全家族（About / Pass / Chat / Blog / Panel）视觉实现总览；采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现，并新增**防跨项目复制**硬规则。
+
 ## 目录结构
 
 | 文件 | 用途 |
 | --- | --- |
+| [PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md) | **全家族实现总览**：项目矩阵、已验证参数、效果对照表、防复制治理；新项目先读此文件 |
 | [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) | 主方案：品牌内核（不变层）+ 项目适配槽位表（22 项）+ 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（第 8 章） |
-| [reusable-tokens.template.css](reusable-tokens.template.css) | Tailwind CSS 4 令牌骨架，含 `{{PROJECT_PREFIX}}` 占位符与明暗两套色板 |
+| [reusable-tokens.template.css](reusable-tokens.template.css) | Tailwind CSS 4 令牌骨架，含 `{{PROJECT_PREFIX}}` 占位符、明暗两套色板、极光/科技光效与完整组件 CSS |
 | [reusable-readme.template.md](reusable-readme.template.md) | 可复用 README 模板：结构约定 + 徽章规则 + 写作原则，含占位符与使用说明 |
 | [AGENTS.md](AGENTS.md) | 模板仓库的多 Agents 协作手册：事实来源、硬性规则、协作规范、验证命令 |
 
 ## 快速上手（新项目 3 步）
 
-1. 复制 `reusable-tokens.template.css` 到新项目 `frontend/src/index.css`，把 `{{PROJECT_PREFIX}}` 换成项目技术标识（如 `lipass`、`chat`），按槽位表填色值。
+1. 先读 [PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md) 确认家族现状，再复制 `reusable-tokens.template.css` 到新项目 `frontend/src/index.css`，把 `{{PROJECT_PREFIX}}` 换成项目技术标识（如 `lipass`、`chat`），按槽位表填色值。
 2. 按 [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) 第 3 章逐项填写适配槽位（名称、定位、主色、语义色、字体、Logo、氛围浓度等）。
-3. 按第 4 章搭建组件与页面外壳，最后过第 6 章 Pre-Delivery Checklist；多 Agents 协作实例化见第 8 章。
+3. 按第 4 章搭建组件与页面外壳，最后过第 6 章 Pre-Delivery Checklist；多 Agents 协作实例化见第 8 章。**禁止从任何项目仓库复制文件。**
 
 ## README 模板（Li&About 规范）
 
@@ -78,8 +81,10 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 - 信任优先、克制科技感、以动衬静、单一事实来源、无障碍节能。
 - 60/30/10 用色比例；深色 = 去饱和浅色调变体（可选「雾灰中间调」不压黑）；主色永远小面积强调。
 - V1.2 海玻璃示例：全淡色、无粉色、无重色；主按钮半透明着色；六强调色板 + 科技光效层（网格/光束/光点）。
+- V1.3：浅色语义色用 AA 调校值（muted `#64736C` / success `#2A7C52` / warning `#9A5C05` / destructive `#C43737`）；深色带文字软底用 `*-soft-solid` + `*-soft-fg`。
 - 动效只动 `transform/opacity/background-position`，每个 animation 必须有 @keyframes，尊重 `prefers-reduced-motion`，移动端减量省电。
 - 令牌只存在 `index.css`，品牌文案只存在 `brand.ts`，组件禁止硬编码。
+- 新效果/新调校先回写本模板再引用；禁止项目间复制（详见实现总览 §5）。
 - 多 Agents 协作：单一事实来源、一个任务一个 owner、并行任务零文件重叠（方案第 8 章 + [AGENTS.md](AGENTS.md)）。
 
 ## 参考实现
@@ -89,6 +94,6 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 ## 治理
 
 - 新视觉决策先写 BRAND.md 意图，再以令牌落地；代码事实与文档冲突时以代码为准并回写文档。
-- 示例取值来自首个实例化项目 Li&Pass（已内联于方案文档附录 B）；新项目按第 3 章填自己的槽位，不引用外部仓库。
+- 示例取值来自全家族已验证实现（Li&Pass 历史快照见方案附录 B.1；V1.3 调校值见 B.2）；新项目按第 3 章填自己的槽位，不引用外部仓库。
 - 本仓库只承载模板的演进；各项目的设计方案在各自仓库内独立演进。
 - 多 Agents 协作遵循 [AGENTS.md](AGENTS.md) 与方案第 8 章：并行任务零文件重叠，root agent 只按验证输出验收。
