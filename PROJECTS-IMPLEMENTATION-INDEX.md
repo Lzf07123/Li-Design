@@ -57,8 +57,6 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 ## 3. 效果对照表（「一模一样」的落地位置）
 
 | 效果 | 模板位置（V1.4） | Li&Pass | Li&Chat | Li&Blog |
-
-| 效果 | 模板位置（V1.3） | Li&Pass | Li&Chat | Li&Blog |
 | --- | --- | --- | --- | --- |
 | 海玻璃令牌（明暗两套） | `reusable-tokens.template.css` `:root` / `.dark` | `frontend/src/index.css` | `static/style.css` | `themes/blog-theme/static/css/tokens.css` |
 | 主按钮半透明着色 + 扫光 | `.btn-primary` + `::after`（`btn-sheen` 4s） | 同模板 | `.btn-primary::after`（`chat-btn-sweep` 4s） | 后台同模板；首页 CTA 用 `--liblog-btn-light/dark-*` |
@@ -86,6 +84,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 | 本地徽章（公开站） | §5 `badge` 行（本地 SVG 胶囊，零外链） | — | — | `themes/blog-theme` badge 组件 |
 | 打印 / 代码高亮令牌 | §3.1 可选扩展（`--print-*` / `--code-*`） | — | — | `tokens.css`（白纸黑字 + Chroma 六色） |
 | 应用外壳 | AuthShell（`max-w-md` 居中卡）；AppShell = AppHeader + `max-w-7xl` + Footer | 同模板 | 微信式双栏（列表 300px + 内容 ≤880px；`100dvh` 内滚） | 公开站无交互外壳 + 后台管理外壳 |
+| 页脚 | `.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`（`mt-auto` 贴底 + 半透明表面 + backdrop-blur；版权/备案/链接全部由 brand.ts 驱动） | `SiteFooter.tsx`（brand.ts 静态，Pass 已验证） | Chat 自有 `.site-footer`（`static/style.css`） | 公开站自有 `footer.site-footer` / `.footer-inner`（备案 + CC 协议） |
 
 ## 4. 各项目独有模式（按需引用，不是默认内核）
 
@@ -113,7 +112,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 ### 4.3 Li&Panel：网格与后台品牌覆盖
 
 - 面板网格响应式 1→2→3→4 列（375 / 768 / 1024 / 1440）。
-- `brand.ts` 保存设计默认值，首次启动种子写入 `site_settings`；运行时以 `site_settings` 为事实来源，清空回退默认——可见品牌信息后台可改。
+- `brand.ts` 保存设计默认值，首次启动种子写入 `site_settings`；运行时以 `site_settings` 为事实来源，清空回退默认——可见品牌信息后台可改（含页脚：`SiteFooter site` 属性 + `APP_VERSION` / `footer_text`，备案图标缺失/加载失败时用 `.filing-icon-placeholder` 字形方块占位）。
 - ⚠️ Panel 当前为 `--portal-*` 1:1 逐字复刻，模板更新无法传导。本仓库 V1.3 发布后，Panel 应改为从模板重实例化（仅槽位 1–6、16–18 不同）。
 
 ## 5. 防跨项目复制治理（新增硬规则）

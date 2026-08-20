@@ -43,7 +43,7 @@ AGENTS.md                        本手册
 6. **命名**：模板仓库为 `Li&Design`；`{{PROJECT_PREFIX}}` 只是占位符，子项目技术标识由其槽位 2 决定（如 `lipass`、`chat`），不在模板中固化任何项目前缀。
 7. **禁止跨项目复制（V1.3）**：子项目不得从 Li&Pass / Li&Chat / Li&Blog / Li&Panel 复制样式或组件文件；一律从模板实例化。新效果/新调校先回写模板（含参数与验收证据），再在项目内引用。
 8. **AA 调校与深色软底（V1.3）**：浅色语义色默认用调校值（muted `#64736C` / success `#2A7C52` / warning `#9A5C05` / destructive `#C43737`）；深色带文字软底组件必须用 `*-soft-solid` + `*-soft-fg`。
-9. **UI 控件用模板内置（V1.4）**：下拉（`.select` / `.custom-select-*`）、菜单（`.dropdown-menu`）、建议选项（`.suggest-menu`）、头像、复选/文件、分页、面包屑、进度、空状态一律用模板类实现；自定义下拉必须带完整键盘与 ARIA 契约（见方案附录 F），不自造样式。
+9. **UI 控件用模板内置（V1.4 / V1.5）**：下拉（`.select` / `.custom-select-*`）、菜单（`.dropdown-menu`）、建议选项（`.suggest-menu`）、头像、复选/文件、分页、面包屑、进度、页脚（`.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`）、空状态一律用模板类实现；自定义下拉必须带完整键盘与 ARIA 契约（见方案附录 F），不自造样式。
 
 ## 五、多 Agents 协作规范
 
@@ -95,7 +95,7 @@ AGENTS.md                        本手册
 rg -F -o '{{PROJECT_PREFIX}}' reusable-tokens.template.css | wc -l
 
 # 方案文档与令牌模板的引用一致性（如 --<prefix>-primary 应在 @theme/:root/.dark 中成对出现）
-rg -n 'PROJECT_PREFIX|primary|surface-2|soft-solid|aurora|btn-sweep|custom-select|dropdown-menu|suggest-menu|pagination|breadcrumb|progress' REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css
+rg -n 'PROJECT_PREFIX|primary|surface-2|soft-solid|aurora|btn-sweep|custom-select|dropdown-menu|suggest-menu|pagination|breadcrumb|progress|site-footer' REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css
 
 # 每个 animation 都有 @keyframes（科技光效/极光/签名描边/扫光/涟漪/Toast/Modal 共 24 组）
 comm -23 <(rg -o 'animation(?:-name)?: [a-z0-9-]+' reusable-tokens.template.css | sed 's/.*: //' | grep -v '^none$' | sort -u) <(rg -o '@keyframes [a-z0-9-]+' reusable-tokens.template.css | sed 's/@keyframes //' | sort -u)
