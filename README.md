@@ -4,7 +4,7 @@
 
 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证的设计系统提炼，供所有子项目（Li&Chat 及后续新项目）按「填槽位 → 复制令牌 → 过验收」的方式实例化。
 
-> **V1.3（2026-08-20）**：完成全家族（About / Pass / Chat / Blog / Panel）视觉实现总览；采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现，并新增**防跨项目复制**硬规则。
+> **V1.4（2026-08-20）**：完成全家族（About / Pass / Chat / Blog / Panel）视觉实现总览；采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现，并补全下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保新项目可 1:1 复刻；新增**防跨项目复制**硬规则。
 
 ## 目录结构
 
@@ -12,7 +12,7 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 | --- | --- |
 | [PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md) | **全家族实现总览**：项目矩阵、已验证参数、效果对照表、防复制治理；新项目先读此文件 |
 | [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) | 主方案：品牌内核（不变层）+ 项目适配槽位表（22 项）+ 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（第 8 章） |
-| [reusable-tokens.template.css](reusable-tokens.template.css) | Tailwind CSS 4 令牌骨架，含 `{{PROJECT_PREFIX}}` 占位符、明暗两套色板、极光/科技光效与完整组件 CSS |
+| [reusable-tokens.template.css](reusable-tokens.template.css) | Tailwind CSS 4 令牌骨架，含 `{{PROJECT_PREFIX}}` 占位符、明暗两套色板、极光/科技光效与完整组件 CSS（含下拉/菜单/头像/复选/文件/分页/面包屑/进度） |
 | [reusable-readme.template.md](reusable-readme.template.md) | 可复用 README 模板：结构约定 + 徽章规则 + 写作原则，含占位符与使用说明 |
 | [AGENTS.md](AGENTS.md) | 模板仓库的多 Agents 协作手册：事实来源、硬性规则、协作规范、验证命令 |
 
@@ -82,6 +82,7 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 - 60/30/10 用色比例；深色 = 去饱和浅色调变体（可选「雾灰中间调」不压黑）；主色永远小面积强调。
 - V1.2 海玻璃示例：全淡色、无粉色、无重色；主按钮半透明着色；六强调色板 + 科技光效层（网格/光束/光点）。
 - V1.3：浅色语义色用 AA 调校值（muted `#64736C` / success `#2A7C52` / warning `#9A5C05` / destructive `#C43737`）；深色带文字软底用 `*-soft-solid` + `*-soft-fg`。
+- V1.4：UI 控件全量内置——`.select`（原生下拉同输入框视觉）、`.custom-select-*`（键盘完整自定义下拉）、`.dropdown-menu`、`.suggest-menu`、`.avatar`、复选/文件按钮、`.pagination`、`.breadcrumb`、`.progress`、`.table-empty-row`。
 - 动效只动 `transform/opacity/background-position`，每个 animation 必须有 @keyframes，尊重 `prefers-reduced-motion`，移动端减量省电。
 - 令牌只存在 `index.css`，品牌文案只存在 `brand.ts`，组件禁止硬编码。
 - 新效果/新调校先回写本模板再引用；禁止项目间复制（详见实现总览 §5）。

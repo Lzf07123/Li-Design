@@ -1,6 +1,6 @@
 # Li& 系列项目视觉实现总览（Implementation Index）
 
-> **版本**：V1.3 ｜ **日期**：2026-08-20 ｜ **状态**：全家族审计结果（Li&About / Li&Pass / Li&Chat / Li&Blog / Li&Panel）
+> **版本**：V1.4 ｜ **日期**：2026-08-20 ｜ **状态**：全家族审计结果（Li&About / Li&Pass / Li&Chat / Li&Blog / Li&Panel；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等 UI 控件）
 > **用途**：这是「谁实现了什么、参数是什么、差异在哪」的唯一入口。新项目实例化前先读本文件 + [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) 第 2–3 章，再从 [reusable-tokens.template.css](reusable-tokens.template.css) 复制落地，**禁止从任何项目仓库复制文件**。
 > **事实来源**：各项目 `design-system/<project>/BRAND.md`、`MASTER.md` 与落地代码（`index.css` / `style.css` / `tokens.css` / 组件源码），以代码事实为准。
 
@@ -11,10 +11,10 @@
 | 项目 | 前端形态 | 令牌前缀 | 方案版本 | 实例化状态 | 视觉实现要点 |
 | --- | --- | --- | --- | --- | --- |
 | Li&About | Markdown 个人主页（无前端代码） | — | README 规范 | 已沉淀为 [reusable-readme.template.md](reusable-readme.template.md) | 徽章平铺规则、官方品牌色、写作原则、结构约定 |
-| Li&Pass | React + Tailwind CSS 4（motion/react + gsap 按需） | `portal` | BRAND V2.0 / 2026-08-17 | **参考实现本体**（V1.2 模板提取来源） | AuthShell / AppHeader / PillTabs / MagicBento / StrokeText / BlurText / CountUp / FloatingBackground / AuroraBackground / TechAmbience（网格 + 3 光束 + 8 光点）/ card-signature / flow-rule / card-halo / toast / modal / table-shell / 半透明按钮 + 扫光 |
-| Li&Chat | 原生静态 HTML/CSS/JS（**零第三方依赖**） | `chat` | BRAND/MASTER V1.2 / 2026-08-17 | 模板 V1.2 全量采纳 + RGB 调校 | 语义色调校（AA 达标）、深色软底 soft-solid/soft-fg、零依赖 BlurText/CountUp/ripple/card-signature/flow-line、微信式双栏应用外壳、status-dot、紧凑密度、消息气泡/多选/投票/表情/上传/图片查看器 |
-| Li&Blog | Hugo + React/motion 效果层（esbuild 单文件，约 90KB gzip） | `liblog` | BRAND/MASTER v1.0 / 2026-08-18 | 模板 V1.2 实例化 + 调校值 + 站点化扩展 | 公开站零交互、本地徽章（无 shields.io 外链）、HeroFX 滚动视差、AuroraBackground full/soft = 4/2、TechAmbience 去光束（网格 + 8 枚强调色光点）、打印令牌、代码高亮令牌、文章页零动效、后台完整组件集（table-shell / custom-select / upload-progress / toast / modal 等） |
-| Li&Panel | React + Tailwind CSS 4 | `portal`（1:1 复刻）+ `lipanel` | BRAND/MASTER 2026-08-20 | **跨项目 1:1 复制（反例，需纠正）** | 与 Li&Pass 逐字一致（`--portal-*`、组件、动效、CSP）；面板网格 1→2→3→4 列；`site_settings` 品牌信息后台可覆盖 |
+| Li&Pass | React + Tailwind CSS 4（motion/react + gsap 按需） | `portal` | BRAND V2.0 / 2026-08-17 | **参考实现本体**（V1.2 模板提取来源） | AuthShell / AppHeader / PillTabs / MagicBento / StrokeText / BlurText / CountUp / FloatingBackground / AuroraBackground / TechAmbience（网格 + 3 光束 + 8 光点）/ card-signature / flow-rule / card-halo / toast / modal / table-shell / 半透明按钮 + 扫光；**原生 `<select className="input-sm">`（无自定义下拉）** |
+| Li&Chat | 原生静态 HTML/CSS/JS（**零第三方依赖**） | `chat` | BRAND/MASTER V1.2 / 2026-08-17 | 模板 V1.2 全量采纳 + RGB 调校 | 语义色调校（AA 达标）、深色软底 soft-solid/soft-fg、零依赖 BlurText/CountUp/ripple/card-signature/flow-line、微信式双栏应用外壳、status-dot、紧凑密度、消息气泡/多选/投票/表情/上传/图片查看器；**profile-dropdown 个人菜单、mention-list 建议选项、avatar 头像** |
+| Li&Blog | Hugo + React/motion 效果层（esbuild 单文件，约 90KB gzip） | `liblog` | BRAND/MASTER v1.0 / 2026-08-18 | 模板 V1.2 实例化 + 调校值 + 站点化扩展 | 公开站零交互、本地徽章（无 shields.io 外链）、HeroFX 滚动视差、AuroraBackground full/soft = 4/2、TechAmbience 去光束（网格 + 8 枚强调色光点）、打印令牌、代码高亮令牌、文章页零动效、后台完整组件集（table-shell / **custom-select 键盘完整下拉** / upload-progress / checkbox+file 令牌化 / pagination / breadcrumb / toast / modal 等） |
+| Li&Panel | React + Tailwind CSS 4 | `portal`（1:1 复刻）+ `lipanel` | BRAND/MASTER 2026-08-20 | **跨项目 1:1 复制（反例，需纠正）** | 与 Li&Pass 逐字一致（`--portal-*`、组件、动效、CSP）；面板网格 1→2→3→4 列；`site_settings` 品牌信息后台可覆盖；原生 select 同 Pass |
 
 ## 2. 家族共性（全部项目已验证）
 
@@ -26,6 +26,7 @@
 - 三档水绿 tint 弥散阴影（透明度总和 < 0.1）；缓动 `--ease-out` / `--ease-spring`；时长 150/250/350ms。
 - TRUST 五原则、呼吸感四模式（水平穿行 / 往复钟摆 / 正弦波形 / 盘旋公转）、科技光效层、极光层、卡片签名描边、流光线、文字浮现、数字滚动、焦点环、`prefers-reduced-motion` 单帧、移动端减量、SVG 图标（禁 emoji）。
 - 单一事实来源：令牌只在 CSS 事实文件，品牌文案只在 brand 单点（`brand.ts` / `brand.js` / `config/brand.yaml`）。
+- 表单与选择控件完整：原生 select 与输入框同视觉（V1.4 `.select`）；自定义下拉、下拉菜单、建议选项、头像、复选框/单选/文件按钮、分页、面包屑、进度条、空状态均有模板实现（§3 对照表）。
 
 ### 2.2 语义色 AA 调校结论（V1.3 模板默认采用调校值）
 
@@ -55,7 +56,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 
 ## 3. 效果对照表（「一模一样」的落地位置）
 
-> 列含义：模板位置 = 本仓库 V1.3 的权威实现（`reusable-tokens.template.css` 类名 / 方案章节）；各项目列 = 该项目代码事实位置。新项目只从模板列复制。
+| 效果 | 模板位置（V1.4） | Li&Pass | Li&Chat | Li&Blog |
 
 | 效果 | 模板位置（V1.3） | Li&Pass | Li&Chat | Li&Blog |
 | --- | --- | --- | --- | --- |
@@ -74,6 +75,14 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 | 浏览器品牌位 | §4.1 槽位 20 | `frontend/index.html` | `static/index.html` | Hugo head 模板 |
 | Toast / Modal | `.toast-*`（z-80）/ `.modal-*`（z-70） | 同模板 | `.toast` 安全区置顶 | 后台同模板 |
 | 表格 | `.table-shell`（表头 surface-2 + muted 小字；移动端横滑） | 同模板 | 未接 | `admin/templates/partials/table.html`（50 轮迭代） |
+| 原生下拉 | `.select` / `.select-sm`（双三角渐变 chevron，与 `.input` 同视觉） | `<select className="input-sm">` | 未用（无筛选场景） | `.list-filters select`（36px 等高） |
+| 自定义下拉 | `.custom-select-*`（button + listbox，键盘完整，零依赖） | — | — | `admin-dropdown.js` + `.custom-select-*` |
+| 下拉菜单 | `.dropdown-menu` / `.menu-item` / `.menu-item-danger` | — | `.profile-dropdown` / `.profile-menu-item` | — |
+| 建议选项 | `.suggest-menu` / `.suggest-option`（胶囊 chips） | — | `.mention-list` / `.mention-option` | — |
+| 头像 | `.avatar` / `.avatar-placeholder`（28/32/36/56px） | 组件头像（品牌单点） | `.avatar` / `.avatar-placeholder` | `.table-thumb`（64×48 封面缩略） |
+| 选择控件 / 文件按钮 | checkbox/radio 18px `accent-color` + `.field-check` + `file-selector-button` | — | 消息多选 `.select-bar` | `admin.css` 令牌化复选 + 文件按钮 |
+| 分页 / 面包屑 | `.pagination` / `.breadcrumb` | — | — | `.pagination` / `.admin-breadcrumb` |
+| 进度条 / 空状态 | `.progress` / `.table-empty-row` | `.toast-progress` | `.upload-progress-*` | `.upload-progress` + `.table-empty-row` |
 | 本地徽章（公开站） | §5 `badge` 行（本地 SVG 胶囊，零外链） | — | — | `themes/blog-theme` badge 组件 |
 | 打印 / 代码高亮令牌 | §3.1 可选扩展（`--print-*` / `--code-*`） | — | — | `tokens.css`（白纸黑字 + Chroma 六色） |
 | 应用外壳 | AuthShell（`max-w-md` 居中卡）；AppShell = AppHeader + `max-w-7xl` + Footer | 同模板 | 微信式双栏（列表 300px + 内容 ≤880px；`100dvh` 内滚） | 公开站无交互外壳 + 后台管理外壳 |
@@ -99,6 +108,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 - **本地徽章**：公开站徽章 = 本地 SVG 胶囊（官方品牌色圆点/整块底 + 白字 + 本地图标），禁止 shields.io 外链；README 仍按 Li&About 规范用 shields.io。
 - **打印令牌**：`--liblog-print-bg: #fff` / `--liblog-print-fg: #000`，白纸黑字不随主题。
 - **代码高亮令牌**：comment / keyword / string / number / func / type / lineno 明暗两套，映射 Chroma。
+- **自定义下拉契约**：`select[data-custom-dropdown]` 由 `admin-dropdown.js` 渐进增强为 button + listbox；隐藏原生 select 仍是表单事实源（选中后派发 `change`），键盘 ArrowUp/Down/Home/End/Enter/Space/Escape 与 `aria-expanded`/`aria-selected` 完整同步。模板 `.custom-select-*` CSS + 契约见方案附录 F。
 
 ### 4.3 Li&Panel：网格与后台品牌覆盖
 
@@ -116,4 +126,4 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 ## 6. 与 REUSABLE-BRAND-SCHEME.md 的关系
 
 - 本文件回答「家族现状是什么」；方案文档回答「新项目应该怎么做」；令牌模板回答「代码长什么样」。
-- 方案文档第 2–3 章（内核 + 槽位）不变；第 5 章组件库与附录 B/E 已按本索引更新到 V1.3。
+- 方案文档第 2–3 章（内核 + 槽位）不变；第 5 章组件库与附录 B/E/F 已按本索引更新到 V1.4。
