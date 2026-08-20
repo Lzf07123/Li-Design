@@ -1,19 +1,30 @@
 /* =============================================================
-   Li& 系列 · 品牌令牌骨架（Tailwind CSS 4）· V1.2 海玻璃示例
+   Li& 系列 · 品牌令牌骨架（Tailwind CSS 4）· V1.3 海玻璃全量版
 
    用法（详见同目录 REUSABLE-BRAND-SCHEME.md §4.2）：
    ⚠️ 本模板仅首次设计时复制使用，落地后以项目内文件为准。
-   1. 复制本文件到新项目 frontend/src/index.css
-   2. 全局替换 {{PROJECT_PREFIX}} 为项目技术标识（如 lipass / chat）
+   1. 复制本文件到新项目 frontend/src/index.css（或项目实际样式文件）
+   2. 全局替换 {{PROJECT_PREFIX}} 为项目技术标识（如 lipass / chat / liblog）
    3. 按槽位表 7–12、16、21–22 填主色、中性色、语义色、强调色（明暗两套）
    4. 组件一律引用语义类（bg-primary 等），禁止硬编码 hex
 
+   V1.3 变更（2026-08-20，全家族实现总览见 PROJECTS-IMPLEMENTATION-INDEX.md）：
+   - 浅色语义色采用 AA 调校值（muted #64736C / success #2A7C52 /
+     warning #9A5C05 / destructive #C43737，Li&Chat + Li&Blog 已验证）
+   - 新增深色软底实色粉彩令牌（*-soft-solid / *-soft-fg，带文字组件必用）
+   - 新增按钮扫光（--*-btn-sweep）与极光令牌（--*-aurora-1..4）
+   - 补全科技光效层 CSS（网格/光束/光点 + 关键帧）与极光层 CSS
+   - 补全组件：card-signature / card-halo / brand-halo / flow-rule /
+     btn-ripple / icon-btn / status-dot / notice / toast / modal /
+     table-shell / scroll-tabs / blur-unit（全部来自已验证项目实现）
+
    铁律：
-   - 全淡色口径（示例定稿）：无粉色系、无大面积重色；深色 = 雾灰中间调不压黑
-   - 主按钮用半透明单色着色 + 细描边，不用多色渐变色块
+   - 全淡色口径：无粉色系、无大面积重色；深色 = 雾灰中间调不压黑
+   - 主按钮用半透明单色着色 + 细描边 + ::after 扫光，不用多色渐变色块
    - 阴影透明度总和 < 0.1；动效只动 transform/opacity/background-position
    - 每个 animation 必须有对应 @keyframes（科技光效层尤其注意）
    - 尊重 prefers-reduced-motion；移动端减量省电
+   - 关键帧名可加项目前缀防碰撞（如 --chat- 对应 chat-signature-border）
 ============================================================= */
 
 @import "tailwindcss";
@@ -74,7 +85,7 @@
   --{{PROJECT_PREFIX}}-surface: #ffffff;
   --{{PROJECT_PREFIX}}-surface-2: #eef6f3;
   --{{PROJECT_PREFIX}}-fg: #35423f;
-  --{{PROJECT_PREFIX}}-muted: #71807a;
+  --{{PROJECT_PREFIX}}-muted: #64736c;
   --{{PROJECT_PREFIX}}-border: #e1ece8;
 
   --{{PROJECT_PREFIX}}-primary: #25786d;
@@ -85,11 +96,11 @@
   --{{PROJECT_PREFIX}}-secondary: #2f678f;
   --{{PROJECT_PREFIX}}-secondary-soft: #dff1fa;
 
-  --{{PROJECT_PREFIX}}-success: #2f8f5f;
+  --{{PROJECT_PREFIX}}-success: #2a7c52;
   --{{PROJECT_PREFIX}}-success-soft: #e3f6e9;
-  --{{PROJECT_PREFIX}}-warning: #a16207;
+  --{{PROJECT_PREFIX}}-warning: #9a5c05;
   --{{PROJECT_PREFIX}}-warning-soft: #fdf3d8;
-  --{{PROJECT_PREFIX}}-destructive: #cf3d3d;
+  --{{PROJECT_PREFIX}}-destructive: #c43737;
   --{{PROJECT_PREFIX}}-destructive-soft: #fdeeee;
   --{{PROJECT_PREFIX}}-destructive-fg: #ffffff;
 
@@ -108,10 +119,11 @@
 
   --{{PROJECT_PREFIX}}-ring: #25786d;
 
-  /* 主按钮：半透明单色着色 + 细描边（浅色侧），文字用深青 */
+  /* 主按钮：半透明单色着色 + 细描边 + 斜向扫光（浅色侧，扫光为白） */
   --{{PROJECT_PREFIX}}-btn-primary-bg: rgba(47, 127, 116, 0.1);
   --{{PROJECT_PREFIX}}-btn-primary-bg-hover: rgba(47, 127, 116, 0.17);
   --{{PROJECT_PREFIX}}-btn-primary-border: rgba(47, 127, 116, 0.26);
+  --{{PROJECT_PREFIX}}-btn-sweep: rgba(255, 255, 255, 0.42);
   --{{PROJECT_PREFIX}}-brand-fg: #24433e;
 
   /* 海玻璃粉彩流光线（签名描边/流光规则线/顶栏流光线共用） */
@@ -132,6 +144,12 @@
   --{{PROJECT_PREFIX}}-tech-beam-2: rgba(143, 199, 240, 0.22);
   --{{PROJECT_PREFIX}}-tech-beam-3: rgba(176, 199, 158, 0.2);
   --{{PROJECT_PREFIX}}-tech-dot-glow: rgba(127, 212, 198, 0.6);
+
+  /* 极光层（4 枚弥散光斑），浅色侧 */
+  --{{PROJECT_PREFIX}}-aurora-1: rgba(127, 212, 198, 0.32);
+  --{{PROJECT_PREFIX}}-aurora-2: rgba(143, 199, 240, 0.3);
+  --{{PROJECT_PREFIX}}-aurora-3: rgba(169, 162, 232, 0.26);
+  --{{PROJECT_PREFIX}}-aurora-4: rgba(169, 204, 143, 0.24);
 
   /* 弥散阴影（水绿 tint，透明度总和 < 0.1，三层叠加） */
   --shadow-sm: 0px 0.6px 1.8px rgba(24, 58, 51, 0.04),
@@ -197,6 +215,7 @@
   --{{PROJECT_PREFIX}}-btn-primary-bg: rgba(127, 212, 198, 0.13);
   --{{PROJECT_PREFIX}}-btn-primary-bg-hover: rgba(127, 212, 198, 0.21);
   --{{PROJECT_PREFIX}}-btn-primary-border: rgba(127, 212, 198, 0.3);
+  --{{PROJECT_PREFIX}}-btn-sweep: rgba(255, 255, 255, 0.18);
   --{{PROJECT_PREFIX}}-brand-fg: #d7efea;
 
   --{{PROJECT_PREFIX}}-flow-gradient: linear-gradient(
@@ -215,6 +234,21 @@
   --{{PROJECT_PREFIX}}-tech-beam-2: rgba(168, 212, 240, 0.19);
   --{{PROJECT_PREFIX}}-tech-beam-3: rgba(176, 199, 158, 0.15);
   --{{PROJECT_PREFIX}}-tech-dot-glow: rgba(127, 212, 198, 0.55);
+
+  --{{PROJECT_PREFIX}}-aurora-1: rgba(127, 212, 198, 0.4);
+  --{{PROJECT_PREFIX}}-aurora-2: rgba(168, 212, 240, 0.36);
+  --{{PROJECT_PREFIX}}-aurora-3: rgba(176, 168, 222, 0.32);
+  --{{PROJECT_PREFIX}}-aurora-4: rgba(176, 199, 158, 0.28);
+
+  /* 深色软底带文字组件：实色粉彩底 + 深字（rgba 软底对比上限 ≈3.9，不达标） */
+  --{{PROJECT_PREFIX}}-primary-soft-solid: #d9f4ee;
+  --{{PROJECT_PREFIX}}-primary-soft-fg: #17332e;
+  --{{PROJECT_PREFIX}}-success-soft-solid: #e3f6e9;
+  --{{PROJECT_PREFIX}}-success-soft-fg: #14532d;
+  --{{PROJECT_PREFIX}}-warning-soft-solid: #fdf3d8;
+  --{{PROJECT_PREFIX}}-warning-soft-fg: #78350f;
+  --{{PROJECT_PREFIX}}-destructive-soft-solid: #fdeeee;
+  --{{PROJECT_PREFIX}}-destructive-soft-fg: #7f1d1d;
 
   color-scheme: dark;
 }
@@ -266,6 +300,92 @@
     box-shadow: var(--shadow-lg);
   }
 
+  /* 认证卡签名描边：海玻璃粉彩渐变沿边框缓慢流动（9s），替换静态边框。
+     实现：padding-box 表面 + border-box 渐变边框双背景，只动第二层
+     background-position。零依赖 CSS；Chat 另有 ::after mask 环等价变体。 */
+  .card-signature {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--{{PROJECT_PREFIX}}-surface), var(--{{PROJECT_PREFIX}}-surface))
+        padding-box,
+      linear-gradient(
+          140deg,
+          rgba(127, 212, 198, 0.5) 0%,
+          rgba(143, 199, 240, 0.42) 26%,
+          rgba(169, 162, 232, 0.46) 54%,
+          rgba(169, 204, 143, 0.4) 78%,
+          rgba(47, 127, 116, 0.45) 100%
+        )
+        border-box;
+    background-size:
+      100% 100%,
+      300% 300%;
+    animation: signature-flow 9s linear infinite;
+  }
+  .dark .card-signature {
+    background:
+      linear-gradient(var(--{{PROJECT_PREFIX}}-surface), var(--{{PROJECT_PREFIX}}-surface))
+        padding-box,
+      linear-gradient(
+          140deg,
+          rgba(127, 212, 198, 0.42) 0%,
+          rgba(168, 212, 240, 0.34) 30%,
+          rgba(176, 168, 222, 0.4) 60%,
+          rgba(176, 199, 158, 0.34) 85%,
+          rgba(127, 212, 198, 0.42) 100%
+        )
+        border-box;
+  }
+
+  /* 认证卡呼吸辉光：卡后一层浅水绿光晕缓慢明暗呼吸（4.5s） */
+  .card-halo {
+    position: relative;
+    isolation: isolate;
+  }
+  .card-halo::before {
+    content: "";
+    position: absolute;
+    inset: -18px;
+    border-radius: 26px;
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      rgba(127, 212, 198, 0.2) 0%,
+      rgba(74, 143, 191, 0.12) 45%,
+      transparent 72%
+    );
+    z-index: -1;
+    animation: card-halo-pulse 4.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .dark .card-halo::before {
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      rgba(127, 212, 198, 0.24) 0%,
+      rgba(168, 212, 240, 0.13) 45%,
+      transparent 72%
+    );
+  }
+
+  /* 品牌 Logo 辉光（静态 drop-shadow，不参与动画） */
+  .brand-halo {
+    filter: drop-shadow(0 0 14px rgba(47, 127, 116, 0.38))
+      drop-shadow(0 0 30px rgba(74, 143, 191, 0.28));
+  }
+  .dark .brand-halo {
+    filter: drop-shadow(0 0 16px rgba(127, 212, 198, 0.45))
+      drop-shadow(0 0 34px rgba(143, 199, 240, 0.28));
+  }
+
+  /* 流光规则线：分区标题短装饰线或顶栏底部全长渐变线（5s 位移） */
+  .flow-rule {
+    display: block;
+    height: 3px;
+    border-radius: 9999px;
+    background: var(--{{PROJECT_PREFIX}}-flow-gradient);
+    background-size: 250% 100%;
+    animation: flow-line-shift 5s linear infinite;
+  }
+
   /* 按钮：统一 8px 圆角；可点击必须有 cursor-pointer；按压 scale(0.97) */
   .btn {
     @apply relative inline-flex cursor-pointer select-none items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-lg px-4 py-3 text-sm font-medium leading-none disabled:pointer-events-none disabled:opacity-50;
@@ -289,6 +409,25 @@
     background-color: var(--{{PROJECT_PREFIX}}-btn-primary-bg);
     border: 1px solid var(--{{PROJECT_PREFIX}}-btn-primary-border);
   }
+  /* 主按钮斜向扫光：只动 transform（GPU 合成），4s 循环、长停顿；disabled 关闭 */
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      105deg,
+      transparent 42%,
+      var(--{{PROJECT_PREFIX}}-btn-sweep) 50%,
+      transparent 58%
+    );
+    transform: translateX(-130%);
+    animation: btn-sheen 4s var(--ease-out) 1s infinite;
+    pointer-events: none;
+  }
+  .btn-primary:disabled::after {
+    display: none;
+  }
   .btn-primary:not(:disabled):hover {
     background-color: var(--{{PROJECT_PREFIX}}-btn-primary-bg-hover);
     box-shadow: var(--shadow-md);
@@ -306,6 +445,33 @@
     @apply cursor-pointer whitespace-nowrap px-0 py-0 text-primary hover:underline;
   }
 
+  /* 点击涟漪：JS 向按钮注入 span.btn-ripple，animationend 后移除（零依赖） */
+  .btn-ripple {
+    position: absolute;
+    border-radius: 9999px;
+    background: currentColor;
+    opacity: 0.18;
+    transform: scale(0);
+    pointer-events: none;
+    animation: ripple-expand 500ms var(--ease-out) forwards;
+  }
+
+  /* 图标按钮：44px 触控热区，移动端不缩小 */
+  .icon-btn {
+    @apply inline-flex h-11 w-11 shrink-0 cursor-pointer select-none items-center justify-center rounded-lg border border-border bg-surface text-foreground transition-colors hover:bg-surface-2;
+    transition:
+      background-color var(--motion-fast) var(--ease-out),
+      color var(--motion-fast) var(--ease-out),
+      transform var(--motion-base) var(--ease-spring);
+  }
+  .icon-btn:active {
+    transform: scale(0.95);
+  }
+  .icon-btn svg {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
   /* 表单 */
   .label {
     @apply mb-1.5 block text-sm font-medium text-foreground;
@@ -317,8 +483,15 @@
       box-shadow var(--motion-fast) var(--ease-out),
       background-color var(--motion-fast) var(--ease-out);
   }
+  .input-sm {
+    @apply w-full rounded-md border border-border bg-surface px-2.5 py-1.5 text-sm text-foreground placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
+    transition:
+      border-color var(--motion-fast) var(--ease-out),
+      box-shadow var(--motion-fast) var(--ease-out),
+      background-color var(--motion-fast) var(--ease-out);
+  }
 
-  /* 徽章 */
+  /* 徽章：深色下带文字组件回退到实色粉彩底 + 深字（soft-solid / soft-fg） */
   .badge {
     @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap;
   }
@@ -336,6 +509,277 @@
   }
   .badge-primary {
     @apply bg-primary-soft text-primary;
+  }
+  .dark .badge-primary {
+    background-color: var(--{{PROJECT_PREFIX}}-primary-soft-solid);
+    color: var(--{{PROJECT_PREFIX}}-primary-soft-fg);
+  }
+  .dark .badge-success {
+    background-color: var(--{{PROJECT_PREFIX}}-success-soft-solid);
+    color: var(--{{PROJECT_PREFIX}}-success-soft-fg);
+  }
+  .dark .badge-warning {
+    background-color: var(--{{PROJECT_PREFIX}}-warning-soft-solid);
+    color: var(--{{PROJECT_PREFIX}}-warning-soft-fg);
+  }
+  .dark .badge-danger {
+    background-color: var(--{{PROJECT_PREFIX}}-destructive-soft-solid);
+    color: var(--{{PROJECT_PREFIX}}-destructive-soft-fg);
+  }
+
+  /* 状态点：连接/在线状态（8px 圆点，语义色） */
+  .status-dot {
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 9999px;
+    background: var(--{{PROJECT_PREFIX}}-muted);
+  }
+  .status-connecting {
+    background: var(--{{PROJECT_PREFIX}}-warning);
+  }
+  .status-connected {
+    background: var(--{{PROJECT_PREFIX}}-success);
+  }
+  .status-disconnected {
+    background: var(--{{PROJECT_PREFIX}}-muted);
+  }
+  .status-invalid {
+    background: var(--{{PROJECT_PREFIX}}-destructive);
+  }
+
+  /* 页面内持久提示条（与 Toast 同一视觉语言） */
+  .notice {
+    @apply flex items-start gap-2.5 rounded-xl border p-3.5 text-sm;
+    animation: page-fade-up var(--motion-base) var(--ease-out) both;
+  }
+  .notice-icon {
+    @apply mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full;
+  }
+  .notice-success {
+    @apply border-success/25 bg-success-soft text-success;
+  }
+  .notice-warning {
+    @apply border-warning/30 bg-warning-soft text-warning;
+  }
+  .notice-error {
+    @apply border-destructive/25 bg-destructive-soft text-destructive;
+  }
+  .notice-info {
+    @apply border-primary/25 bg-primary-soft text-primary;
+  }
+  /* 深色下提示条正文用高亮浅色文字（在 rgba 软底上 ≥4.5:1） */
+  .dark .notice-success {
+    color: #cff0de;
+  }
+  .dark .notice-warning {
+    color: #f7ebc4;
+  }
+  .dark .notice-error {
+    color: #f6d0c8;
+  }
+  .dark .notice-info {
+    color: #cdefe9;
+  }
+
+  /* ========== Toast 弹窗通知（z-80 必须高于 Modal 遮罩 z-70） ========== */
+  .toast-viewport {
+    @apply pointer-events-none fixed inset-x-0 top-4 z-[80] flex flex-col items-center gap-2 px-4 sm:top-5;
+  }
+  .toast {
+    @apply pointer-events-auto relative flex w-full max-w-md items-start gap-3 overflow-hidden rounded-xl border border-border bg-surface p-3.5 pr-10 text-left;
+    box-shadow:
+      0 2px 8px rgba(2, 6, 23, 0.08),
+      0 12px 32px rgba(2, 6, 23, 0.14);
+  }
+  .toast-icon {
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full;
+  }
+  .toast-title {
+    @apply text-sm font-semibold text-foreground;
+  }
+  .toast-message {
+    @apply mt-0.5 text-sm text-foreground/80;
+  }
+  .toast-close {
+    @apply absolute right-2 top-2 rounded-md p-1 text-muted transition-colors hover:bg-surface-2 hover:text-foreground;
+  }
+  .toast-action {
+    @apply shrink-0 self-center rounded-md px-2 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary-soft;
+  }
+  .toast-progress {
+    @apply absolute bottom-0 left-0 h-0.5 w-full origin-left;
+    animation-name: toast-progress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  .toast:hover .toast-progress {
+    animation-play-state: paused;
+  }
+  .toast-success {
+    @apply border-l-4 border-l-success;
+  }
+  .toast-success .toast-icon {
+    @apply bg-success-soft text-success;
+  }
+  .toast-success .toast-progress {
+    @apply bg-success/60;
+  }
+  .toast-error {
+    @apply border-l-4 border-l-destructive;
+  }
+  .toast-error .toast-icon {
+    @apply bg-destructive-soft text-destructive;
+  }
+  .toast-error .toast-progress {
+    @apply bg-destructive/60;
+  }
+  .toast-warning {
+    @apply border-l-4 border-l-warning;
+  }
+  .toast-warning .toast-icon {
+    @apply bg-warning-soft text-warning;
+  }
+  .toast-warning .toast-progress {
+    @apply bg-warning/60;
+  }
+  .toast-info {
+    @apply border-l-4 border-l-primary;
+  }
+  .toast-info .toast-icon {
+    @apply bg-primary-soft text-primary;
+  }
+  .toast-info .toast-progress {
+    @apply bg-primary/50;
+  }
+  .toast-enter {
+    animation: toast-in 320ms var(--ease-spring) both;
+    animation-delay: calc(var(--toast-index, 0) * 40ms);
+  }
+  .toast-leave {
+    animation: toast-out 220ms var(--ease-in) both;
+  }
+  .toast-icon-pop {
+    animation: toast-icon-pop 180ms var(--ease-spring) both;
+  }
+
+  /* ========== Modal 弹窗（z-70） ========== */
+  .modal-backdrop {
+    @apply fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/45 p-4 backdrop-blur-sm;
+  }
+  .modal-backdrop-in {
+    animation: modal-backdrop-in 200ms var(--ease-out) both;
+  }
+  .modal-backdrop-out {
+    animation: modal-backdrop-out 180ms var(--ease-in) both;
+  }
+  .modal-panel {
+    @apply relative w-full overflow-hidden rounded-2xl border border-border bg-surface text-left;
+    box-shadow:
+      0 4px 16px rgba(2, 6, 23, 0.1),
+      0 24px 64px rgba(2, 6, 23, 0.22);
+    outline: none;
+  }
+  .modal-panel-in {
+    animation: modal-panel-in 260ms var(--ease-spring) both;
+  }
+  .modal-panel-out {
+    animation: modal-panel-out 180ms var(--ease-in) both;
+  }
+  .modal-accent {
+    @apply h-1 w-full;
+  }
+  .modal-icon {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full;
+  }
+  .modal-body {
+    @apply mt-3 text-sm text-muted;
+  }
+  .modal-close {
+    @apply absolute right-3 top-3 rounded-md p-1 text-muted transition-colors hover:bg-surface-2 hover:text-foreground;
+  }
+  .modal-footer {
+    @apply flex flex-wrap items-center justify-end gap-2 border-t border-border bg-surface-2/60 px-5 py-3.5 sm:px-6;
+  }
+  .modal-info .modal-accent {
+    @apply bg-primary;
+  }
+  .modal-info .modal-icon {
+    @apply bg-primary-soft text-primary;
+  }
+  .modal-success .modal-accent {
+    @apply bg-success;
+  }
+  .modal-success .modal-icon {
+    @apply bg-success-soft text-success;
+  }
+  .modal-warning .modal-accent {
+    @apply bg-warning;
+  }
+  .modal-warning .modal-icon {
+    @apply bg-warning-soft text-warning;
+  }
+  .modal-danger .modal-accent {
+    @apply bg-destructive;
+  }
+  .modal-danger .modal-icon {
+    @apply bg-destructive-soft text-destructive;
+  }
+
+  /* 表格容器：表头 surface-2 + muted 小字；行 hover；移动端横向滚动 */
+  .table-shell {
+    @apply overflow-x-auto rounded-xl border border-border bg-surface;
+  }
+  .table-shell table {
+    @apply w-full border-collapse text-left text-sm;
+  }
+  .table-shell thead th {
+    @apply border-b border-border bg-surface-2 px-3 py-2.5 text-xs font-semibold tracking-wide text-muted;
+  }
+  .table-shell tbody td {
+    @apply border-b border-border/70 px-3 py-2.5 align-middle text-foreground last:border-b-0;
+  }
+  .table-shell tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .table-shell tbody tr {
+    @apply transition-colors duration-150 hover:bg-surface-2/60;
+  }
+
+  /* 表格长文本列：窄屏单行截断，桌面恢复自然换行 */
+  .table-cell-clip {
+    max-width: 11rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  @media (min-width: 1024px) {
+    .table-cell-clip {
+      max-width: none;
+      overflow: visible;
+      text-overflow: clip;
+      white-space: normal;
+    }
+  }
+
+  /* 横向滑动标签栏：单行、隐藏滚动条、snap 吸附 */
+  .scroll-tabs {
+    @apply flex items-center gap-2 overflow-x-auto;
+    flex-wrap: nowrap;
+    padding-block: 0.375rem;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 1rem;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scroll-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .scroll-tabs > * {
+    flex-shrink: 0;
+    scroll-snap-align: start;
   }
 }
 
@@ -393,14 +837,416 @@
       transform: rotate(360deg);
     }
   }
+
+  /* 文字浮现：词级 blur+位移入场（零依赖；JS 按词拆 span 并设 --blur-index） */
+  .blur-unit {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(8px);
+    will-change: transform, opacity, filter;
+    animation: blur-in 450ms var(--ease-out) both;
+    animation-delay: calc(var(--blur-index, 0) * 35ms);
+  }
+
+  @keyframes blur-in {
+    to {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+  }
+
+  /* 按钮涟漪扩散（配合 .btn-ripple 使用） */
+  @keyframes ripple-expand {
+    to {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+
+  /* 签名描边 / 流光线 / 按钮扫光 / 卡片辉光 / Toast / Modal 关键帧 */
+  @keyframes signature-flow {
+    from {
+      background-position:
+        0 0,
+        0% 50%;
+    }
+    to {
+      background-position:
+        0 0,
+        100% 50%;
+    }
+  }
+  @keyframes flow-line-shift {
+    to {
+      background-position: -250% 0;
+    }
+  }
+  @keyframes btn-sheen {
+    0% {
+      transform: translateX(-130%);
+    }
+    45%,
+    100% {
+      transform: translateX(130%);
+    }
+  }
+  @keyframes card-halo-pulse {
+    0%,
+    100% {
+      opacity: 0.65;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+  }
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(-14px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes toast-out {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.97);
+    }
+  }
+  @keyframes toast-progress {
+    from {
+      transform: scaleX(1);
+    }
+    to {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes toast-icon-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes modal-backdrop-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes modal-backdrop-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes modal-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes modal-panel-out {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(12px) scale(0.96);
+    }
+  }
 }
 
 /* =============================================================
    氛围与科技光效层（按槽位 19/22 接入）
    - FloatingBackground（Canvas）：z-0 垫底、pointer-events: none；
-     认证 10 / 授权 4 / 中心 10 + scrollWind / 后台 4 × 0.5
-   - AuroraBackground：4 枚弥散光斑（18/22/28/24s），工作台/后台 aurora-soft
-   - TechAmbience：缓移网格 12s + 3 条光束 10s（错峰）+ 8 枚光点 6s；
-     认证默认、工作台/后台 soft；移动端隐藏光束/光点并停用网格动画
+     认证 10 / 授权 4 / 中心 10 + scrollWind / 后台 4 × 0.5；
+     Chat 零依赖 ambient.js 与 Blog React 版见实现总览 §3
+   - AuroraBackground：4 枚弥散光斑（18/22/28/24s），full=4 / soft=2
+   - TechAmbience：缓移网格 12s + 3 条光束 10s（错峰 0.8/4.2/7.5s）
+     + 8 枚光点 6s；认证默认、工作台/后台 soft；移动端隐藏光束/光点
    - ⚠️ 每个 animation 必须定义对应 @keyframes；reduced-motion 下单帧
 ============================================================= */
+
+/* Canvas 氛围层容器：垫底、不拦截交互 */
+.ambient-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 极光层：4 枚 radial-gradient 光斑缓慢漂移（仅 transform） */
+.aurora,
+.tech-ambience {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora-blob {
+  position: absolute;
+  width: min(46vw, 720px);
+  height: min(46vw, 720px);
+  border-radius: 50%;
+  opacity: 0.9;
+  will-change: transform;
+  animation: aurora-drift-1 24s var(--ease-out) infinite alternate;
+}
+
+.aurora-blob:nth-child(1) {
+  top: -14%;
+  left: -8%;
+  background: radial-gradient(closest-side, var(--{{PROJECT_PREFIX}}-aurora-1), transparent 72%);
+}
+
+.aurora-blob:nth-child(2) {
+  top: 8%;
+  right: -12%;
+  background: radial-gradient(closest-side, var(--{{PROJECT_PREFIX}}-aurora-2), transparent 72%);
+  animation-name: aurora-drift-2;
+  animation-duration: 22s;
+}
+
+.aurora-blob:nth-child(3) {
+  bottom: -18%;
+  left: 8%;
+  background: radial-gradient(closest-side, var(--{{PROJECT_PREFIX}}-aurora-3), transparent 72%);
+  animation-name: aurora-drift-3;
+  animation-duration: 28s;
+}
+
+.aurora-blob:nth-child(4) {
+  bottom: -8%;
+  right: 6%;
+  background: radial-gradient(closest-side, var(--{{PROJECT_PREFIX}}-aurora-4), transparent 72%);
+  animation-name: aurora-drift-4;
+  animation-duration: 18s;
+}
+
+@keyframes aurora-drift-1 {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(7vw, 6vh) scale(1.08);
+  }
+}
+
+@keyframes aurora-drift-2 {
+  from {
+    transform: translate(0, 0) scale(1.06);
+  }
+  to {
+    transform: translate(-6vw, 5vh) scale(0.98);
+  }
+}
+
+@keyframes aurora-drift-3 {
+  from {
+    transform: translate(0, 0) scale(0.96);
+  }
+  to {
+    transform: translate(5vw, -7vh) scale(1.05);
+  }
+}
+
+@keyframes aurora-drift-4 {
+  from {
+    transform: translate(0, 0) scale(1.02);
+  }
+  to {
+    transform: translate(-7vw, -5vh) scale(0.94);
+  }
+}
+
+/* 已登录/工作台降浓度 */
+.aurora-soft {
+  opacity: 0.55;
+}
+
+/* 科技光效层：缓移网格（56px 基线 + 336px 亮线双层，径向渐隐） */
+.tech-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--{{PROJECT_PREFIX}}-tech-grid-accent) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--{{PROJECT_PREFIX}}-tech-grid-accent-2) 1px, transparent 1px),
+    linear-gradient(to right, var(--{{PROJECT_PREFIX}}-tech-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--{{PROJECT_PREFIX}}-tech-grid-line) 1px, transparent 1px);
+  background-size:
+    336px 336px,
+    336px 336px,
+    56px 56px,
+    56px 56px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 88% 76% at 50% 42%,
+    #000 22%,
+    transparent 80%
+  );
+  mask-image: radial-gradient(
+    ellipse 88% 76% at 50% 42%,
+    #000 22%,
+    transparent 80%
+  );
+  animation: tech-grid-pan 12s linear infinite;
+  will-change: background-position;
+  pointer-events: none;
+}
+
+@keyframes tech-grid-pan {
+  from {
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      336px 336px,
+      336px 336px,
+      336px 336px,
+      336px 336px;
+  }
+}
+
+/* 扫掠光束：斜切 16° 透明渐变带，三条错峰；基态 opacity:0 */
+.tech-beam {
+  position: absolute;
+  top: -15%;
+  bottom: -15%;
+  left: 0;
+  width: 36%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--{{PROJECT_PREFIX}}-tech-beam) 45%,
+    var(--{{PROJECT_PREFIX}}-tech-beam) 55%,
+    transparent 100%
+  );
+  transform: translateX(-150%) skewX(-16deg);
+  opacity: 0;
+  animation: tech-beam-sweep 10s var(--ease-out) 0.8s infinite;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.tech-beam--violet {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--{{PROJECT_PREFIX}}-tech-beam-2) 45%,
+    var(--{{PROJECT_PREFIX}}-tech-beam-2) 55%,
+    transparent 100%
+  );
+  animation-delay: 4.2s;
+}
+
+.tech-beam--sage {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--{{PROJECT_PREFIX}}-tech-beam-3) 45%,
+    var(--{{PROJECT_PREFIX}}-tech-beam-3) 55%,
+    transparent 100%
+  );
+  animation-delay: 7.5s;
+}
+
+@keyframes tech-beam-sweep {
+  0% {
+    transform: translateX(-150%) skewX(-16deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  42% {
+    transform: translateX(560%) skewX(-16deg);
+    opacity: 0.7;
+  }
+  50%,
+  100% {
+    transform: translateX(560%) skewX(-16deg);
+    opacity: 0;
+  }
+}
+
+/* 呼吸光点：7px 圆点 + 辉光；颜色默认 secondary，可经
+   --tech-dot-color 覆盖（Blog 用六强调色做实体→色相稳定哈希） */
+.tech-dot {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--tech-dot-color, var(--{{PROJECT_PREFIX}}-secondary));
+  box-shadow: 0 0 14px 3px var(--{{PROJECT_PREFIX}}-tech-dot-glow);
+  opacity: 0.55;
+  animation: tech-dot-pulse 6s ease-in-out infinite;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+@keyframes tech-dot-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-7px) scale(1.45);
+  }
+}
+
+/* 工作台/后台降浓度 */
+.tech-ambience--soft .tech-grid {
+  opacity: 0.45;
+}
+.tech-ambience--soft .tech-beam,
+.tech-ambience--soft .tech-dot {
+  opacity: 0.35;
+}
+
+/* 移动端：隐藏光束/光点，停用网格动画，极光减速 */
+@media (max-width: 767px) {
+  .tech-beam,
+  .tech-dot {
+    display: none;
+  }
+  .tech-grid {
+    animation: none;
+    opacity: 0.55;
+  }
+  .aurora {
+    opacity: 0.7;
+  }
+  .aurora-blob {
+    animation-duration: 52s;
+  }
+}
