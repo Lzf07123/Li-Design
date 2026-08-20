@@ -4,7 +4,7 @@
 
 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证的设计系统提炼，供所有子项目（Li&Chat 及后续新项目）按「填槽位 → 复制令牌 → 过验收」的方式实例化。
 
-> **V1.5（2026-08-21）**：纳入 Pass/Panel 已验证的页脚组件（`.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`）：`mt-auto` 贴底 + 半透明表面 + backdrop-blur，版权/备案/链接全部由 `brand.ts` 驱动；Panel 运行时 `site_settings` 变体（版本号/自定义文案/备案图标占位）一并沉淀。
+> **V1.5（2026-08-21）**：纳入 Pass/Panel 已验证的页脚组件（`.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`）：`mt-auto` 贴底 + 半透明表面 + backdrop-blur，版权/备案/链接全部由 `brand.ts` 驱动；Panel 运行时 `site_settings` 变体（版本号/自定义文案/备案图标占位）一并沉淀；尺寸规格同步固定——单行高 56px（`min-h-14` 兜底）、字号 12px、图标/备案占位 14×14px。
 >
 > **V1.4（2026-08-20）**：完成全家族（About / Pass / Chat / Blog / Panel）视觉实现总览；采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现，并补全下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保新项目可 1:1 复刻；新增**防跨项目复制**硬规则。
 
@@ -85,7 +85,7 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 - V1.2 海玻璃示例：全淡色、无粉色、无重色；主按钮半透明着色；六强调色板 + 科技光效层（网格/光束/光点）。
 - V1.3：浅色语义色用 AA 调校值（muted `#64736C` / success `#2A7C52` / warning `#9A5C05` / destructive `#C43737`）；深色带文字软底用 `*-soft-solid` + `*-soft-fg`。
 - V1.4：UI 控件全量内置——`.select`（原生下拉同输入框视觉）、`.custom-select-*`（键盘完整自定义下拉）、`.dropdown-menu`、`.suggest-menu`、`.avatar`、复选/文件按钮、`.pagination`、`.breadcrumb`、`.progress`、`.table-empty-row`。
-- V1.5：页脚组件内置——`.site-footer`（`mt-auto` 贴底 + 半透明表面 + backdrop-blur）、`.site-footer-inner`（`max-w-7xl` 居中内容）、`.filing-icon-placeholder`（备案图标缺失/加载失败占位）；版权/备案/链接全部由 `brand.ts` 驱动。
+- V1.5：页脚组件内置——`.site-footer`（`mt-auto` 贴底 + 半透明表面 + backdrop-blur）、`.site-footer-inner`（`max-w-7xl` 居中内容，单行高 56px，`min-h-14` 兜底）、`.filing-icon-placeholder`（14×14px 备案图标缺失/加载失败占位）；版权/备案/链接全部由 `brand.ts` 驱动。
 - 动效只动 `transform/opacity/background-position`，每个 animation 必须有 @keyframes，尊重 `prefers-reduced-motion`，移动端减量省电。
 - 令牌只存在 `index.css`，品牌文案只存在 `brand.ts`，组件禁止硬编码。
 - 新效果/新调校先回写本模板再引用；禁止项目间复制（详见实现总览 §5）。

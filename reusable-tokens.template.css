@@ -1207,12 +1207,16 @@
      - 版权/备案/链接全部由 brand.ts 驱动（禁止硬编码文案）：
        © 年份 + 版权方、ICP/公安备案、FOOTER_LINKS、GitHub、开源协议、反馈问题、联系我们
      - Panel 变体：运行时 site_settings 为事实来源，未配置回退 brand.ts；
-       备案图标缺失/加载失败时用 .filing-icon-placeholder 字形方块占位 */
+       备案图标缺失/加载失败时用 .filing-icon-placeholder 字形方块占位
+     - 大小与高度（Pass / Panel 1:1 一致）：
+       单行高 56px = text-xs（12px / 行高 16px）+ py-5（上下 20px），min-h-14 兜底；
+       图标/备案占位 14×14px、占位圆角 4px；gap-x-2（8px）/ gap-y-1（4px）；
+       内容 max-w-7xl 居中，px-4（16px）→ lg:px-8（32px）；移动端允许换行、无横向滚动 */
   .site-footer {
     @apply relative mt-auto border-t border-border/60 bg-surface/60 backdrop-blur;
   }
   .site-footer-inner {
-    @apply mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-5 text-xs text-muted lg:px-8;
+    @apply mx-auto flex min-h-14 max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-5 text-xs text-muted lg:px-8;
   }
   .site-footer a {
     @apply transition-colors duration-200 hover:text-foreground;
