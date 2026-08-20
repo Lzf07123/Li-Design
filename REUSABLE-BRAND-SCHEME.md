@@ -1,6 +1,6 @@
 # Li& 系列 · 可复用品牌设计方案
 
-> **版本**：V1.4 ｜ **日期**：2026-08-20 ｜ **状态**：可复用基准（V1.3 采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现与防跨项目复制治理；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保 1:1 复刻）
+> **版本**：V1.5 ｜ **日期**：2026-08-21 ｜ **状态**：可复用基准（V1.3 采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现与防跨项目复制治理；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保 1:1 复刻；V1.5 纳入 Pass/Panel 已验证页脚组件与备案图标占位）
 > **存放位置**：独立模板仓库，可置于任意位置（与各子项目同级或克隆到其他机器），供所有子项目共用参考。
 > **提取来源**：Li&About（README/徽章规范）、Li&Pass（参考实现本体）、Li&Chat（AA 调校 + 零依赖等价）、Li&Blog（站点化扩展 + HeroFX + 本地徽章）、Li&Panel（1:1 复刻反例）——全部提炼内联于本文档与 [PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md)，不依赖源仓库路径。
 > **配套文件**：[PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md)（全家族实现总览：项目矩阵 / 效果对照表 / 防复制治理）、[reusable-tokens.template.css](reusable-tokens.template.css)（复制、改前缀、填色值后即可用）、[AGENTS.md](AGENTS.md)（模板仓库的多 Agents 协作手册，与第 8 章配合使用）。
@@ -253,7 +253,7 @@
 2. **铺令牌**：复制 `reusable-tokens.template.css` → `frontend/src/index.css`，替换前缀并填色值；`@theme` 只暴露语义别名（`bg-primary` 等），组件不直接引用 `--<prefix>-*`。
 3. **建品牌单点**：按模板创建 `frontend/src/lib/brand.ts`，名称/slogan/Logo/备案全部从该文件读取。
 4. **配浏览器品牌位**：`index.html` 配 favicon、明暗 `theme-color`、`description` 与首帧主题脚本（避免明暗闪烁），兜底背景色同步到令牌 bg。
-5. **搭组件基座**：按第 5 章清单移植 `.btn` / `.card` / `.input` / `.badge` / `.notice` / `.modal` / `.toast` / `.table-shell` 等类；V1.3 模板已内置 `.card-signature` / `.card-halo` / `.flow-rule` / `.icon-btn` / `.status-dot` / `.scroll-tabs` / `.blur-unit` 与对应关键帧；可点击元素补 `cursor-pointer`。无远程资源项目用附录 F 零依赖等价实现。
+5. **搭组件基座**：按第 5 章清单移植 `.btn` / `.card` / `.input` / `.badge` / `.notice` / `.modal` / `.toast` / `.table-shell` / `.site-footer` 等类；V1.3 模板已内置 `.card-signature` / `.card-halo` / `.flow-rule` / `.icon-btn` / `.status-dot` / `.scroll-tabs` / `.blur-unit` 与对应关键帧；可点击元素补 `cursor-pointer`。无远程资源项目用附录 F 零依赖等价实现。
 6. **搭页面外壳**：认证类页用居中单卡 `AuthShell`（`max-w-md` + 顶部品牌 + slogan + 底部备案）；已登录页用 `AppHeader` + `max-w-7xl` 内容 + `SiteFooter`；管理类用顶部标签页。
 7. **接氛围层**：复用 Canvas 版 `FloatingBackground`（无第三方依赖），按槽位 19 设 `shapeCount`/`opacity`/`calm`/`scrollWind`/`adaptive`/`theme="auto"`；画布 `z-0` 垫底、`pointer-events: none`。极光层（`.aurora`）与科技光效层（`.tech-grid`/`.tech-beam`/`.tech-dot`）的 CSS 与关键帧已随模板内置，按槽位 19 接 `.aurora-soft` / `.tech-ambience--soft` 降浓度。
 8. **接主题**：`useTheme` 读写槽位 17 的存储键，切换 `html.dark`；所有明暗差异只通过 `.dark` 令牌块表达。
@@ -293,6 +293,7 @@
 | 复选框/单选/文件 | `input[type=checkbox|radio]` + `.field-check` + 文件按钮 | 18px 控件、`accent-color` 主色；文件按钮 surface-2 → hover primary-soft |
 | 分页 | `.pagination` / `.pagination-info` | 弹性间距、信息区 muted；`aria-disabled` 禁用态 pointer-events none |
 | 面包屑 | `.breadcrumb` / `.breadcrumb-sep` | muted 链接、border 分隔、`aria-current="page"` 加粗 |
+| 页脚 | `.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder` | Pass/Panel 已验证：`<footer class="site-footer"><div class="site-footer-inner">…</div></footer>`，`mt-auto` 贴底 + 半透明表面 + backdrop-blur；版权/备案/链接全部由 `brand.ts` 驱动（© 年份/版权方、ICP/公安备案、`FOOTER_LINKS`、GitHub、开源协议、反馈问题、联系我们）；Panel 变体以运行时 `site_settings` 为事实来源（`APP_VERSION` / `footer_text` / 备案图标缺失时 `.filing-icon-placeholder` 字形方块占位）；尺寸规格：单行高 56px（`text-xs` 12px/行高 16px + `py-5` 上下 20px，`min-h-14` 兜底）、图标/占位 14×14px、`gap-x-2`（8px）/`gap-y-1`（4px）、`max-w-7xl` 居中（`px-4` → `lg:px-8`），移动端换行、无横向滚动 |
 | 进度条 | `.progress` / `.progress-bar`（`-sm`、`.is-success/.is-danger`） | 6–8px 胶囊轨道 + primary 填充，只动 width |
 | 列表筛选行 | `.list-filters` | 搜索框 + 下拉 + 按钮等高（36px）成行；移动端搜索全宽、下拉自适应 |
 | 紧凑按钮 | `.btn-sm` | 36px 紧凑密度；移动端仍用 `.btn` 保 44px 热区 |
