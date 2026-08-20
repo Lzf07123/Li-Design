@@ -4,7 +4,7 @@
 
 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证的设计系统提炼，供所有子项目（Li&Chat 及后续新项目）按「填槽位 → 复制令牌 → 过验收」的方式实例化。
 
-> **V1.5（2026-08-21）**：纳入 Pass/Panel 已验证的页脚组件（`.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`）：`mt-auto` 贴底 + 半透明表面 + backdrop-blur，版权/备案/链接全部由 `brand.ts` 驱动；Panel 运行时 `site_settings` 变体（版本号/自定义文案/备案图标占位）一并沉淀；尺寸规格同步固定——单行高 56px（`min-h-14` 兜底）、字号 12px、图标/备案占位 14×14px。
+> **V1.5（2026-08-21）**：纳入 Pass/Panel 已验证的页脚组件（`.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`）：`mt-auto` 贴底 + 半透明表面 + backdrop-blur，版权/备案/链接全部由 `brand.ts` 驱动；Panel 运行时 `site_settings` 变体（版本号/自定义文案/备案图标占位）一并沉淀；尺寸规格同步固定——单行高 56px（`min-h-14` 兜底）、字号 12px、图标/备案占位 14×14px；加载骨架 `PageSkeleton` 页脚占位同规格等高。
 >
 > **V1.4（2026-08-20）**：完成全家族（About / Pass / Chat / Blog / Panel）视觉实现总览；采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现，并补全下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保新项目可 1:1 复刻；新增**防跨项目复制**硬规则。
 

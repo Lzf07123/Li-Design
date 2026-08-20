@@ -293,7 +293,7 @@
 | 复选框/单选/文件 | `input[type=checkbox|radio]` + `.field-check` + 文件按钮 | 18px 控件、`accent-color` 主色；文件按钮 surface-2 → hover primary-soft |
 | 分页 | `.pagination` / `.pagination-info` | 弹性间距、信息区 muted；`aria-disabled` 禁用态 pointer-events none |
 | 面包屑 | `.breadcrumb` / `.breadcrumb-sep` | muted 链接、border 分隔、`aria-current="page"` 加粗 |
-| 页脚 | `.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder` | Pass/Panel 已验证：`<footer class="site-footer"><div class="site-footer-inner">…</div></footer>`，`mt-auto` 贴底 + 半透明表面 + backdrop-blur；版权/备案/链接全部由 `brand.ts` 驱动（© 年份/版权方、ICP/公安备案、`FOOTER_LINKS`、GitHub、开源协议、反馈问题、联系我们）；Panel 变体以运行时 `site_settings` 为事实来源（`APP_VERSION` / `footer_text` / 备案图标缺失时 `.filing-icon-placeholder` 字形方块占位）；尺寸规格：单行高 56px（`text-xs` 12px/行高 16px + `py-5` 上下 20px，`min-h-14` 兜底）、图标/占位 14×14px、`gap-x-2`（8px）/`gap-y-1`（4px）、`max-w-7xl` 居中（`px-4` → `lg:px-8`），移动端换行、无横向滚动 |
+| 页脚 | `.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder` | Pass/Panel 已验证：`<footer class="site-footer"><div class="site-footer-inner">…</div></footer>`，`mt-auto` 贴底 + 半透明表面 + backdrop-blur；版权/备案/链接全部由 `brand.ts` 驱动（© 年份/版权方、ICP/公安备案、`FOOTER_LINKS`、GitHub、开源协议、反馈问题、联系我们）；Panel 变体以运行时 `site_settings` 为事实来源（`APP_VERSION` / `footer_text` / 备案图标缺失时 `.filing-icon-placeholder` 字形方块占位）；尺寸规格：单行高 56px（`text-xs` 12px/行高 16px + `py-5` 上下 20px，`min-h-14` 兜底）、图标/占位 14×14px、`gap-x-2`（8px）/`gap-y-1`（4px）、`max-w-7xl` 居中（`px-4` → `lg:px-8`），移动端换行、无横向滚动；⚠️ 加载骨架 `PageSkeleton` 的页脚占位必须同规格（`min-h-14` + `text-xs`），与真实页脚等高（Pass/Panel 已对齐） |
 | 进度条 | `.progress` / `.progress-bar`（`-sm`、`.is-success/.is-danger`） | 6–8px 胶囊轨道 + primary 填充，只动 width |
 | 列表筛选行 | `.list-filters` | 搜索框 + 下拉 + 按钮等高（36px）成行；移动端搜索全宽、下拉自适应 |
 | 紧凑按钮 | `.btn-sm` | 36px 紧凑密度；移动端仍用 `.btn` 保 44px 热区 |
