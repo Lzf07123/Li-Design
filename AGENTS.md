@@ -43,6 +43,7 @@ AGENTS.md                        本手册
 6. **命名**：模板仓库为 `Li&Design`；`{{PROJECT_PREFIX}}` 只是占位符，子项目技术标识由其槽位 2 决定（如 `lipass`、`chat`），不在模板中固化任何项目前缀。
 7. **禁止跨项目复制（V1.3）**：子项目不得从 Li&Pass / Li&Chat / Li&Blog / Li&Panel 复制样式或组件文件；一律从模板实例化。新效果/新调校先回写模板（含参数与验收证据），再在项目内引用。
 8. **AA 调校与深色软底（V1.3）**：浅色语义色默认用调校值（muted `#64736C` / success `#2A7C52` / warning `#9A5C05` / destructive `#C43737`）；深色带文字软底组件必须用 `*-soft-solid` + `*-soft-fg`。
+9. **UI 控件用模板内置（V1.4）**：下拉（`.select` / `.custom-select-*`）、菜单（`.dropdown-menu`）、建议选项（`.suggest-menu`）、头像、复选/文件、分页、面包屑、进度、空状态一律用模板类实现；自定义下拉必须带完整键盘与 ARIA 契约（见方案附录 F），不自造样式。
 
 ## 五、多 Agents 协作规范
 
@@ -90,11 +91,11 @@ AGENTS.md                        本手册
 ## 七、验证命令
 
 ```bash
-# 令牌模板占位符数量应恰为 181 处（V1.3：AA 调校语义色 + btn-sweep/aurora/soft-solid/soft-fg + 组件 CSS 全量内置）；新增/删除槽位令牌会改变此数
+# 令牌模板占位符数量应恰为 236 处（V1.4：V1.3 全量 + select/custom-select/dropdown/suggest/avatar/复选/文件/分页/面包屑/进度/空状态等 UI 控件）；新增/删除槽位令牌会改变此数
 rg -F -o '{{PROJECT_PREFIX}}' reusable-tokens.template.css | wc -l
 
 # 方案文档与令牌模板的引用一致性（如 --<prefix>-primary 应在 @theme/:root/.dark 中成对出现）
-rg -n 'PROJECT_PREFIX|primary|surface-2|soft-solid|aurora|btn-sweep' REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css
+rg -n 'PROJECT_PREFIX|primary|surface-2|soft-solid|aurora|btn-sweep|custom-select|dropdown-menu|suggest-menu|pagination|breadcrumb|progress' REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css
 
 # 每个 animation 都有 @keyframes（科技光效/极光/签名描边/扫光/涟漪/Toast/Modal 共 24 组）
 comm -23 <(rg -o 'animation(?:-name)?: [a-z0-9-]+' reusable-tokens.template.css | sed 's/.*: //' | grep -v '^none$' | sort -u) <(rg -o '@keyframes [a-z0-9-]+' reusable-tokens.template.css | sed 's/@keyframes //' | sort -u)
@@ -120,9 +121,12 @@ ls README.md PROJECTS-IMPLEMENTATION-INDEX.md REUSABLE-BRAND-SCHEME.md reusable-
 - **槽位表与令牌模板失配**：新增槽位（如新语义色）必须在模板中同步加变量，否则实例化时会漏令牌。
 - **附录 B 与模板色值漂移**：两处都写有 Li&Pass 色值，改一处必须核对另一处。
 - **占位符计数**：`{{PROJECT_PREFIX}}` 全文件 181 处是 V1.3 基准（V1.2 为 128）；只改一处容易造成明暗两套不一致。
+- **占位符计数（V1.4）**：全文件 236 处是 V1.4 基准（V1.3 为 181）；新增控件令牌时同步更新本文件与方案附录 B。
 - **跨项目复制（Panel 教训）**：Li&Panel 曾按用户要求 1:1 复刻 Li&Pass（`--portal-*` 逐字一致），模板更新无法传导；任何新项目禁止此做法，一律从模板实例化，实例化后做「仅槽位差」校验。
 - **旧语义色坑**：Li&Pass / Li&Panel 仍为 V1.2 值（muted `#71807A` / success `#2F8F5F`，对比不达 4.5）；新项目必须用 V1.3 调校值，存量项目按 §7 历史差异处理对齐。
 - **深色软底坑**：rgba 软底 + 同色浅字对比上限 ≈3.9；带文字组件必须回退 `*-soft-solid` + `*-soft-fg`，只有图标/图形可用 rgba 软底。
 - **模板缺科技光效 CSS 的历史坑**：V1.2 模板只写了光效层说明、没有 `.aurora/.tech-*` CSS；V1.3 已补全全部类与关键帧，实例化时不再需要从项目抄 CSS。
+- **自定义下拉契约坑（V1.4）**：只搬 CSS 不搬 JS 会导致无法键盘操作；隐藏原生 select 必须保留为表单事实源（选中派发 `change`），`aria-expanded`/`aria-selected` 必须同步，外点关闭不可省略。
+- **原生 select 等高坑（V1.4）**：筛选行的 select 必须与 `.input`/`.btn` 等高（36px 紧凑 / 44px 触控），且 focus ring、disabled、option 配色走令牌；不要用浏览器默认 select 样式混搭。
 - **零依赖等价坑**：无远程资源项目按附录 F 使用原生等价实现（blur-unit/countUp/ripple/ambient.js），不要为了实现效果引入 motion/gsap，也不要为了省事把 Chat 的 JS 文件原样复制（按模板规范重写）。
 - **科技光效层关键帧缺失**：只写 `animation` 引用、漏定义 `@keyframes` 会让网格/光束/光点完全静止（光束基态 `opacity:0` 且不可见）；实例化时逐一核对「每个 animation 都有 @keyframes」。

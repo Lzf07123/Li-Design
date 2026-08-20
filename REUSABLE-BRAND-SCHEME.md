@@ -1,6 +1,6 @@
 # Li& 系列 · 可复用品牌设计方案
 
-> **版本**：V1.3 ｜ **日期**：2026-08-20 ｜ **状态**：可复用基准（全家族实现总览后的同步版；V1.3 采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现与防跨项目复制治理）
+> **版本**：V1.4 ｜ **日期**：2026-08-20 ｜ **状态**：可复用基准（V1.3 采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现与防跨项目复制治理；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保 1:1 复刻）
 > **存放位置**：独立模板仓库，可置于任意位置（与各子项目同级或克隆到其他机器），供所有子项目共用参考。
 > **提取来源**：Li&About（README/徽章规范）、Li&Pass（参考实现本体）、Li&Chat（AA 调校 + 零依赖等价）、Li&Blog（站点化扩展 + HeroFX + 本地徽章）、Li&Panel（1:1 复刻反例）——全部提炼内联于本文档与 [PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md)，不依赖源仓库路径。
 > **配套文件**：[PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md)（全家族实现总览：项目矩阵 / 效果对照表 / 防复制治理）、[reusable-tokens.template.css](reusable-tokens.template.css)（复制、改前缀、填色值后即可用）、[AGENTS.md](AGENTS.md)（模板仓库的多 Agents 协作手册，与第 8 章配合使用）。
@@ -231,7 +231,7 @@
 | 阴影 | 三档弥散阴影 `--shadow-sm/md/lg`，透明度总和 < 0.1，禁止重投影 |
 | 层级 | 顶栏 `z-20`、弹窗遮罩 `z-70`、Toast `z-80`（必须高于弹窗）；氛围层固定在内容下方 |
 | 交互 | 可点击元素必须有 `cursor-pointer`；hover 上移 1px + 阴影过渡；按压 `scale(0.97)`；过渡 150–300ms |
-| 控件尺寸 | 图标按钮 44×44px（移动端不缩小）；状态点 8px 圆点语义色；桌面紧凑密度可收紧到按钮 30–36px、图标钮 34px（Chat 已验证，移动端仍保 44px 热区） |
+| 控件尺寸 | 图标按钮 44×44px（移动端不缩小）；状态点 8px 圆点语义色；下拉触发器/分页按钮 min-height 36px，下拉菜单项 min-height 44px；桌面紧凑密度可收紧到按钮 30–36px、图标钮 34px（Chat 已验证，移动端仍保 44px 热区） |
 
 ---
 
@@ -280,10 +280,22 @@
 | 认证卡辉光 | `.card-halo`、`.brand-halo` | 卡后浅主色呼吸辉光 + Logo 辉光，`isolation: isolate` 保证垫底 |
 | 流光线 | `.flow-rule`（顶栏变体 `.flow-line`） | 分区标题短装饰线或顶栏底部全长渐变线，5s `background-position` 位移，`--flow-gradient` 明暗两套 |
 | 表单 | `.label` / `.input` / `.input-sm` | focus 主色边框 + `ring-2 ring-primary/20`；placeholder 用 `text-muted` |
+| 原生下拉 | `.select` / `.select-sm` | 与 `.input`/`.input-sm` 完全同视觉（Pass/Panel 用法）；令牌色 chevron 用双三角渐变绘制，不引入硬编码图标；`option` 走 surface/fg 令牌 |
+| 自定义下拉 | `.custom-select-*` | Blog 已验证，渐进增强：隐藏原生 select + `button[aria-haspopup=listbox]` + `ul[role=listbox]` + `li[role=option]`；ArrowUp/Down/Home/End/Enter/Space/Escape、外点关闭、`aria-expanded` 同步；零依赖 JS 契约见附录 F |
 | 徽章/提示条 | `.badge-*`、`.notice-*` | 语义色 + soft 底色；带状态图标；深色下带文字组件回退 `*-soft-solid` + `*-soft-fg`（实色粉彩底 + 深字），提示条正文用高亮浅色文字 |
 | 图标按钮/状态点 | `.icon-btn`、`.status-dot` | 44×44px 热区 + 1.25rem SVG；8px 圆点表达 connecting/connected/disconnected/invalid |
+| 下拉菜单 | `.dropdown-menu` / `.menu-item` / `.menu-item-danger` | Chat 已验证：触发器下方绝对定位，surface + shadow-lg + 16px 圆角，行高 44px；danger 变体走 destructive 软底 |
+| 建议选项 | `.suggest-menu` / `.suggest-option` | Chat 提及列表已验证：浮动胶囊选项 chips，输入框上方 |
+| 头像 | `.avatar` / `.avatar-placeholder`（`-sm/-md/-lg`） | 圆形 `object-fit: cover`；占位符 primary 底 + primary-fg 字；28/32/36/56px |
 | 弹窗/Toast | `.modal-*`、`.toast-*` | Toast `z-80` 高于 Modal `z-70`；Toast 带进度条与进入/离开动画 |
 | 表格 | `.table-shell` | 表头 surface-2 + muted 小字；行 hover surface-2/60 |
+| 表格空状态 | `.table-empty-row` | 居中 muted 弱化文字；容器 `:has()` 虚线提示 |
+| 复选框/单选/文件 | `input[type=checkbox|radio]` + `.field-check` + 文件按钮 | 18px 控件、`accent-color` 主色；文件按钮 surface-2 → hover primary-soft |
+| 分页 | `.pagination` / `.pagination-info` | 弹性间距、信息区 muted；`aria-disabled` 禁用态 pointer-events none |
+| 面包屑 | `.breadcrumb` / `.breadcrumb-sep` | muted 链接、border 分隔、`aria-current="page"` 加粗 |
+| 进度条 | `.progress` / `.progress-bar`（`-sm`、`.is-success/.is-danger`） | 6–8px 胶囊轨道 + primary 填充，只动 width |
+| 列表筛选行 | `.list-filters` | 搜索框 + 下拉 + 按钮等高（36px）成行；移动端搜索全宽、下拉自适应 |
+| 紧凑按钮 | `.btn-sm` | 36px 紧凑密度；移动端仍用 `.btn` 保 44px 热区 |
 | 标签栏 | `ScrollTabs`、`PillTabs` | 单行横滑、隐藏滚动条、snap 吸附、活动标签自动居中；PillTabs 依赖 gsap，按需引入 |
 | 概览网格 | `MagicBento` | 深色 Bento 卡 + 光标聚光；依赖 gsap，按需引入；移动端与 reduced-motion 下自动静置 |
 | 氛围层 | `FloatingBackground` + `useFloatingBackground` | 纯 Canvas 复合运动（水平漂移 + 垂直正弦），无第三方依赖；Chat `ambient.js` / Blog React 版落点见 [PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md) §3 |
@@ -311,6 +323,8 @@ action 或按目标区分状态，其它按钮仅 `disabled` 防并发；触发�
 - [ ] 无 emoji 充当图标（统一 SVG）
 - [ ] 图标来自一致图标集（Heroicons/Lucide/内置 SVG）
 - [ ] 所有可点击元素有 `cursor-pointer`
+- [ ] 下拉/菜单控件键盘完整（ArrowUp/Down/Home/End/Enter/Space/Escape）且 `aria-expanded` / `aria-selected` / `role=listbox|option` 同步
+- [ ] 原生 select 与 `.input` 等高、焦点 ring 一致；复选框/单选 `accent-color` 主色；文件选择按钮 hover/focus 有过渡
 - [ ] hover 状态有 150–300ms 平滑过渡
 - [ ] 浅色模式正文对比度 ≥ 4.5:1
 - [ ] 键盘焦点可见（`focus-visible` 2px 主色描边）
@@ -536,5 +550,6 @@ action 或按目标区分状态，其它按钮仅 `disabled` 防并发；触发�
 | 极光层 | `.aurora` / `.aurora-blob` ×4（radial-gradient，无 filter 动画） | 18/22/28/24s alternate |
 | 科技光效层 | `.tech-grid` / `.tech-beam` / `.tech-dot` 纯 CSS | 12s / 10s 错峰 / 6s；关键帧齐全 |
 | Canvas 氛围层 | `ambient.js`：rAF 绘制 line/square/z/dot，读 CSS 令牌颜色 | 浓度可调（`setDensity(n)`）；DPR≤2；移动端 ≤6；reduced-motion 单帧 |
+| 自定义下拉 | JS 渐进增强：隐藏原生 select + `button[aria-haspopup=listbox]` + `ul[role=listbox]` + `li[role=option]`，保持原生 select 为表单事实源 | ArrowUp/Down/Home/End/Enter/Space 开合选择、Escape 关闭、外点关闭、选择后派发 `change`（bubbles）；`aria-expanded` / `aria-selected` 同步 |
 
 选择原则：有构建链与体积预算 → 用模板默认（motion/react）；原生静态站 / 零外部资源 → 用本附录。
