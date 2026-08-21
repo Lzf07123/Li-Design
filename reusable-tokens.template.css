@@ -19,6 +19,10 @@
      table-shell / scroll-tabs / blur-unit（全部来自已验证项目实现）
 
    铁律：
+   - 技术实现栈一致（V1.5.2）：本模板为 Tailwind CSS 4 结构；项目必须沿用
+     同一技术栈实例化（@theme 语义别名 + 与参考实现相同的 utility class），
+     视觉效果必须像素级一致（一模一样的效果），禁止手写 CSS 近似。
+     Li&Chat 零依赖变体为已记录例外（等价实现对照表见索引 §4.1）。
    - 全淡色口径：无粉色系、无大面积重色；深色 = 雾灰中间调不压黑
    - 主按钮用半透明单色着色 + 细描边 + ::after 扫光，不用多色渐变色块
    - 阴影透明度总和 < 0.1；动效只动 transform/opacity/background-position

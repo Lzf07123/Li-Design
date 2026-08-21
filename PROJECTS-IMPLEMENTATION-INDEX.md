@@ -1,6 +1,6 @@
 # Li& 系列项目视觉实现总览（Implementation Index）
 
-> **版本**：V1.5.1 ｜ **日期**：2026-08-21 ｜ **状态**：全家族审计结果（Li&About / Li&Pass / Li&Chat / Li&Blog / Li&Panel；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等 UI 控件，V1.5 纳入 Pass/Panel 页脚组件并固定尺寸规格；Li&Blog 已按 V1.5 对齐页脚；V1.5.1 固化页脚链接 muted 铁律——2026-08-21 Li&Blog 修复备案文字青色后回写，后续项目必须一致）
+> **版本**：V1.5.2 ｜ **日期**：2026-08-21 ｜ **状态**：全家族审计结果（Li&About / Li&Pass / Li&Chat / Li&Blog / Li&Panel；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等 UI 控件，V1.5 纳入 Pass/Panel 页脚组件并固定尺寸规格；Li&Blog 已按 V1.5 对齐页脚；V1.5.1 固化页脚链接 muted 铁律——2026-08-21 Li&Blog 修复备案文字青色后回写，后续项目必须一致；V1.5.2 固化技术实现栈一致铁律——样式层统一 Tailwind CSS 4，效果必须一模一样）
 > **用途**：这是「谁实现了什么、参数是什么、差异在哪」的唯一入口。新项目实例化前先读本文件 + [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) 第 2–3 章，再从 [reusable-tokens.template.css](reusable-tokens.template.css) 复制落地，**禁止从任何项目仓库复制文件**。
 > **事实来源**：各项目 `design-system/<project>/BRAND.md`、`MASTER.md` 与落地代码（`index.css` / `style.css` / `tokens.css` / 组件源码），以代码事实为准。
 
@@ -24,6 +24,7 @@
 - 60/30/10 用色比例；主色永远小面积强调；语义色只表达状态。
 - 主按钮半透明单色着色（浅 `rgba(47,127,116,.10)` / 深 `rgba(127,212,198,.13)`）+ 细描边 + `::after` 扫光；hover 上移 1px，按压 `scale(0.97)`。
 - 页脚链接一律 muted（版权/备案/归档/许可等），不被全局链接主色覆盖，hover 转前景色（V1.5.1，2026-08-21 Li&Blog 修复备案文字青色后固化；后续项目必须一致）。
+- 技术实现栈一致（V1.5.2）：样式层统一 Tailwind CSS 4（`@theme` 语义别名 + 与参考实现相同的 utility class），视觉效果必须与参考实现一模一样（像素级），禁止手写 CSS 近似；Li&Chat 零依赖为已记录例外。
 - 三档水绿 tint 弥散阴影（透明度总和 < 0.1）；缓动 `--ease-out` / `--ease-spring`；时长 150/250/350ms。
 - TRUST 五原则、呼吸感四模式（水平穿行 / 往复钟摆 / 正弦波形 / 盘旋公转）、科技光效层、极光层、卡片签名描边、流光线、文字浮现、数字滚动、焦点环、`prefers-reduced-motion` 单帧、移动端减量、SVG 图标（禁 emoji）。
 - 单一事实来源：令牌只在 CSS 事实文件，品牌文案只在 brand 单点（`brand.ts` / `brand.js` / `config/brand.yaml`）。
@@ -109,7 +110,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 - **打印令牌**：`--liblog-print-bg: #fff` / `--liblog-print-fg: #000`，白纸黑字不随主题。
 - **代码高亮令牌**：comment / keyword / string / number / func / type / lineno 明暗两套，映射 Chroma。
 - **自定义下拉契约**：`select[data-custom-dropdown]` 由 `admin-dropdown.js` 渐进增强为 button + listbox；隐藏原生 select 仍是表单事实源（选中后派发 `change`），键盘 ArrowUp/Down/Home/End/Enter/Space/Escape 与 `aria-expanded`/`aria-selected` 完整同步。模板 `.custom-select-*` CSS + 契约见方案附录 F。
-- **页脚对齐（V1.5，2026-08-21）**：`site-footer` > `site-footer-inner` 契约类名，`mt-auto` 贴底 + 半透明表面（`--liblog-footer-bg`）+ backdrop-blur（`--liblog-footer-blur`），单行高 56px（`min-h-14` 兜底）、字号 12px、图标/备案占位 14×14px（圆角 4px）、`max-w-7xl` 居中（`px-4` → `lg:px-8`）、移动端换行无横向滚动；备案图标缺失/加载失败时 `.filing-icon-placeholder` 字形方块占位（字符走 `strings.footer.icon_fallback`）；版权/备案/归档/许可由 `brand.yaml` + `strings.yaml` 驱动。 **页脚链接 muted（2026-08-21）**：全局 `a{color:primary}` 泄漏曾致备案文字呈青色，已以 `.site-footer a{color:muted}` + `:hover{color:fg}` 修复，并回写模板 V1.5.1（后续项目必须一致）。
+- **页脚对齐（V1.5，2026-08-21）**：`site-footer` > `site-footer-inner` 契约类名，`mt-auto` 贴底 + 半透明表面（`--liblog-footer-bg`）+ backdrop-blur（`--liblog-footer-blur`），单行高 56px（`min-h-14` 兜底）、字号 12px、图标/备案占位 14×14px（圆角 4px）、`max-w-7xl` 居中（`px-4` → `lg:px-8`）、移动端换行无横向滚动；备案图标缺失/加载失败时 `.filing-icon-placeholder` 字形方块占位（字符走 `strings.footer.icon_fallback`）；版权/备案/归档/许可由 `brand.yaml` + `strings.yaml` 驱动。 **页脚链接 muted（2026-08-21）**：全局 `a{color:primary}` 泄漏曾致备案文字呈青色，已以 `.site-footer a{color:muted}` + `:hover{color:fg}` 修复，并回写模板 V1.5.1（后续项目必须一致）。 **样式层 Tailwind CSS 4（2026-08-21，与 Panel 同栈，V1.5.2）**：`tokens.css` 由 `web/src/tokens.css` 编译（`@theme` 语义别名 + `--liblog-*` 令牌），页眉/页脚与 Panel 相同 utility class，计算样式逐值一致（`oklab(.../0.85)` 玻璃、57px 页脚等）。
 
 ### 4.3 Li&Panel：网格与后台品牌覆盖
 
@@ -120,6 +121,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 ## 5. 防跨项目复制治理（新增硬规则）
 
 1. 新项目**禁止**从 Li&Pass / Li&Chat / Li&Blog / Li&Panel 复制样式或组件文件；一律从 `reusable-tokens.template.css` + 本索引实例化。
+2. **技术栈一致（V1.5.2）**：新效果/新组件先在模板写意图 + 参数 + 实现方式（Tailwind CSS 4 同构），项目内必须用同一技术栈落地；禁止手写 CSS 近似后再声称“对齐”。
 2. 任何项目发现新效果、新调校或新组件模式：先在 Li&Design 更新模板（写意图 + 参数 + 验收证据），再在项目内引用；**不允许**先落项目、后补模板。
 3. 实例化完成后做一次「仅槽位差」校验：`rg -o -- '--<prefix>-[a-z0-9-]+' <project>/<tokens-file> | sort -u` 与模板变量集合对比，除前缀外不允许结构性差异。
 4. Li&Pass / Li&Chat / Li&Blog 的项目内 `design-system/<project>/` 方案继续独立演进；与模板冲突时以代码事实为准并回写模板，避免双源漂移。
