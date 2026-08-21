@@ -1,6 +1,6 @@
 # Li& 系列 · 可复用品牌设计方案
 
-> **版本**：V1.5 ｜ **日期**：2026-08-21 ｜ **状态**：可复用基准（V1.3 采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现与防跨项目复制治理；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保 1:1 复刻；V1.5 纳入 Pass/Panel 已验证页脚组件与备案图标占位）
+> **版本**：V1.5.1 ｜ **日期**：2026-08-21 ｜ **状态**：可复用基准（V1.3 采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现与防跨项目复制治理；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保 1:1 复刻；V1.5 纳入 Pass/Panel 已验证页脚组件与备案图标占位；V1.5.1 固化页脚链接 muted 铁律——不被全局链接主色覆盖，2026-08-21 Li&Blog 修复备案文字青色后回写）
 > **存放位置**：独立模板仓库，可置于任意位置（与各子项目同级或克隆到其他机器），供所有子项目共用参考。
 > **提取来源**：Li&About（README/徽章规范）、Li&Pass（参考实现本体）、Li&Chat（AA 调校 + 零依赖等价）、Li&Blog（站点化扩展 + HeroFX + 本地徽章）、Li&Panel（1:1 复刻反例）——全部提炼内联于本文档与 [PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md)，不依赖源仓库路径。
 > **配套文件**：[PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md)（全家族实现总览：项目矩阵 / 效果对照表 / 防复制治理）、[reusable-tokens.template.css](reusable-tokens.template.css)（复制、改前缀、填色值后即可用）、[AGENTS.md](AGENTS.md)（模板仓库的多 Agents 协作手册，与第 8 章配合使用）。
@@ -293,7 +293,7 @@
 | 复选框/单选/文件 | `input[type=checkbox|radio]` + `.field-check` + 文件按钮 | 18px 控件、`accent-color` 主色；文件按钮 surface-2 → hover primary-soft |
 | 分页 | `.pagination` / `.pagination-info` | 弹性间距、信息区 muted；`aria-disabled` 禁用态 pointer-events none |
 | 面包屑 | `.breadcrumb` / `.breadcrumb-sep` | muted 链接、border 分隔、`aria-current="page"` 加粗 |
-| 页脚 | `.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder` | Pass/Panel 已验证：`<footer class="site-footer"><div class="site-footer-inner">…</div></footer>`，`mt-auto` 贴底 + 半透明表面 + backdrop-blur；版权/备案/链接全部由 `brand.ts` 驱动（© 年份/版权方、ICP/公安备案、`FOOTER_LINKS`、GitHub、开源协议、反馈问题、联系我们）；Panel 变体以运行时 `site_settings` 为事实来源（`APP_VERSION` / `footer_text` / 备案图标缺失时 `.filing-icon-placeholder` 字形方块占位）；尺寸规格：单行高 56px（`text-xs` 12px/行高 16px + `py-5` 上下 20px，`min-h-14` 兜底）、图标/占位 14×14px、`gap-x-2`（8px）/`gap-y-1`（4px）、`max-w-7xl` 居中（`px-4` → `lg:px-8`），移动端换行、无横向滚动；⚠️ 加载骨架 `PageSkeleton` 的页脚占位必须同规格（`min-h-14` + `text-xs`），与真实页脚等高（Pass/Panel 已对齐） |
+| 页脚 | `.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder` | Pass/Panel 已验证：`<footer class="site-footer"><div class="site-footer-inner">…</div></footer>`，`mt-auto` 贴底 + 半透明表面 + backdrop-blur；版权/备案/链接全部由 `brand.ts` 驱动（© 年份/版权方、ICP/公安备案、`FOOTER_LINKS`、GitHub、开源协议、反馈问题、联系我们）；Panel 变体以运行时 `site_settings` 为事实来源（`APP_VERSION` / `footer_text` / 备案图标缺失时 `.filing-icon-placeholder` 字形方块占位）；尺寸规格：单行高 56px（`text-xs` 12px/行高 16px + `py-5` 上下 20px，`min-h-14` 兜底）、图标/占位 14×14px、`gap-x-2`（8px）/`gap-y-1`（4px）、`max-w-7xl` 居中（`px-4` → `lg:px-8`），移动端换行、无横向滚动；**链接颜色铁律（V1.5.1）**：页脚内链接（版权/备案/归档/许可等）一律 `muted` 文字色、hover 转 `foreground`，禁止被全局链接主色（如 `a { color: primary }`）覆盖——存在全局链接着色的项目必须在页脚以同/更高优先级显式覆盖为 muted（2026-08-21 Li&Blog 实测：全局 `a{color:primary}` 泄漏致备案文字青色，已修复回写）；⚠️ 加载骨架 `PageSkeleton` 的页脚占位必须同规格（`min-h-14` + `text-xs`），与真实页脚等高（Pass/Panel 已对齐） |
 | 进度条 | `.progress` / `.progress-bar`（`-sm`、`.is-success/.is-danger`） | 6–8px 胶囊轨道 + primary 填充，只动 width |
 | 列表筛选行 | `.list-filters` | 搜索框 + 下拉 + 按钮等高（36px）成行；移动端搜索全宽、下拉自适应 |
 | 紧凑按钮 | `.btn-sm` | 36px 紧凑密度；移动端仍用 `.btn` 保 44px 热区 |
@@ -327,6 +327,7 @@ action 或按目标区分状态，其它按钮仅 `disabled` 防并发；触发�
 - [ ] 下拉/菜单控件键盘完整（ArrowUp/Down/Home/End/Enter/Space/Escape）且 `aria-expanded` / `aria-selected` / `role=listbox|option` 同步
 - [ ] 原生 select 与 `.input` 等高、焦点 ring 一致；复选框/单选 `accent-color` 主色；文件选择按钮 hover/focus 有过渡
 - [ ] hover 状态有 150–300ms 平滑过渡
+- [ ] 页脚链接 muted（版权/备案/归档/许可等），不被全局链接主色覆盖；hover 转前景色
 - [ ] 浅色模式正文对比度 ≥ 4.5:1
 - [ ] 键盘焦点可见（`focus-visible` 2px 主色描边）
 - [ ] `prefers-reduced-motion` 已尊重

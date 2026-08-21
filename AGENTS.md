@@ -44,6 +44,7 @@ AGENTS.md                        本手册
 7. **禁止跨项目复制（V1.3）**：子项目不得从 Li&Pass / Li&Chat / Li&Blog / Li&Panel 复制样式或组件文件；一律从模板实例化。新效果/新调校先回写模板（含参数与验收证据），再在项目内引用。
 8. **AA 调校与深色软底（V1.3）**：浅色语义色默认用调校值（muted `#64736C` / success `#2A7C52` / warning `#9A5C05` / destructive `#C43737`）；深色带文字软底组件必须用 `*-soft-solid` + `*-soft-fg`。
 9. **UI 控件用模板内置（V1.4 / V1.5）**：下拉（`.select` / `.custom-select-*`）、菜单（`.dropdown-menu`）、建议选项（`.suggest-menu`）、头像、复选/文件、分页、面包屑、进度、页脚（`.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`）、空状态一律用模板类实现；自定义下拉必须带完整键盘与 ARIA 契约（见方案附录 F），不自造样式。
+10. **页脚链接 muted（V1.5.1 硬规则）**：页脚内链接（版权/备案/归档/许可等）一律 muted 文字色、hover 转 foreground，禁止被全局链接主色（如 `a { color: primary }`）覆盖；存在全局链接着色的项目必须在页脚以同/更高优先级显式覆盖。
 
 ## 五、多 Agents 协作规范
 

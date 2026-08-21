@@ -1211,7 +1211,12 @@
      - 大小与高度（Pass / Panel 1:1 一致）：
        单行高 56px = text-xs（12px / 行高 16px）+ py-5（上下 20px），min-h-14 兜底；
        图标/备案占位 14×14px、占位圆角 4px；gap-x-2（8px）/ gap-y-1（4px）；
-       内容 max-w-7xl 居中，px-4（16px）→ lg:px-8（32px）；移动端允许换行、无横向滚动 */
+       内容 max-w-7xl 居中，px-4（16px）→ lg:px-8（32px）；移动端允许换行、无横向滚动
+     - 链接颜色铁律（V1.5.1，2026-08-21 固化）：
+       页脚内链接（版权/备案/归档/许可等）一律 muted 文字色、hover 转 foreground；
+       禁止被全局链接主色（如 a { color: primary }）覆盖。存在全局链接着色的项目
+       必须在页脚以同/更高优先级显式覆盖为 muted。
+       来源：Li&Blog 实测——全局 a{color:primary} 泄漏导致备案文字呈青色，已修复回写。 */
   .site-footer {
     @apply relative mt-auto border-t border-border/60 bg-surface/60 backdrop-blur;
   }
@@ -1219,7 +1224,7 @@
     @apply mx-auto flex min-h-14 max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-5 text-xs text-muted lg:px-8;
   }
   .site-footer a {
-    @apply transition-colors duration-200 hover:text-foreground;
+    @apply text-muted transition-colors duration-200 hover:text-foreground;
   }
   .filing-icon-placeholder {
     @apply inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-[4px] bg-surface-2 text-[9px] font-semibold leading-none text-muted;
