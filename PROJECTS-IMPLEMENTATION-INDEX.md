@@ -1,6 +1,6 @@
 # Li& 系列项目视觉实现总览（Implementation Index）
 
-> **版本**：V1.5.2 ｜ **日期**：2026-08-21 ｜ **状态**：全家族审计结果（Li&About / Li&Pass / Li&Chat / Li&Blog / Li&Panel；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等 UI 控件，V1.5 纳入 Pass/Panel 页脚组件并固定尺寸规格；Li&Blog 已按 V1.5 对齐页脚；V1.5.1 固化页脚链接 muted 铁律——2026-08-21 Li&Blog 修复备案文字青色后回写，后续项目必须一致；V1.5.2 固化技术实现栈一致铁律——样式层统一 Tailwind CSS 4，效果必须一模一样）
+> **版本**：V1.5.2 ｜ **日期**：2026-08-21 ｜ **状态**：全家族审计结果（Li&About / Li&Pass / Li&Chat / Li&Blog / Li&Panel；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等 UI 控件，V1.5 纳入 Pass/Panel 页脚组件并固定尺寸规格；Li&Blog 已按 V1.5 对齐页脚；V1.5.1 固化页脚链接 muted 铁律；V1.5.2 固化技术实现栈一致铁律——样式层统一 Tailwind CSS 4，效果必须一模一样；规范条款自包含，不引用、不提及外部项目仓库）
 > **用途**：这是「谁实现了什么、参数是什么、差异在哪」的唯一入口。新项目实例化前先读本文件 + [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) 第 2–3 章，再从 [reusable-tokens.template.css](reusable-tokens.template.css) 复制落地，**禁止从任何项目仓库复制文件**。
 > **事实来源**：各项目 `design-system/<project>/BRAND.md`、`MASTER.md` 与落地代码（`index.css` / `style.css` / `tokens.css` / 组件源码），以代码事实为准。
 
@@ -23,8 +23,8 @@
 - 海玻璃主色 `#25786D`（浅）/ `#7FD4C6`（深），全淡色系、无粉色、无大面积重色；D1 雾灰深色中间调（不压黑）。
 - 60/30/10 用色比例；主色永远小面积强调；语义色只表达状态。
 - 主按钮半透明单色着色（浅 `rgba(47,127,116,.10)` / 深 `rgba(127,212,198,.13)`）+ 细描边 + `::after` 扫光；hover 上移 1px，按压 `scale(0.97)`。
-- 页脚链接一律 muted（版权/备案/归档/许可等），不被全局链接主色覆盖，hover 转前景色（V1.5.1，2026-08-21 Li&Blog 修复备案文字青色后固化；后续项目必须一致）。
-- 技术实现栈一致（V1.5.2）：样式层统一 Tailwind CSS 4（`@theme` 语义别名 + 与参考实现相同的 utility class），视觉效果必须与参考实现一模一样（像素级），禁止手写 CSS 近似；Li&Chat 零依赖为已记录例外。
+- 页脚链接一律 muted（版权/备案/归档/许可等），不被全局链接主色覆盖，hover 转前景色（V1.5.1，后续项目必须一致）。
+- 技术实现栈一致（V1.5.2）：样式层统一 Tailwind CSS 4（`@theme` 语义别名 + 与参考实现相同的 utility class），视觉效果必须与参考实现一模一样（像素级），禁止手写 CSS 近似；零依赖项目变体按方案附录 F 等价实现对照表执行。
 - 三档水绿 tint 弥散阴影（透明度总和 < 0.1）；缓动 `--ease-out` / `--ease-spring`；时长 150/250/350ms。
 - TRUST 五原则、呼吸感四模式（水平穿行 / 往复钟摆 / 正弦波形 / 盘旋公转）、科技光效层、极光层、卡片签名描边、流光线、文字浮现、数字滚动、焦点环、`prefers-reduced-motion` 单帧、移动端减量、SVG 图标（禁 emoji）。
 - 单一事实来源：令牌只在 CSS 事实文件，品牌文案只在 brand 单点（`brand.ts` / `brand.js` / `config/brand.yaml`）。

@@ -1,6 +1,6 @@
 # Li& 系列 · 可复用品牌设计方案
 
-> **版本**：V1.5.2 ｜ **日期**：2026-08-21 ｜ **状态**：可复用基准（V1.3 采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现与防跨项目复制治理；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保 1:1 复刻；V1.5 纳入 Pass/Panel 已验证页脚组件与备案图标占位；V1.5.1 固化页脚链接 muted 铁律——不被全局链接主色覆盖，2026-08-21 Li&Blog 修复备案文字青色后回写；V1.5.2 固化技术实现栈一致铁律——样式层统一 Tailwind CSS 4 同构，视觉效果必须一模一样（像素级），禁止手写 CSS 近似）
+> **版本**：V1.5.2 ｜ **日期**：2026-08-21 ｜ **状态**：可复用基准（V1.3 采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现与防跨项目复制治理；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保 1:1 复刻；V1.5 纳入 Pass/Panel 已验证页脚组件与备案图标占位；V1.5.1 固化页脚链接 muted 铁律——不被全局链接主色覆盖；V1.5.2 固化技术实现栈一致铁律——样式层统一 Tailwind CSS 4 同构，视觉效果必须一模一样（像素级），禁止手写 CSS 近似；规范条款自包含，不引用、不提及外部项目仓库）
 > **存放位置**：独立模板仓库，可置于任意位置（与各子项目同级或克隆到其他机器），供所有子项目共用参考。
 > **提取来源**：Li&About（README/徽章规范）、Li&Pass（参考实现本体）、Li&Chat（AA 调校 + 零依赖等价）、Li&Blog（站点化扩展 + HeroFX + 本地徽章）、Li&Panel（1:1 复刻反例）——全部提炼内联于本文档与 [PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md)，不依赖源仓库路径。
 > **配套文件**：[PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md)（全家族实现总览：项目矩阵 / 效果对照表 / 防复制治理）、[reusable-tokens.template.css](reusable-tokens.template.css)（复制、改前缀、填色值后即可用）、[AGENTS.md](AGENTS.md)（模板仓库的多 Agents 协作手册，与第 8 章配合使用）。
@@ -293,7 +293,7 @@
 | 复选框/单选/文件 | `input[type=checkbox|radio]` + `.field-check` + 文件按钮 | 18px 控件、`accent-color` 主色；文件按钮 surface-2 → hover primary-soft |
 | 分页 | `.pagination` / `.pagination-info` | 弹性间距、信息区 muted；`aria-disabled` 禁用态 pointer-events none |
 | 面包屑 | `.breadcrumb` / `.breadcrumb-sep` | muted 链接、border 分隔、`aria-current="page"` 加粗 |
-| 页脚 | `.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder` | Pass/Panel 已验证：`<footer class="site-footer"><div class="site-footer-inner">…</div></footer>`，`mt-auto` 贴底 + 半透明表面 + backdrop-blur；版权/备案/链接全部由 `brand.ts` 驱动（© 年份/版权方、ICP/公安备案、`FOOTER_LINKS`、GitHub、开源协议、反馈问题、联系我们）；Panel 变体以运行时 `site_settings` 为事实来源（`APP_VERSION` / `footer_text` / 备案图标缺失时 `.filing-icon-placeholder` 字形方块占位）；尺寸规格：单行高 56px（`text-xs` 12px/行高 16px + `py-5` 上下 20px，`min-h-14` 兜底）、图标/占位 14×14px、`gap-x-2`（8px）/`gap-y-1`（4px）、`max-w-7xl` 居中（`px-4` → `lg:px-8`），移动端换行、无横向滚动；**链接颜色铁律（V1.5.1）**：页脚内链接（版权/备案/归档/许可等）一律 `muted` 文字色、hover 转 `foreground`，禁止被全局链接主色（如 `a { color: primary }`）覆盖——存在全局链接着色的项目必须在页脚以同/更高优先级显式覆盖为 muted（2026-08-21 Li&Blog 实测：全局 `a{color:primary}` 泄漏致备案文字青色，已修复回写）；⚠️ 加载骨架 `PageSkeleton` 的页脚占位必须同规格（`min-h-14` + `text-xs`），与真实页脚等高（Pass/Panel 已对齐） |
+| 页脚 | `.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder` | Pass/Panel 已验证：`<footer class="site-footer"><div class="site-footer-inner">…</div></footer>`，`mt-auto` 贴底 + 半透明表面 + backdrop-blur；版权/备案/链接全部由 `brand.ts` 驱动（© 年份/版权方、ICP/公安备案、`FOOTER_LINKS`、GitHub、开源协议、反馈问题、联系我们）；Panel 变体以运行时 `site_settings` 为事实来源（`APP_VERSION` / `footer_text` / 备案图标缺失时 `.filing-icon-placeholder` 字形方块占位）；尺寸规格：单行高 56px（`text-xs` 12px/行高 16px + `py-5` 上下 20px，`min-h-14` 兜底）、图标/占位 14×14px、`gap-x-2`（8px）/`gap-y-1`（4px）、`max-w-7xl` 居中（`px-4` → `lg:px-8`），移动端换行、无横向滚动；**链接颜色铁律（V1.5.1）**：页脚内链接（版权/备案/归档/许可等）一律 `muted` 文字色、hover 转 `foreground`，禁止被全局链接主色（如 `a { color: primary }`）覆盖——存在全局链接着色的项目必须在页脚以同/更高优先级显式覆盖为 muted（2026-08-21 实例化项目实测：全局 `a{color:primary}` 泄漏致备案文字青色，已修复回写）；⚠️ 加载骨架 `PageSkeleton` 的页脚占位必须同规格（`min-h-14` + `text-xs`），与真实页脚等高（Pass/Panel 已对齐） |
 | 进度条 | `.progress` / `.progress-bar`（`-sm`、`.is-success/.is-danger`） | 6–8px 胶囊轨道 + primary 填充，只动 width |
 | 列表筛选行 | `.list-filters` | 搜索框 + 下拉 + 按钮等高（36px）成行；移动端搜索全宽、下拉自适应 |
 | 紧凑按钮 | `.btn-sm` | 36px 紧凑密度；移动端仍用 `.btn` 保 44px 热区 |
@@ -363,12 +363,12 @@ action 或按目标区分状态，其它按钮仅 `disabled` 防并发；触发�
 ## 7. 治理与演进规则
 
 - **变更流程**：新视觉决策先写 BRAND.md（意图 + 理由）→ 再在 `index.css` 以令牌落地 → 复用既有组件模式 → 对照本文档差距自查。
-- **技术实现栈一致（V1.5.2 硬规则）**：样式层必须与参考实现（Li&Pass / Li&Panel）同栈——Tailwind CSS 4 + `@theme` 语义别名 + 同一 utility class；任何视觉效果的实现不得用手写 CSS 近似（层序/数值/视觉会漂移），必须同栈实现到像素级一致（一模一样的效果）。Li&Chat 零依赖变体为已记录例外（见索引 §4.1 等价实现对照表）。
+- **技术实现栈一致（V1.5.2 硬规则）**：样式层必须与参考实现同栈——Tailwind CSS 4 + `@theme` 语义别名 + 同一 utility class；任何视觉效果的实现不得用手写 CSS 近似（层序/数值/视觉会漂移），必须同栈实现到像素级一致（一模一样的效果）。零依赖项目变体按本方案附录 F 等价实现对照表执行。
 - **防跨项目复制（V1.3 硬规则）**：任何项目禁止从其他项目复制样式/组件文件；一律从本仓库实例化。发现新效果、新调校、新组件模式时**先回写本模板**（含参数、理由与验收证据），再在项目内引用；不允许「先落项目、后补模板」。实现总览见 [PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md) §5。
 - **允许偏离的情形**：主色因产品域调整（走 3.1 取色方法）；符号隐喻重映射；确需新模式时先写 spec 再更新 MASTER.md 页面模式清单。**Li&Pass 2026-08-17 已按用户明确指令偏离**：全站切换海玻璃全淡色系（无粉无重）、新增科技光效层并接入后台、按钮改半透明着色——已在项目 `design-system/lipass/DESIGN-SOLUTION.md` 与 BRAND.md V2.x 记录理由。
 - **禁止偏离的情形**：五大原则、动效铁律、单一事实来源分层、无障碍/节能底线。
 - **漂移治理**：任何 PR 涉及视觉，对照第 6 章清单与项目 BRAND.md 差距表自查；代码与文档冲突时以代码为事实，并回写文档。
-- **历史差异处理**：Li&Pass / Li&Panel 仍使用 V1.2 旧语义色（muted `#71807A` / success `#2F8F5F`），Li&Chat / Li&Blog 已用 V1.3 调校值。存量项目后续做无障碍审计时按调校值对齐；新项目一律从调校值起步。
+- **历史差异处理**：部分存量项目仍使用 V1.2 旧语义色（muted `#71807A` / success `#2F8F5F`），部分项目已用 V1.3 调校值。存量项目后续做无障碍审计时按调校值对齐；新项目一律从调校值起步。
 
 ---
 
@@ -450,7 +450,7 @@ action 或按目标区分状态，其它按钮仅 `disabled` 防并发；触发�
 
 ## 附录 B：令牌快照（供对照与回滚）
 
-### B.1 Li&Pass 历史快照（V1.2 模板原值，Li&Pass / Li&Panel 仍在使用）
+### B.1 V1.2 历史快照（模板原值，部分存量项目仍在使用）
 
 浅色模式（`:root`，海玻璃）：
 
