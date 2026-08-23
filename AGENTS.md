@@ -17,6 +17,8 @@ Li&Design 是 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&
 | 主方案：品牌内核 + 22 项槽位表 + 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（§8） | [REUSABLE-BRAND-SCHEME.md](./REUSABLE-BRAND-SCHEME.md) |
 | 令牌骨架（Tailwind CSS 4）：`{{PROJECT_PREFIX}}` 占位符、明暗两套色板、极光/科技光效与完整组件 CSS | [reusable-tokens.template.css](./reusable-tokens.template.css) |
 | 可复用 README 模板：结构约定 + 徽章规则 + 写作原则 | [reusable-readme.template.md](./reusable-readme.template.md) |
+| 视觉刷新 1:1 复刻规范（液态玻璃/瀑布流/骨架屏/空状态/二级菜单/返回顶部） | [REUSABLE-VISUAL-REFRESH-2026-08-24.md](./REUSABLE-VISUAL-REFRESH-2026-08-24.md) |
+| 视觉刷新精确 CSS 模块 | [reusable-visual-refresh.template.css](./reusable-visual-refresh.template.css) |
 
 **文档与代码冲突时**：`reusable-tokens.template.css` 是令牌事实，`REUSABLE-BRAND-SCHEME.md` 是意图。先核对差异，再决定改哪边；改一边必须同步另一边（见第六节）。
 
@@ -28,6 +30,8 @@ PROJECTS-IMPLEMENTATION-INDEX.md 全家族实现总览（项目矩阵/效果对�
 REUSABLE-BRAND-SCHEME.md         主方案（不变层 + 槽位层 + 执行层 + 协作方法）
 reusable-tokens.template.css     令牌骨架（唯一代码事实）
 reusable-readme.template.md      README 模板（结构/徽章/占位符）
+REUSABLE-VISUAL-REFRESH-2026-08-24.md  视觉刷新复刻规范
+reusable-visual-refresh.template.css   视觉刷新 CSS 模块
 AGENTS.md                        本手册
 ```
 
@@ -106,7 +110,10 @@ comm -23 <(rg -o 'animation(?:-name)?: [a-z0-9-]+' reusable-tokens.template.css 
 rg -n '--\{\{PROJECT_PREFIX\}\}-(muted|success|warning|destructive):' reusable-tokens.template.css
 
 # README 与方案文档的内部链接必须可解析（同目录文件存在）
-ls README.md PROJECTS-IMPLEMENTATION-INDEX.md REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css reusable-readme.template.md AGENTS.md
+ls README.md PROJECTS-IMPLEMENTATION-INDEX.md REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css reusable-readme.template.md REUSABLE-VISUAL-REFRESH-2026-08-24.md reusable-visual-refresh.template.css AGENTS.md
+
+# 视觉刷新模块占位符数量应恰为 113 处（V1.6 模块）；该文件必须括号平衡
+rg -F -o '{{PROJECT_PREFIX}}' reusable-visual-refresh.template.css | wc -l
 ```
 
 > 附录 B（Li&Pass 令牌快照）是回滚对照表：改模板色值时同步核对快照，避免明暗两套错位。
@@ -124,6 +131,7 @@ ls README.md PROJECTS-IMPLEMENTATION-INDEX.md REUSABLE-BRAND-SCHEME.md reusable-
 - **附录 B 与模板色值漂移**：两处都写有 Li&Pass 色值，改一处必须核对另一处。
 - **占位符计数**：`{{PROJECT_PREFIX}}` 全文件 181 处是 V1.3 基准（V1.2 为 128）；只改一处容易造成明暗两套不一致。
 - **占位符计数（V1.4）**：全文件 236 处是 V1.4 基准（V1.3 为 181）；新增控件令牌时同步更新本文件与方案附录 B。
+- **视觉刷新层优先级**：`.site-nav { display:none }`、瀑布流/二级菜单/返回顶部等响应式覆盖必须写在 CSS Layer 之外；放进 `@layer components` 会被 utilities 的 `.flex` 覆盖。
 - **跨项目复制（Panel 教训）**：Li&Panel 曾按用户要求 1:1 复刻 Li&Pass（`--portal-*` 逐字一致），模板更新无法传导；任何新项目禁止此做法，一律从模板实例化，实例化后做「仅槽位差」校验。
 - **旧语义色坑**：部分存量项目仍为 V1.2 值（muted `#71807A` / success `#2F8F5F`，对比不达 4.5）；新项目必须用 V1.3 调校值，存量项目按 §7 历史差异处理对齐。
 - **深色软底坑**：rgba 软底 + 同色浅字对比上限 ≈3.9；带文字组件必须回退 `*-soft-solid` + `*-soft-fg`，只有图标/图形可用 rgba 软底。
