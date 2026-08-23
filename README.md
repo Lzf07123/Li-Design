@@ -4,6 +4,8 @@
 
 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证的设计系统提炼，供所有子项目（Li&Chat 及后续新项目）按「填槽位 → 复制令牌 → 过验收」的方式实例化。
 
+> **V1.6（2026-08-24）**：新增视觉刷新模块——液态玻璃令牌/卡片微交互、CSS 瀑布流（无默认占位图）、搜索骨架屏、全站空状态、移动端二级菜单、右侧常驻返回顶部；完整 1:1 契约见 [REUSABLE-VISUAL-REFRESH-2026-08-24.md](REUSABLE-VISUAL-REFRESH-2026-08-24.md)，精确 CSS 见 [reusable-visual-refresh.template.css](reusable-visual-refresh.template.css)。
+>
 > **V1.5.2（2026-08-21）**：新增两条顶层铁律——① 模板仓库**自包含**：规范条款不依赖、不引用、不提及任何外部项目仓库，克隆到任意位置即可独立使用；② 后续项目实例化必须**达到一模一样的效果**：样式层统一 Tailwind CSS 4 同栈（`@theme` 语义别名 + 同一 utility class），禁止手写 CSS 近似，验收以截图逐值核对为准。
 >
 > **V1.5.1（2026-08-21）**：固化页脚链接 muted 铁律——页脚内链接（版权/备案/归档/许可）不被全局链接主色覆盖。
@@ -20,6 +22,8 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 | [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) | 主方案：品牌内核（不变层）+ 项目适配槽位表（22 项）+ 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（第 8 章） |
 | [reusable-tokens.template.css](reusable-tokens.template.css) | Tailwind CSS 4 令牌骨架，含 `{{PROJECT_PREFIX}}` 占位符、明暗两套色板、极光/科技光效与完整组件 CSS（含下拉/菜单/头像/复选/文件/分页/面包屑/进度/页脚） |
 | [reusable-readme.template.md](reusable-readme.template.md) | 可复用 README 模板：结构约定 + 徽章规则 + 写作原则，含占位符与使用说明 |
+| [REUSABLE-VISUAL-REFRESH-2026-08-24.md](REUSABLE-VISUAL-REFRESH-2026-08-24.md) | 视觉刷新 1:1 复刻规范：令牌、间距、玻璃卡片、瀑布流、二级菜单、返回顶部、骨架屏、空状态、断点验收 |
+| [reusable-visual-refresh.template.css](reusable-visual-refresh.template.css) | 视觉刷新的精确 CSS 模块（`{{PROJECT_PREFIX}}` 占位，直接合并到项目样式文件） |
 | [AGENTS.md](AGENTS.md) | 模板仓库的多 Agents 协作手册：事实来源、硬性规则、协作规范、验证命令 |
 
 ## 快速上手（新项目 3 步）

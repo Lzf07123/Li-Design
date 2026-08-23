@@ -1,6 +1,6 @@
 # Li& 系列项目视觉实现总览（Implementation Index）
 
-> **版本**：V1.5.2 ｜ **日期**：2026-08-21 ｜ **状态**：全家族审计结果（Li&About / Li&Pass / Li&Chat / Li&Blog / Li&Panel；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等 UI 控件，V1.5 纳入 Pass/Panel 页脚组件并固定尺寸规格；Li&Blog 已按 V1.5 对齐页脚；V1.5.1 固化页脚链接 muted 铁律；V1.5.2 固化技术实现栈一致铁律——样式层统一 Tailwind CSS 4，效果必须一模一样；规范条款自包含，不引用、不提及外部项目仓库）
+> **版本**：V1.6 ｜ **日期**：2026-08-24 ｜ **状态**：全家族审计结果 + 视觉刷新模块（V1.5.2 基础上新增：液态玻璃/卡片微交互/CSS 瀑布流/搜索骨架屏/全站空状态/移动端二级菜单/右侧返回顶部；完整 1:1 契约见 [REUSABLE-VISUAL-REFRESH-2026-08-24.md](REUSABLE-VISUAL-REFRESH-2026-08-24.md)，精确 CSS 见 [reusable-visual-refresh.template.css](reusable-visual-refresh.template.css)）
 > **用途**：这是「谁实现了什么、参数是什么、差异在哪」的唯一入口。新项目实例化前先读本文件 + [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) 第 2–3 章，再从 [reusable-tokens.template.css](reusable-tokens.template.css) 复制落地，**禁止从任何项目仓库复制文件**。
 > **事实来源**：各项目 `design-system/<project>/BRAND.md`、`MASTER.md` 与落地代码（`index.css` / `style.css` / `tokens.css` / 组件源码），以代码事实为准。
 
@@ -13,7 +13,7 @@
 | Li&About | Markdown 个人主页（无前端代码） | — | README 规范 | 已沉淀为 [reusable-readme.template.md](reusable-readme.template.md) | 徽章平铺规则、官方品牌色、写作原则、结构约定 |
 | Li&Pass | React + Tailwind CSS 4（motion/react + gsap 按需） | `portal` | BRAND V2.0 / 2026-08-17 | **参考实现本体**（V1.2 模板提取来源） | AuthShell / AppHeader / PillTabs / MagicBento / StrokeText / BlurText / CountUp / FloatingBackground / AuroraBackground / TechAmbience（网格 + 3 光束 + 8 光点）/ card-signature / flow-rule / card-halo / toast / modal / table-shell / 半透明按钮 + 扫光；**原生 `<select className="input-sm">`（无自定义下拉）** |
 | Li&Chat | 原生静态 HTML/CSS/JS（**零第三方依赖**） | `chat` | BRAND/MASTER V1.2 / 2026-08-17 | 模板 V1.2 全量采纳 + RGB 调校 | 语义色调校（AA 达标）、深色软底 soft-solid/soft-fg、零依赖 BlurText/CountUp/ripple/card-signature/flow-line、微信式双栏应用外壳、status-dot、紧凑密度、消息气泡/多选/投票/表情/上传/图片查看器；**profile-dropdown 个人菜单、mention-list 建议选项、avatar 头像** |
-| Li&Blog | Hugo + React/motion 效果层（esbuild 单文件，约 90KB gzip） | `liblog` | BRAND/MASTER v1.2 / 2026-08-21 | 模板 V1.5 实例化/对齐 + 调校值 + 站点化扩展 | 公开站零交互、本地徽章（无 shields.io 外链）、HeroFX 滚动视差、AuroraBackground full/soft = 4/2、TechAmbience 去光束（网格 + 8 枚强调色光点）、打印令牌、代码高亮令牌、文章页零动效、后台完整组件集（table-shell / **custom-select 键盘完整下拉** / upload-progress / checkbox+file 令牌化 / pagination / breadcrumb / toast / modal 等）；**页脚按 V1.5 规格（`site-footer` > `site-footer-inner`，56px 单行 / 12px / 14×14 图标与 `.filing-icon-placeholder` 占位）** |
+| Li&Blog | Hugo + React/motion 效果层（esbuild 单文件，约 90KB gzip） | `liblog` | BRAND/MASTER v1.4 / 2026-08-24 | 模板 V1.5 实例化/对齐 + 调校值 + 站点化扩展 | 公开站零交互、本地徽章（无 shields.io 外链）、HeroFX 滚动视差、AuroraBackground full/soft = 4/2、TechAmbience 去光束（网格 + 8 枚强调色光点）、打印令牌、代码高亮令牌、文章页零动效、后台完整组件集；**页脚按 V1.5 规格**；**V1.6 视觉刷新**：液态玻璃卡片/悬浮微交互/CSS 瀑布流（未配图不用默认占位）/搜索骨架屏/全站空状态/移动端首页·关于·搜索外露 + 其余入口二级菜单/右侧常驻返回顶部 |
 | Li&Panel | React + Tailwind CSS 4 | `portal`（1:1 复刻）+ `lipanel` | BRAND/MASTER 2026-08-20 | **跨项目 1:1 复制（反例，需纠正）** | 与 Li&Pass 逐字一致（`--portal-*`、组件、动效、CSP）；面板网格 1→2→3→4 列；`site_settings` 品牌信息后台可覆盖；原生 select 同 Pass |
 
 ## 2. 家族共性（全部项目已验证）
@@ -55,6 +55,13 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 | destructive | `#FDEEEE` | `#7F1D1D` | 8.89 ✅ |
 
 落地方式：CSS 引用 `var(--<prefix>-success-soft-solid, var(--<prefix>-success-soft))` 与 `var(--<prefix>-success-soft-fg, var(--<prefix>-success))`，带文字的组件自动回退；图标/图形可继续用 rgba 软底。
+
+### 2.2 V1.6 视觉刷新模块（2026-08-24）
+
+- 新增复用模块：液态玻璃、卡片微交互、瀑布流（真实封面优先、无默认占位）、骨架屏、空状态、移动端二级菜单、返回顶部。
+- 实例化入口：`REUSABLE-VISUAL-REFRESH-2026-08-24.md`（意图 + DOM + 行为 + 断点验收）+ `reusable-visual-refresh.template.css`（精确 CSS，`{{PROJECT_PREFIX}}` 占位）。
+- 关键约束：响应式覆盖必须位于 CSS Layer 之外；玻璃卡片不支持 backdrop-filter 时回退 `glass-bg-strong`；未配置封面不生成任何占位块。
+- 验收以 Chrome DevTools Protocol 实测为准：390/768/769/1440 断点显示态、悬浮 transform、backdrop-filter、骨架屏状态机、无横向溢出。
 
 ## 3. 效果对照表（「一模一样」的落地位置）
 
