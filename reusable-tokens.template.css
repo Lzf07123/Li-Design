@@ -1,5 +1,5 @@
 /* =============================================================
-   Li& 系列 · 品牌令牌骨架（Tailwind CSS 4）· V1.3 海玻璃全量版
+   Li& 系列 · 品牌令牌骨架（Tailwind CSS 4）· V1.6 沉浸式页眉扩展
 
    用法（详见同目录 REUSABLE-BRAND-SCHEME.md §4.2）：
    ⚠️ 本模板仅首次设计时复制使用，落地后以项目内文件为准。
@@ -7,6 +7,11 @@
    2. 全局替换 {{PROJECT_PREFIX}} 为项目技术标识（如 lipass / chat / liblog）
    3. 按槽位表 7–12、16、21–22 填主色、中性色、语义色、强调色（明暗两套）
    4. 组件一律引用语义类（bg-primary 等），禁止硬编码 hex
+
+   V1.6 变更（2026-10-23，Li&Notes 已验证）：
+   - 新增沉浸式页眉令牌与 .site-header 组件：顶部透明融入页面底色，
+     滚动超过 8px 后才启用同源雾化、极淡边界与非动画流光线
+   - 桌面/移动端页眉高度、模糊强度、边框和阴影全部走组件令牌
 
    V1.3 变更（2026-08-20，全家族实现总览见 PROJECTS-IMPLEMENTATION-INDEX.md）：
    - 浅色语义色采用 AA 调校值（muted #64736C / success #2A7C52 /
@@ -87,6 +92,20 @@
   --{{PROJECT_PREFIX}}-fg: #35423f;
   --{{PROJECT_PREFIX}}-muted: #64736c;
   --{{PROJECT_PREFIX}}-border: #e1ece8;
+
+  /* 沉浸式页眉：顶部透明，滚动后使用 92% 同源底色与轻雾化 */
+  --{{PROJECT_PREFIX}}-header-height: 72px;
+  --{{PROJECT_PREFIX}}-header-height-mobile: 64px;
+  --{{PROJECT_PREFIX}}-header-bg: #f6fbf900;
+  --{{PROJECT_PREFIX}}-header-bg-scrolled: #f6fbf9eb;
+  --{{PROJECT_PREFIX}}-header-border: #d8e7e200;
+  --{{PROJECT_PREFIX}}-header-border-scrolled: #d8e7e273;
+  --{{PROJECT_PREFIX}}-header-blur: 18px;
+  --{{PROJECT_PREFIX}}-header-saturate: 145%;
+  --{{PROJECT_PREFIX}}-header-rule-opacity: 0;
+  --{{PROJECT_PREFIX}}-header-rule-opacity-scrolled: 0.2;
+  --{{PROJECT_PREFIX}}-header-shadow-scrolled:
+    0 12px 28px rgba(24, 58, 51, 0.05);
 
   --{{PROJECT_PREFIX}}-primary: #25786d;
   --{{PROJECT_PREFIX}}-primary-hover: #1f6359;
@@ -180,6 +199,15 @@
   --{{PROJECT_PREFIX}}-fg: #f0f2f4;
   --{{PROJECT_PREFIX}}-muted: #b8c0c7;
   --{{PROJECT_PREFIX}}-border: #545c64;
+
+  --{{PROJECT_PREFIX}}-header-bg: #3a3f4500;
+  --{{PROJECT_PREFIX}}-header-bg-scrolled: #3a3f45eb;
+  --{{PROJECT_PREFIX}}-header-border: #59616900;
+  --{{PROJECT_PREFIX}}-header-border-scrolled: #59616980;
+  --{{PROJECT_PREFIX}}-header-blur: 18px;
+  --{{PROJECT_PREFIX}}-header-saturate: 135%;
+  --{{PROJECT_PREFIX}}-header-shadow-scrolled:
+    0 12px 30px rgba(16, 24, 32, 0.08);
 
   --{{PROJECT_PREFIX}}-primary: #7fd4c6;
   --{{PROJECT_PREFIX}}-primary-hover: #a5e4d9;
@@ -384,6 +412,62 @@
     background: var(--{{PROJECT_PREFIX}}-flow-gradient);
     background-size: 250% 100%;
     animation: flow-line-shift 5s linear infinite;
+  }
+
+  /* 沉浸式页眉：顶部与页面底色/网格连续；滚动后才建立必要边界。
+     结构：<header class="site-header"><div class="site-header-inner">…</div>
+     <span class="flow-rule" aria-hidden="true"></span></header>
+     is-scrolled 由项目脚本在 scrollY > 8px 时切换。 */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--{{PROJECT_PREFIX}}-header-border);
+    background: var(--{{PROJECT_PREFIX}}-header-bg);
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    transition:
+      background-color var(--motion-base) var(--ease-out),
+      border-color var(--motion-base) var(--ease-out),
+      box-shadow var(--motion-base) var(--ease-out),
+      -webkit-backdrop-filter var(--motion-base) var(--ease-out),
+      backdrop-filter var(--motion-base) var(--ease-out);
+  }
+  .site-header.is-scrolled {
+    border-color: var(--{{PROJECT_PREFIX}}-header-border-scrolled);
+    background: var(--{{PROJECT_PREFIX}}-header-bg-scrolled);
+    box-shadow: var(--{{PROJECT_PREFIX}}-header-shadow-scrolled);
+    -webkit-backdrop-filter:
+      blur(var(--{{PROJECT_PREFIX}}-header-blur))
+      saturate(var(--{{PROJECT_PREFIX}}-header-saturate));
+    backdrop-filter:
+      blur(var(--{{PROJECT_PREFIX}}-header-blur))
+      saturate(var(--{{PROJECT_PREFIX}}-header-saturate));
+  }
+  .site-header-inner {
+    height: var(--{{PROJECT_PREFIX}}-header-height);
+  }
+  .site-header .flow-rule {
+    height: 1px;
+    border-radius: 0;
+    opacity: var(--{{PROJECT_PREFIX}}-header-rule-opacity);
+    background-size: 100% 100%;
+    animation: none;
+    transition: opacity var(--motion-base) var(--ease-out);
+  }
+  .site-header.is-scrolled .flow-rule {
+    opacity: var(--{{PROJECT_PREFIX}}-header-rule-opacity-scrolled);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header.is-scrolled {
+      background: var(--{{PROJECT_PREFIX}}-bg);
+    }
+  }
+  @media (max-width: 768px) {
+    .site-header-inner {
+      height: var(--{{PROJECT_PREFIX}}-header-height-mobile);
+    }
   }
 
   /* 按钮：统一 8px 圆角；可点击必须有 cursor-pointer；按压 scale(0.97) */

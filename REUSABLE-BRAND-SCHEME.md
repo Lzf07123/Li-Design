@@ -1,6 +1,6 @@
 # Li& 系列 · 可复用品牌设计方案
 
-> **版本**：V1.5 ｜ **日期**：2026-08-21 ｜ **状态**：可复用基准（V1.3 采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现与防跨项目复制治理；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保 1:1 复刻；V1.5 纳入 Pass/Panel 已验证页脚组件与备案图标占位）
+> **版本**：V1.6 ｜ **日期**：2026-10-23 ｜ **状态**：可复用基准（V1.6 新增 Li&Notes 已验证的沉浸式页眉令牌与 `.site-header` 组件；V1.3 采纳 AA 调校语义色、深色软底实色粉彩、极光/科技光效完整 CSS、零依赖等价实现与防跨项目复制治理；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等全部 UI 控件，确保 1:1 复刻；V1.5 纳入 Pass/Panel 已验证页脚组件与备案图标占位）
 > **存放位置**：独立模板仓库，可置于任意位置（与各子项目同级或克隆到其他机器），供所有子项目共用参考。
 > **提取来源**：Li&About（README/徽章规范）、Li&Pass（参考实现本体）、Li&Chat（AA 调校 + 零依赖等价）、Li&Blog（站点化扩展 + HeroFX + 本地徽章）、Li&Panel（1:1 复刻反例）——全部提炼内联于本文档与 [PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md)，不依赖源仓库路径。
 > **配套文件**：[PROJECTS-IMPLEMENTATION-INDEX.md](PROJECTS-IMPLEMENTATION-INDEX.md)（全家族实现总览：项目矩阵 / 效果对照表 / 防复制治理）、[reusable-tokens.template.css](reusable-tokens.template.css)（复制、改前缀、填色值后即可用）、[AGENTS.md](AGENTS.md)（模板仓库的多 Agents 协作手册，与第 8 章配合使用）。
@@ -233,6 +233,16 @@
 | 交互 | 可点击元素必须有 `cursor-pointer`；hover 上移 1px + 阴影过渡；按压 `scale(0.97)`；过渡 150–300ms |
 | 控件尺寸 | 图标按钮 44×44px（移动端不缩小）；状态点 8px 圆点语义色；下拉触发器/分页按钮 min-height 36px，下拉菜单项 min-height 44px；桌面紧凑密度可收紧到按钮 30–36px、图标钮 34px（Chat 已验证，移动端仍保 44px 热区） |
 
+### 3.4 沉浸式页眉（V1.6）
+
+页眉是页面底色与网格的自然延伸，不得在顶部形成独立横向表面：
+
+- 顶部（`scrollY ≤ 8px`）：背景、边框、阴影、背景模糊和流光线均为空。
+- 滚动（`scrollY > 8px`）：启用 92% 同源底色、18px 背景模糊、极淡边框与细阴影；流光线透明度为 0.2。
+- 桌面内容高度 72px，≤768px 为 64px；两种状态高度不变。
+- 不支持 `backdrop-filter` 时，滚动状态回退为不透明页面底色。
+- 令牌统一使用 `--<prefix>-header-*`；品牌、导航与搜索按钮继续使用轻量分组表面。
+
 ---
 
 ## 4. 落地模板与实例化流程
@@ -253,8 +263,8 @@
 2. **铺令牌**：复制 `reusable-tokens.template.css` → `frontend/src/index.css`，替换前缀并填色值；`@theme` 只暴露语义别名（`bg-primary` 等），组件不直接引用 `--<prefix>-*`。
 3. **建品牌单点**：按模板创建 `frontend/src/lib/brand.ts`，名称/slogan/Logo/备案全部从该文件读取。
 4. **配浏览器品牌位**：`index.html` 配 favicon、明暗 `theme-color`、`description` 与首帧主题脚本（避免明暗闪烁），兜底背景色同步到令牌 bg。
-5. **搭组件基座**：按第 5 章清单移植 `.btn` / `.card` / `.input` / `.badge` / `.notice` / `.modal` / `.toast` / `.table-shell` / `.site-footer` 等类；V1.3 模板已内置 `.card-signature` / `.card-halo` / `.flow-rule` / `.icon-btn` / `.status-dot` / `.scroll-tabs` / `.blur-unit` 与对应关键帧；可点击元素补 `cursor-pointer`。无远程资源项目用附录 F 零依赖等价实现。
-6. **搭页面外壳**：认证类页用居中单卡 `AuthShell`（`max-w-md` + 顶部品牌 + slogan + 底部备案）；已登录页用 `AppHeader` + `max-w-7xl` 内容 + `SiteFooter`；管理类用顶部标签页。
+5. **搭组件基座**：按第 5 章清单移植 `.btn` / `.card` / `.input` / `.badge` / `.notice` / `.modal` / `.toast` / `.table-shell` / `.site-header` / `.site-footer` 等类；模板已内置 `.card-signature` / `.card-halo` / `.flow-rule` / `.site-header` / `.icon-btn` / `.status-dot` / `.scroll-tabs` / `.blur-unit` 与对应关键帧；可点击元素补 `cursor-pointer`。无远程资源项目用附录 F 零依赖等价实现。
+6. **搭页面外壳**：认证类页用居中单卡 `AuthShell`（`max-w-md` + 顶部品牌 + slogan + 底部备案）；已登录页用 `AppHeader` + `max-w-7xl` 内容 + `SiteFooter`；公开内容站或需要顶栏沉浸融合的页面用 `.site-header` 变体；管理类用顶部标签页。
 7. **接氛围层**：复用 Canvas 版 `FloatingBackground`（无第三方依赖），按槽位 19 设 `shapeCount`/`opacity`/`calm`/`scrollWind`/`adaptive`/`theme="auto"`；画布 `z-0` 垫底、`pointer-events: none`。极光层（`.aurora`）与科技光效层（`.tech-grid`/`.tech-beam`/`.tech-dot`）的 CSS 与关键帧已随模板内置，按槽位 19 接 `.aurora-soft` / `.tech-ambience--soft` 降浓度。
 8. **接主题**：`useTheme` 读写槽位 17 的存储键，切换 `html.dark`；所有明暗差异只通过 `.dark` 令牌块表达。
 9. **过验收**：执行第 6 章 Pre-Delivery Checklist 与动效验收清单。
@@ -269,6 +279,8 @@
 | 用户中心/工作台 | `AppHeader` + `max-w-7xl` + `SiteFooter` | 中（10 + 滚动联动；极光/光效层 `soft`） | 卡片区域不遮字 |
 | 管理后台 | `AppHeader` + 顶部标签页 | 低（4 × opacity 0.5；极光/光效层 `soft`） | 表格区域保持不透明表面，飘动元素不侵入表内文字 |
 
+> 沉浸式顶栏变体：使用 `.site-header` > `.site-header-inner`，项目脚本在 `scrollY > 8px` 时切换 `.is-scrolled`。顶部不显示独立背景，滚动后才启用同源雾化层；不要为滚动状态改变高度或导航布局。
+
 ---
 
 ## 5. 组件与交互模式库（复用清单）
@@ -279,6 +291,7 @@
 | 卡片 | `.card`、`.card-signature`、`.card-interactive` | 认证卡用 padding-box 表面 + border-box 低饱和品牌渐变描边双背景 |
 | 认证卡辉光 | `.card-halo`、`.brand-halo` | 卡后浅主色呼吸辉光 + Logo 辉光，`isolation: isolate` 保证垫底 |
 | 流光线 | `.flow-rule`（顶栏变体 `.flow-line`） | 分区标题短装饰线或顶栏底部全长渐变线，5s `background-position` 位移，`--flow-gradient` 明暗两套 |
+| 沉浸式页眉 | `.site-header` / `.site-header-inner` / `.is-scrolled` | 顶部背景、边框、阴影和模糊均为空；滚动超过 8px 后启用同源 92% 底色 + 18px 雾化 + 极淡边界；桌面 72px、移动端 64px，高度不变；`.site-header .flow-rule` 顶部隐藏、滚动后透明度 0.2；不支持 `backdrop-filter` 时回退纯页面底色 |
 | 表单 | `.label` / `.input` / `.input-sm` | focus 主色边框 + `ring-2 ring-primary/20`；placeholder 用 `text-muted` |
 | 原生下拉 | `.select` / `.select-sm` | 与 `.input`/`.input-sm` 完全同视觉（Pass/Panel 用法）；令牌色 chevron 用双三角渐变绘制，不引入硬编码图标；`option` 走 surface/fg 令牌 |
 | 自定义下拉 | `.custom-select-*` | Blog 已验证，渐进增强：隐藏原生 select + `button[aria-haspopup=listbox]` + `ul[role=listbox]` + `li[role=option]`；ArrowUp/Down/Home/End/Enter/Space/Escape、外点关闭、`aria-expanded` 同步；零依赖 JS 契约见附录 F |
@@ -332,6 +345,8 @@ action 或按目标区分状态，其它按钮仅 `disabled` 防并发；触发�
 - [ ] `prefers-reduced-motion` 已尊重
 - [ ] 响应式：375px / 768px / 1024px / 1440px 四档
 - [ ] 无内容被固定导航遮挡
+- [ ] 页眉顶部不与页面底色形成独立色带；滚动后才启用同源雾化层与极淡边界
+- [ ] 页眉滚动前后高度一致（桌面 72px / 移动端 64px），且 `backdrop-filter` 不支持时有纯色回退
 - [ ] 移动端无横向滚动
 - [ ] 令牌无硬编码 hex（组件内），文案无硬编码（从 `brand.ts` 读取）
 - [ ] 明暗模式切换无闪烁、无对比度丢失
@@ -442,6 +457,7 @@ action 或按目标区分状态，其它按钮仅 `disabled` 防并发；触发�
 | AA 调校语义色（muted/success/warning/destructive）与 soft-solid/soft-fg 深色软底 | Li&Chat BRAND.md/MASTER.md + `static/style.css`；Li&Blog `tokens.css`（已采纳调校值） |
 | 零依赖等价实现（blur-unit / countUp / ripple / card-signature / flow-line / ambient.js） | Li&Chat MASTER.md + `static/style.css` + `static/ambient.js` |
 | HeroFX 滚动视差、本地徽章、打印/代码高亮令牌、data-ambient 氛围分级 | Li&Blog BRAND.md/MASTER.md + `web/src/*.jsx` + `tokens.css` |
+| 沉浸式页眉（V1.6） | Li&Notes 2026-10-23 的 `tokens.css` / `style.css` 与浅深色、390px 浏览器验收；参数已内联本方案 §3.4、§5 与附录 B/F |
 | 1:1 复刻反例、面板网格 1→2→3→4、site_settings 品牌后台覆盖 | Li&Panel BRAND.md/MASTER.md |
 | README 徽章与结构规范 | Li&About README.md → 已内联 [reusable-readme.template.md](reusable-readme.template.md) |
 
@@ -499,6 +515,7 @@ action 或按目标区分状态，其它按钮仅 `disabled` 防并发；触发�
 
 按钮扫光令牌：浅色 `--*-btn-sweep: rgba(255,255,255,.42)`；深色 `rgba(255,255,255,.18)`。
 极光令牌：浅色 `--*-aurora-1..4` = `rgba(127,212,198,.32)` / `rgba(143,199,240,.30)` / `rgba(169,162,232,.26)` / `rgba(169,204,143,.24)`；深色 = `.40` / `.36` / `.32` / `.28`（同色相）。
+沉浸式页眉令牌：`--<prefix>-header-bg` / `-bg-scrolled` / `-border` / `-border-scrolled` / `-blur` / `-saturate` / `-rule-opacity*` / `-shadow-scrolled`，以及 `-height` / `-height-mobile`。顶部透明，滚动后同源底色 92% + 18px 模糊；浅色饱和度 145%、深色 135%；桌面 72px、移动端 64px。
 
 阴影与动效：`--shadow-sm/md/lg` 三档水绿 tint 弥散阴影（透明度总和 < 0.1）；`--ease-out`（入场）、
 `--ease-spring`（按压/弹窗）；`--motion-fast/base/slow = 150/250/350ms`。科技光效层节奏：
@@ -548,6 +565,7 @@ action 或按目标区分状态，其它按钮仅 `disabled` 防并发；触发�
 | 按钮涟漪 | 点击时注入 `span.btn-ripple`（大小 = 点击位置到四角最远距离），`animationend` 移除 | 500ms、currentColor、opacity 0.18→0 |
 | 签名描边 | `.card-signature::after` mask 环（`mask-composite: exclude`） | 9s、`background-position` 0→200% |
 | 流光线 | `.flow-line`（顶栏底部绝对定位） | 5s、200% 背景位、opacity 0.7 |
+| 沉浸式页眉 | `.site-header` / `.site-header.is-scrolled` + 项目滚动脚本 | `scrollY > 8px` 切换；顶部全透明，滚动后同源 92% + 18px 模糊；桌面/移动端 72/64px |
 | 极光层 | `.aurora` / `.aurora-blob` ×4（radial-gradient，无 filter 动画） | 18/22/28/24s alternate |
 | 科技光效层 | `.tech-grid` / `.tech-beam` / `.tech-dot` 纯 CSS | 12s / 10s 错峰 / 6s；关键帧齐全 |
 | Canvas 氛围层 | `ambient.js`：rAF 绘制 line/square/z/dot，读 CSS 令牌颜色 | 浓度可调（`setDensity(n)`）；DPR≤2；移动端 ≤6；reduced-motion 单帧 |
