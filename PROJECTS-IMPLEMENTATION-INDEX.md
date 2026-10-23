@@ -1,6 +1,6 @@
 # Li& 系列项目视觉实现总览（Implementation Index）
 
-> **版本**：V1.5 ｜ **日期**：2026-08-21 ｜ **状态**：全家族审计结果（Li&About / Li&Pass / Li&Chat / Li&Blog / Li&Panel；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等 UI 控件，V1.5 纳入 Pass/Panel 页脚组件并固定尺寸规格；Li&Blog 已按 V1.5 对齐页脚）
+> **版本**：V1.6 ｜ **日期**：2026-10-23 ｜ **状态**：全家族审计结果（Li&About / Li&Pass / Li&Chat / Li&Blog / Li&Panel / Li&Notes；V1.4 补全选择/下拉/菜单/头像/复选/文件/分页/面包屑/进度等 UI 控件，V1.5 纳入 Pass/Panel 页脚组件并固定尺寸规格；V1.6 纳入 Li&Notes 已验证的沉浸式页眉）
 > **用途**：这是「谁实现了什么、参数是什么、差异在哪」的唯一入口。新项目实例化前先读本文件 + [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) 第 2–3 章，再从 [reusable-tokens.template.css](reusable-tokens.template.css) 复制落地，**禁止从任何项目仓库复制文件**。
 > **事实来源**：各项目 `design-system/<project>/BRAND.md`、`MASTER.md` 与落地代码（`index.css` / `style.css` / `tokens.css` / 组件源码），以代码事实为准。
 
@@ -15,6 +15,7 @@
 | Li&Chat | 原生静态 HTML/CSS/JS（**零第三方依赖**） | `chat` | BRAND/MASTER V1.2 / 2026-08-17 | 模板 V1.2 全量采纳 + RGB 调校 | 语义色调校（AA 达标）、深色软底 soft-solid/soft-fg、零依赖 BlurText/CountUp/ripple/card-signature/flow-line、微信式双栏应用外壳、status-dot、紧凑密度、消息气泡/多选/投票/表情/上传/图片查看器；**profile-dropdown 个人菜单、mention-list 建议选项、avatar 头像** |
 | Li&Blog | Hugo + React/motion 效果层（esbuild 单文件，约 90KB gzip） | `liblog` | BRAND/MASTER v1.2 / 2026-08-21 | 模板 V1.5 实例化/对齐 + 调校值 + 站点化扩展 | 公开站零交互、本地徽章（无 shields.io 外链）、HeroFX 滚动视差、AuroraBackground full/soft = 4/2、TechAmbience 去光束（网格 + 8 枚强调色光点）、打印令牌、代码高亮令牌、文章页零动效、后台完整组件集（table-shell / **custom-select 键盘完整下拉** / upload-progress / checkbox+file 令牌化 / pagination / breadcrumb / toast / modal 等）；**页脚按 V1.5 规格（`site-footer` > `site-footer-inner`，56px 单行 / 12px / 14×14 图标与 `.filing-icon-placeholder` 占位）** |
 | Li&Panel | React + Tailwind CSS 4 | `portal`（1:1 复刻）+ `lipanel` | BRAND/MASTER 2026-08-20 | **跨项目 1:1 复制（反例，需纠正）** | 与 Li&Pass 逐字一致（`--portal-*`、组件、动效、CSP）；面板网格 1→2→3→4 列；`site_settings` 品牌信息后台可覆盖；原生 select 同 Pass |
+| Li&Notes | Hugo + 原生 CSS/JS（公开站无框架运行时） | `liblog` | BRAND/MASTER v2.2 / 2026-10-23 | 模板 V1.6 沉浸式页眉来源 + 文章站扩展 | 沉浸式页眉（顶部透明、滚动后同源雾化）、居中阅读列、桌面目录外置、代码工具栏固定、纸页目录、本地衬线正文、知识档案编号卡与移动端表格卡片化 |
 
 ## 2. 家族共性（全部项目已验证）
 
@@ -26,6 +27,7 @@
 - 三档水绿 tint 弥散阴影（透明度总和 < 0.1）；缓动 `--ease-out` / `--ease-spring`；时长 150/250/350ms。
 - TRUST 五原则、呼吸感四模式（水平穿行 / 往复钟摆 / 正弦波形 / 盘旋公转）、科技光效层、极光层、卡片签名描边、流光线、文字浮现、数字滚动、焦点环、`prefers-reduced-motion` 单帧、移动端减量、SVG 图标（禁 emoji）。
 - 单一事实来源：令牌只在 CSS 事实文件，品牌文案只在 brand 单点（`brand.ts` / `brand.js` / `config/brand.yaml`）。
+- 沉浸式页眉：顶部不形成独立色带，滚动超过 8px 后才启用同源半透明雾化层；桌面 72px、移动端 64px，滚动前后高度不变；`backdrop-filter` 不支持时回退页面底色。
 - 表单与选择控件完整：原生 select 与输入框同视觉（V1.4 `.select`）；自定义下拉、下拉菜单、建议选项、头像、复选框/单选/文件按钮、分页、面包屑、进度条、空状态均有模板实现（§3 对照表）。
 
 ### 2.2 语义色 AA 调校结论（V1.3 模板默认采用调校值）
@@ -56,7 +58,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 
 ## 3. 效果对照表（「一模一样」的落地位置）
 
-| 效果 | 模板位置（V1.4） | Li&Pass | Li&Chat | Li&Blog |
+| 效果 | 模板位置（V1.6） | Li&Pass | Li&Chat | Li&Blog |
 | --- | --- | --- | --- | --- |
 | 海玻璃令牌（明暗两套） | `reusable-tokens.template.css` `:root` / `.dark` | `frontend/src/index.css` | `static/style.css` | `themes/blog-theme/static/css/tokens.css` |
 | 主按钮半透明着色 + 扫光 | `.btn-primary` + `::after`（`btn-sheen` 4s） | 同模板 | `.btn-primary::after`（`chat-btn-sweep` 4s） | 后台同模板；首页 CTA 用 `--liblog-btn-light/dark-*` |
@@ -64,6 +66,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 | 认证卡签名描边 | `.card-signature`（mask 环 + `flow-gradient` 9s） | `.card-signature`（双背景 border-box） | `.card-signature::after`（mask 环 9s） | 未接（后台无认证卡） |
 | 卡片辉光 / Logo 辉光 | `.card-halo` / `.brand-halo`（4.5s） | `.card-halo` / `.brand-halo` | `.auth-halo` / `.auth-brand::before` | 未接 |
 | 流光线 | `.flow-rule`（5s，`flow-gradient` 250% 位移） | `.flow-rule`（顶栏/分区标题） | `.flow-line`（顶栏底部，200% 位移） | 未接 |
+| 沉浸式页眉 | `.site-header` / `.site-header.is-scrolled`（V1.6；Li&Notes 已验证） | — | — | 公开站采用同源方向，完整透明滚动切换尚未接入 |
 | 极光层 | `.aurora` / `.aurora-blob`（4 枚，18/22/28/24s）+ `.aurora-soft` | `AuroraBackground` 4 枚 | 同模板（登录后 `.aurora-soft`） | `AuroraBackground` full=4 / soft=2 |
 | 科技光效层 | `.tech-ambience` / `.tech-grid` / `.tech-beam` ×3 / `.tech-dot` ×8（12s / 10s 错峰 0.8/4.2/7.5s / 6s） | 同模板 | 同模板（`.tech-soft` 0.55） | 去光束：网格 + 8 枚强调色光点（`--tech-dot-color` 取六强调色） |
 | 文字浮现 | `.blur-unit`（450ms、35ms 错峰；零依赖） | `BlurText`（motion/react，按词） | `.blur-unit`（零依赖） | `BlurText`（motion/react，IntersectionObserver） |
@@ -116,6 +119,14 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 - `brand.ts` 保存设计默认值，首次启动种子写入 `site_settings`；运行时以 `site_settings` 为事实来源，清空回退默认——可见品牌信息后台可改（含页脚：`SiteFooter site` 属性 + `APP_VERSION` / `footer_text`，备案图标缺失/加载失败时用 `.filing-icon-placeholder` 字形方块占位）。
 - ⚠️ Panel 当前为 `--portal-*` 1:1 逐字复刻，模板更新无法传导。本仓库 V1.3 发布后，Panel 应改为从模板重实例化（仅槽位 1–6、16–18 不同）。
 
+### 4.4 Li&Notes：沉浸式页眉
+
+- **顶部融合**：`scrollY ≤ 8px` 时页眉背景、边框、阴影、模糊和流光线均为空，页面底色与细线网格连续穿过。
+- **滚动雾化**：`scrollY > 8px` 后切换 `.is-scrolled`，使用 92% 同源底色、18px 背景模糊、极淡边界和细阴影；流光线透明度 0.2。
+- **尺寸稳定**：桌面内容高度 72px、≤768px 为 64px；滚动前后高度、内边距和导航布局不变。
+- **明暗差异**：浅色背景饱和度 145%，深色 135%；颜色、边框和阴影只消费 `--liblog-header-*` 令牌。
+- **验收证据**：1440px 浅/深色及 390px 浅色实测顶部背景透明、滚动状态同源，无横向溢出；Li&Notes 提交 `d461cb8`。
+
 ## 5. 防跨项目复制治理（新增硬规则）
 
 1. 新项目**禁止**从 Li&Pass / Li&Chat / Li&Blog / Li&Panel 复制样式或组件文件；一律从 `reusable-tokens.template.css` + 本索引实例化。
@@ -126,4 +137,4 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 ## 6. 与 REUSABLE-BRAND-SCHEME.md 的关系
 
 - 本文件回答「家族现状是什么」；方案文档回答「新项目应该怎么做」；令牌模板回答「代码长什么样」。
-- 方案文档第 2–3 章（内核 + 槽位）不变；第 5 章组件库与附录 B/E/F 已按本索引更新到 V1.4。
+- 方案文档第 2–3 章（内核 + 槽位）保持稳定；第 5 章组件库与附录 B/E/F 已按本索引更新到 V1.6。
