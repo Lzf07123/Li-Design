@@ -17,6 +17,8 @@ Li&Design 是 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&
 | 主方案：品牌内核 + 22 项槽位表 + 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（§8） | [REUSABLE-BRAND-SCHEME.md](./REUSABLE-BRAND-SCHEME.md) |
 | 令牌骨架（Tailwind CSS 4）：`{{PROJECT_PREFIX}}` 占位符、明暗两套色板、极光/科技光效与完整组件 CSS | [reusable-tokens.template.css](./reusable-tokens.template.css) |
 | 可复用 README 模板：结构约定 + 徽章规则 + 写作原则 | [reusable-readme.template.md](./reusable-readme.template.md) |
+| 视觉刷新 1:1 复刻规范（液态玻璃/瀑布流/骨架屏/空状态/二级菜单/返回顶部） | [REUSABLE-VISUAL-REFRESH-2026-08-24.md](./REUSABLE-VISUAL-REFRESH-2026-08-24.md) |
+| 视觉刷新精确 CSS 模块 | [reusable-visual-refresh.template.css](./reusable-visual-refresh.template.css) |
 
 **文档与代码冲突时**：`reusable-tokens.template.css` 是令牌事实，`REUSABLE-BRAND-SCHEME.md` 是意图。先核对差异，再决定改哪边；改一边必须同步另一边（见第六节）。
 
@@ -28,6 +30,8 @@ PROJECTS-IMPLEMENTATION-INDEX.md 全家族实现总览（项目矩阵/效果对�
 REUSABLE-BRAND-SCHEME.md         主方案（不变层 + 槽位层 + 执行层 + 协作方法）
 reusable-tokens.template.css     令牌骨架（唯一代码事实）
 reusable-readme.template.md      README 模板（结构/徽章/占位符）
+REUSABLE-VISUAL-REFRESH-2026-08-24.md  视觉刷新复刻规范
+reusable-visual-refresh.template.css   视觉刷新 CSS 模块
 AGENTS.md                        本手册
 ```
 
@@ -36,14 +40,16 @@ AGENTS.md                        本手册
 ## 四、硬性规则
 
 1. **保持使用边界**：任何改动不得让子项目产生对本仓库的运行时依赖；只做「首次设计参考」的模板演进。
-2. **自包含**：不引用相邻目录或外部仓库路径；示例取值内联在文档中，克隆到任意位置即可用。
+2. **自包含**：不引用相邻目录或外部仓库路径；示例取值内联在文档中，克隆到任意位置即可用；**规范条款不依赖、不引用、不提及任何外部项目仓库**（PROJECTS-IMPLEMENTATION-INDEX.md 仅作家族审计记录，不构成规范依赖）。
 3. **单一事实来源**：颜色/阴影/动效只在 `reusable-tokens.template.css`；槽位表与验收清单只在 `REUSABLE-BRAND-SCHEME.md`；两边必须同步。
 4. **分层不可混**：改品牌内核需明确理由并在方案中记录；示例取值来自 Li&Pass，新项目按第 3 章填自己的槽位。
 5. **完成 = 验证 + 文档**：声称完成前给出第七节验证输出；涉及方案结构变更时同步 README。
 6. **命名**：模板仓库为 `Li&Design`；`{{PROJECT_PREFIX}}` 只是占位符，子项目技术标识由其槽位 2 决定（如 `lipass`、`chat`），不在模板中固化任何项目前缀。
 7. **禁止跨项目复制（V1.3）**：子项目不得从 Li&Pass / Li&Chat / Li&Blog / Li&Panel 复制样式或组件文件；一律从模板实例化。新效果/新调校先回写模板（含参数与验收证据），再在项目内引用。
 8. **AA 调校与深色软底（V1.3）**：浅色语义色默认用调校值（muted `#64736C` / success `#2A7C52` / warning `#9A5C05` / destructive `#C43737`）；深色带文字软底组件必须用 `*-soft-solid` + `*-soft-fg`。
-9. **UI 控件用模板内置（V1.4–V1.6）**：沉浸式页眉（`.site-header` / `.site-header-inner` / `.is-scrolled`）、下拉（`.select` / `.custom-select-*`）、菜单（`.dropdown-menu`）、建议选项（`.suggest-menu`）、头像、复选/文件、分页、面包屑、进度、页脚（`.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`）、空状态一律用模板类实现；自定义下拉必须带完整键盘与 ARIA 契约（见方案附录 F），不自造样式。
+9. **UI 控件用模板内置（V1.4–V1.7）**：沉浸式页眉（`.site-header` / `.site-header-inner` / `.is-scrolled`）、下拉（`.select` / `.custom-select-*`）、菜单（`.dropdown-menu`）、建议选项（`.suggest-menu`）、头像、复选/文件、分页、面包屑、进度、页脚（`.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`）、空状态一律用模板类实现；自定义下拉必须带完整键盘与 ARIA 契约（见方案附录 F），不自造样式。
+10. **页脚链接 muted（V1.5.1 硬规则）**：页脚内链接（版权/备案/归档/许可等）一律 muted 文字色、hover 转 foreground，禁止被全局链接主色（如 `a { color: primary }`）覆盖；存在全局链接着色的项目必须在页脚以同/更高优先级显式覆盖。
+11. **技术实现栈一致（V1.5.2 硬规则）**：样式层必须与参考实现同栈——Tailwind CSS 4 + `@theme` 语义别名 + 同一 utility class；任何视觉效果的实现不得用手写 CSS 近似，必须同栈实现到像素级一致（一模一样的效果）。零依赖项目变体按 REUSABLE-BRAND-SCHEME.md 附录 F 等价实现对照表执行。
 
 ## 五、多 Agents 协作规范
 
@@ -91,7 +97,7 @@ AGENTS.md                        本手册
 ## 七、验证命令
 
 ```bash
-# 令牌模板占位符数量应恰为 268 处（V1.6：V1.4 全量 + 沉浸式页眉令牌与组件）；新增/删除槽位令牌会改变此数
+# 令牌模板占位符数量应恰为 268 处（V1.7：V1.4 全量 + 沉浸式页眉令牌与组件）；新增/删除槽位令牌会改变此数
 rg -F -o '{{PROJECT_PREFIX}}' reusable-tokens.template.css | wc -l
 
 # 方案文档与令牌模板的引用一致性（如 --<prefix>-primary 应在 @theme/:root/.dark 中成对出现）
@@ -104,7 +110,10 @@ comm -23 <(rg -o 'animation(?:-name)?: [a-z0-9-]+' reusable-tokens.template.css 
 rg -n '--\{\{PROJECT_PREFIX\}\}-(muted|success|warning|destructive):' reusable-tokens.template.css
 
 # README 与方案文档的内部链接必须可解析（同目录文件存在）
-ls README.md PROJECTS-IMPLEMENTATION-INDEX.md REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css reusable-readme.template.md AGENTS.md
+ls README.md PROJECTS-IMPLEMENTATION-INDEX.md REUSABLE-BRAND-SCHEME.md reusable-tokens.template.css reusable-readme.template.md REUSABLE-VISUAL-REFRESH-2026-08-24.md reusable-visual-refresh.template.css AGENTS.md
+
+# 视觉刷新模块占位符数量应恰为 113 处（V1.6 模块）；该文件必须括号平衡
+rg -F -o '{{PROJECT_PREFIX}}' reusable-visual-refresh.template.css | wc -l
 ```
 
 > 附录 B（Li&Pass 令牌快照）是回滚对照表：改模板色值时同步核对快照，避免明暗两套错位。
@@ -120,10 +129,11 @@ ls README.md PROJECTS-IMPLEMENTATION-INDEX.md REUSABLE-BRAND-SCHEME.md reusable-
 - **子模块不会自动更新**：Li&Chat / Li&Pass 以子模块方式引用本仓库，模板改动后需在各自项目手动 `git submodule update --init`（对齐锁定提交），`--remote` 要评审后谨慎使用。
 - **槽位表与令牌模板失配**：新增槽位（如新语义色）必须在模板中同步加变量，否则实例化时会漏令牌。
 - **附录 B 与模板色值漂移**：两处都写有 Li&Pass 色值，改一处必须核对另一处。
-- **占位符计数（V1.6）**：全文件 268 处是 V1.6 基准（V1.4 为 236 / V1.3 为 181）；新增页眉、控件或槽位令牌时同步更新本文件与方案附录 B。
+- **占位符计数（V1.7）**：`reusable-tokens.template.css` 全文件 268 处是 V1.7 基准（V1.4 为 236 / V1.3 为 181）；视觉刷新独立模板为 113 处。新增页眉、控件或槽位令牌时同步更新本文件与方案附录 B。
 - **页眉令牌成组漂移**：`--<prefix>-header-bg` / `-bg-scrolled` / `-border` / `-border-scrolled` 必须与项目 bg、border 同源；只改页面底色而漏改页眉会造成滚动后出现独立色带。
+- **视觉刷新层优先级**：`.site-nav { display:none }`、瀑布流/二级菜单/返回顶部等响应式覆盖必须写在 CSS Layer 之外；放进 `@layer components` 会被 utilities 的 `.flex` 覆盖。
 - **跨项目复制（Panel 教训）**：Li&Panel 曾按用户要求 1:1 复刻 Li&Pass（`--portal-*` 逐字一致），模板更新无法传导；任何新项目禁止此做法，一律从模板实例化，实例化后做「仅槽位差」校验。
-- **旧语义色坑**：Li&Pass / Li&Panel 仍为 V1.2 值（muted `#71807A` / success `#2F8F5F`，对比不达 4.5）；新项目必须用 V1.3 调校值，存量项目按 §7 历史差异处理对齐。
+- **旧语义色坑**：部分存量项目仍为 V1.2 值（muted `#71807A` / success `#2F8F5F`，对比不达 4.5）；新项目必须用 V1.3 调校值，存量项目按 §7 历史差异处理对齐。
 - **深色软底坑**：rgba 软底 + 同色浅字对比上限 ≈3.9；带文字组件必须回退 `*-soft-solid` + `*-soft-fg`，只有图标/图形可用 rgba 软底。
 - **模板缺科技光效 CSS 的历史坑**：V1.2 模板只写了光效层说明、没有 `.aurora/.tech-*` CSS；V1.3 已补全全部类与关键帧，实例化时不再需要从项目抄 CSS。
 - **自定义下拉契约坑（V1.4）**：只搬 CSS 不搬 JS 会导致无法键盘操作；隐藏原生 select 必须保留为表单事实源（选中派发 `change`），`aria-expanded`/`aria-selected` 必须同步，外点关闭不可省略。

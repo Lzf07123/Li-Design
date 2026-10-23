@@ -1,5 +1,5 @@
 /* =============================================================
-   Li& 系列 · 品牌令牌骨架（Tailwind CSS 4）· V1.6 沉浸式页眉扩展
+   Li& 系列 · 品牌令牌骨架（Tailwind CSS 4）· V1.7 沉浸式页眉扩展
 
    用法（详见同目录 REUSABLE-BRAND-SCHEME.md §4.2）：
    ⚠️ 本模板仅首次设计时复制使用，落地后以项目内文件为准。
@@ -8,7 +8,7 @@
    3. 按槽位表 7–12、16、21–22 填主色、中性色、语义色、强调色（明暗两套）
    4. 组件一律引用语义类（bg-primary 等），禁止硬编码 hex
 
-   V1.6 变更（2026-10-23，Li&Notes 已验证）：
+   V1.7 变更（2026-10-23）：
    - 新增沉浸式页眉令牌与 .site-header 组件：顶部透明融入页面底色，
      滚动超过 8px 后才启用同源雾化、极淡边界与非动画流光线
    - 桌面/移动端页眉高度、模糊强度、边框和阴影全部走组件令牌
@@ -24,6 +24,10 @@
      table-shell / scroll-tabs / blur-unit（全部来自已验证项目实现）
 
    铁律：
+   - 技术实现栈一致（V1.5.2）：本模板为 Tailwind CSS 4 结构；项目必须沿用
+     同一技术栈实例化（@theme 语义别名 + 与参考实现相同的 utility class），
+     视觉效果必须像素级一致（一模一样的效果），禁止手写 CSS 近似。
+     零依赖项目变体按 REUSABLE-BRAND-SCHEME.md 附录 F 等价实现对照表执行。
    - 全淡色口径：无粉色系、无大面积重色；深色 = 雾灰中间调不压黑
    - 主按钮用半透明单色着色 + 细描边 + ::after 扫光，不用多色渐变色块
    - 阴影透明度总和 < 0.1；动效只动 transform/opacity/background-position
@@ -1295,7 +1299,12 @@
      - 大小与高度（Pass / Panel 1:1 一致）：
        单行高 56px = text-xs（12px / 行高 16px）+ py-5（上下 20px），min-h-14 兜底；
        图标/备案占位 14×14px、占位圆角 4px；gap-x-2（8px）/ gap-y-1（4px）；
-       内容 max-w-7xl 居中，px-4（16px）→ lg:px-8（32px）；移动端允许换行、无横向滚动 */
+       内容 max-w-7xl 居中，px-4（16px）→ lg:px-8（32px）；移动端允许换行、无横向滚动
+     - 链接颜色铁律（V1.5.1，2026-08-21 固化）：
+       页脚内链接（版权/备案/归档/许可等）一律 muted 文字色、hover 转 foreground；
+       禁止被全局链接主色（如 a { color: primary }）覆盖。存在全局链接着色的项目
+       必须在页脚以同/更高优先级显式覆盖为 muted。
+       来源：实例化项目实测——全局 a{color:primary} 泄漏导致备案文字呈青色，已修复回写。 */
   .site-footer {
     @apply relative mt-auto border-t border-border/60 bg-surface/60 backdrop-blur;
   }
@@ -1303,7 +1312,7 @@
     @apply mx-auto flex min-h-14 max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-5 text-xs text-muted lg:px-8;
   }
   .site-footer a {
-    @apply transition-colors duration-200 hover:text-foreground;
+    @apply text-muted transition-colors duration-200 hover:text-foreground;
   }
   .filing-icon-placeholder {
     @apply inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-[4px] bg-surface-2 text-[9px] font-semibold leading-none text-muted;

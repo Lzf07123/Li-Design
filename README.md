@@ -4,7 +4,13 @@
 
 Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证的设计系统提炼，供所有子项目（Li&Chat 及后续新项目）按「填槽位 → 复制令牌 → 过验收」的方式实例化。
 
-> **V1.6（2026-10-23）**：纳入 Li&Notes 已验证的**沉浸式页眉**：顶部背景完全透明并与页面底色/网格融合，滚动超过 8px 后才启用同源 92% 雾化层、18px 模糊、极淡边界与非动画流光线；桌面 72px / 移动端 64px，滚动前后高度不变；`backdrop-filter` 不支持时回退不透明页面底色。
+> **V1.7（2026-10-23）**：新增**沉浸式页眉**模板——顶部背景完全透明并与页面底色/网格融合，滚动超过 8px 后才启用同源 92% 雾化层、18px 模糊、极淡边界与非动画流光线；桌面 72px / 移动端 64px，滚动前后高度不变；`backdrop-filter` 不支持时回退不透明页面底色。
+>
+> **V1.6（2026-08-24）**：新增视觉刷新模块——液态玻璃令牌/卡片微交互、CSS 瀑布流（无默认占位图）、搜索骨架屏、全站空状态、移动端二级菜单、右侧常驻返回顶部；完整 1:1 契约见 [REUSABLE-VISUAL-REFRESH-2026-08-24.md](REUSABLE-VISUAL-REFRESH-2026-08-24.md)，精确 CSS 见 [reusable-visual-refresh.template.css](reusable-visual-refresh.template.css)。
+>
+> **V1.5.2（2026-08-21）**：新增两条顶层铁律——① 模板仓库**自包含**：规范条款不依赖、不引用、不提及任何外部项目仓库，克隆到任意位置即可独立使用；② 后续项目实例化必须**达到一模一样的效果**：样式层统一 Tailwind CSS 4 同栈（`@theme` 语义别名 + 同一 utility class），禁止手写 CSS 近似，验收以截图逐值核对为准。
+>
+> **V1.5.1（2026-08-21）**：固化页脚链接 muted 铁律——页脚内链接（版权/备案/归档/许可）不被全局链接主色覆盖。
 >
 > **V1.5（2026-08-21）**：纳入 Pass/Panel 已验证的页脚组件（`.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`）：`mt-auto` 贴底 + 半透明表面 + backdrop-blur，版权/备案/链接全部由 `brand.ts` 驱动；Panel 运行时 `site_settings` 变体（版本号/自定义文案/备案图标占位）一并沉淀；尺寸规格同步固定——单行高 56px（`min-h-14` 兜底）、字号 12px、图标/备案占位 14×14px；加载骨架 `PageSkeleton` 页脚占位同规格等高。
 >
@@ -18,6 +24,8 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 | [REUSABLE-BRAND-SCHEME.md](REUSABLE-BRAND-SCHEME.md) | 主方案：品牌内核（不变层）+ 项目适配槽位表（22 项）+ 落地流程 + 组件库 + 验收清单 + 多 Agents 协作方法（第 8 章） |
 | [reusable-tokens.template.css](reusable-tokens.template.css) | Tailwind CSS 4 令牌骨架，含 `{{PROJECT_PREFIX}}` 占位符、明暗两套色板、极光/科技光效与完整组件 CSS（含沉浸式页眉/下拉/菜单/头像/复选/文件/分页/面包屑/进度/页脚） |
 | [reusable-readme.template.md](reusable-readme.template.md) | 可复用 README 模板：结构约定 + 徽章规则 + 写作原则，含占位符与使用说明 |
+| [REUSABLE-VISUAL-REFRESH-2026-08-24.md](REUSABLE-VISUAL-REFRESH-2026-08-24.md) | 视觉刷新 1:1 复刻规范：令牌、间距、玻璃卡片、瀑布流、二级菜单、返回顶部、骨架屏、空状态、断点验收 |
+| [reusable-visual-refresh.template.css](reusable-visual-refresh.template.css) | 视觉刷新的精确 CSS 模块（`{{PROJECT_PREFIX}}` 占位，直接合并到项目样式文件） |
 | [AGENTS.md](AGENTS.md) | 模板仓库的多 Agents 协作手册：事实来源、硬性规则、协作规范、验证命令 |
 
 ## 快速上手（新项目 3 步）
@@ -88,7 +96,7 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 - V1.3：浅色语义色用 AA 调校值（muted `#64736C` / success `#2A7C52` / warning `#9A5C05` / destructive `#C43737`）；深色带文字软底用 `*-soft-solid` + `*-soft-fg`。
 - V1.4：UI 控件全量内置——`.select`（原生下拉同输入框视觉）、`.custom-select-*`（键盘完整自定义下拉）、`.dropdown-menu`、`.suggest-menu`、`.avatar`、复选/文件按钮、`.pagination`、`.breadcrumb`、`.progress`、`.table-empty-row`。
 - V1.5：页脚组件内置——`.site-footer`（`mt-auto` 贴底 + 半透明表面 + backdrop-blur）、`.site-footer-inner`（`max-w-7xl` 居中内容，单行高 56px，`min-h-14` 兜底）、`.filing-icon-placeholder`（14×14px 备案图标缺失/加载失败占位）；版权/备案/链接全部由 `brand.ts` 驱动。
-- V1.6：沉浸式页眉内置——`.site-header` / `.site-header-inner` / `.is-scrolled`；顶部不形成独立色带，滚动后才启用同源雾化层，桌面 72px、移动端 64px，高度不随滚动变化。
+- V1.7：沉浸式页眉内置——`.site-header` / `.site-header-inner` / `.is-scrolled`；顶部不形成独立色带，滚动后才启用同源雾化层，桌面 72px、移动端 64px，高度不随滚动变化。
 - 动效只动 `transform/opacity/background-position`，每个 animation 必须有 @keyframes，尊重 `prefers-reduced-motion`，移动端减量省电。
 - 令牌只存在 `index.css`，品牌文案只存在 `brand.ts`，组件禁止硬编码。
 - 新效果/新调校先回写本模板再引用；禁止项目间复制（详见实现总览 §5）。
@@ -96,7 +104,7 @@ Li& 系列产品的共用品牌/视觉设计模板仓库：从 Li&Pass 已验证
 
 ## 参考实现
 
-本仓库内容自包含，不依赖任何相邻目录或外部链接；文中引用的 Li&Pass 令牌与槽位示例已内联在文档中，克隆到任意位置均可直接使用。
+本仓库内容自包含，不依赖任何相邻目录或外部链接；文中引用的 Li&Pass 令牌与槽位示例已内联在文档中，克隆到任意位置均可直接使用。**规范条款不引用、不提及外部项目仓库**；后续项目实例化必须**达到一模一样的效果**（同栈 Tailwind CSS 4 实现，验收以截图逐值核对为准）。
 
 ## 治理
 
