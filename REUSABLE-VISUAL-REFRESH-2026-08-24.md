@@ -1,6 +1,6 @@
 # Li& 视觉刷新可复用规范（2026-08-24）
 
-> 版本：V1.0 ｜ 日期：2026-08-24 ｜ 状态：可实例化
+> 版本：V1.1 ｜ 日期：2026-11-07 ｜ 状态：可实例化（V1.1 回写卡片预烘焙玻璃调校：成片列表表面不叠加常驻 `backdrop-filter`，实时玻璃收敛到单一表面——见 §5、§10、§11；令牌与模板 CSS 未变）
 > 用途：沉淀“液态玻璃卡片 / 瀑布流 / 卡片微交互 / 骨架屏 / 空状态 / 移动端二级菜单 / 右侧返回顶部”七组视觉模式的**完整实现契约**。
 > 配套文件：`reusable-visual-refresh.template.css`（本规范的精确 CSS 实现）。
 > 铁律：技术栈保持 Tailwind CSS 4；颜色/阴影/动效只进 tokens 文件；文案走项目 strings/brand 单点；公开站不新增用户输入组件；动效尊重 `prefers-reduced-motion`。
@@ -83,6 +83,8 @@
 
 - 圆角 20px；边框 `glass-border-soft`；背景 `glass-shine + glass-bg`；`backdrop-filter: blur(18px) saturate(150%)`；内高光 `inset 0 1px 0 glass-highlight`。
 - 不支持 `backdrop-filter` 时回退 `glass-bg-strong`。
+- **成片列表表面改用预烘焙着色（V1.1 调校，实例验证：媒体库无限画布）**：`.project-card` / `.post-card` / `.journey-panel` 等成片出现的列表卡片，背景改为 `glass-shine + glass-bg-strong`，**不叠加常驻 `backdrop-filter`**。理由：卡片压在持续动画的氛围层上时，每卡常驻实时玻璃造成逐帧重采样，GPU/电量成本随卡片数量线性增长；`glass-bg-strong` 本就是无 backdrop 的回退底色，观感同源。卡片媒体元素不保留常驻 `will-change`，动画期间由浏览器自动提升合成层。
+- **实时玻璃只保留在单一表面**：模态、媒体查看器、页眉、页脚、返回顶部等单实例表面继续用 `glass-bg` + `backdrop-filter: blur(18px) saturate(150%)`；这类表面同屏只有一两个，重采样成本恒定。
 - 基础 hover：`translateY(-3px)` + `shadow-md`。
 - 栅格/列表/瀑布流内聚焦态：`translateY(-5px) scale(1.006)` + `shadow-lg` + `border-color: primary`。
 - 卡片顶部主色细线 hover/focus 展开（`scaleX(0→1)`）。
@@ -211,7 +213,7 @@ DOM：
 - 390px：`.site-nav { display:none }`、`.mobile-nav-primary { display:flex }`、`.mobile-menu { display:block }`。
 - 769px：`.site-nav { display:flex }`、`.mobile-nav-primary { display:none }`、`.mobile-menu { display:none }`。
 - 悬浮卡片 computed transform：`matrix(1.006, 0, 0, 1.006, 0, -5)`。
-- 玻璃 computed backdrop-filter：`blur(18px) saturate(1.5)`。
+- 成片卡片 computed backdrop-filter：`none`（预烘焙 `glass-bg-strong` 着色，V1.1）；模态 / 查看器 / 页眉 / 页脚 / 返回顶部等单一表面：`blur(18px) saturate(1.5)`。
 - 搜索骨架屏在延迟 1200ms 时可见，返回后隐藏且结果列表出现。
 
 ## 11. 常见坑
@@ -221,3 +223,4 @@ DOM：
 3. 封面比例必须由 `imageConfig` 提供；缺失时使用 `16 / 9` 兜底。
 4. 玻璃卡片文本仍需满足 AA：深色 rgba 软底只用于装饰，承载文本的玻璃层必须使用 `glass-bg-strong` 或可读前景。
 5. 每个新增 animation 必须有 `@keyframes`；降级动效统一收敛为 `0.01ms` 单次。
+6. **成片卡片不要每卡常驻 `backdrop-filter`（V1.1 性能坑）**：瀑布流/画布这类几十张卡同屏的表面，实时玻璃的逐帧重采样成本随卡数线性增长（压在持续动画氛围层上时最明显）；一律用 `glass-shine + glass-bg-strong` 预烘焙着色，实时玻璃只留给模态/查看器/页眉页脚/返回顶部等单一表面。
