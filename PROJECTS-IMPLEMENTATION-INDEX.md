@@ -16,7 +16,7 @@
 | Li&Blog | Hugo + React/motion 效果层（esbuild 单文件，约 90KB gzip） | `liblog` | BRAND/MASTER v1.4 / 2026-08-24 | 模板 V1.5 实例化/对齐 + 调校值 + 站点化扩展 | 公开站零交互、本地徽章（无 shields.io 外链）、HeroFX 滚动视差、AuroraBackground full/soft = 4/2、TechAmbience 去光束（网格 + 8 枚强调色光点）、打印令牌、代码高亮令牌、文章页零动效、后台完整组件集；**页脚按 V1.5 规格**；**V1.6 视觉刷新**：液态玻璃卡片/悬浮微交互/CSS 瀑布流（未配图不用默认占位）/搜索骨架屏/全站空状态/移动端首页·关于·搜索外露 + 其余入口二级菜单/右侧常驻返回顶部 |
 | Li&Panel | React + Tailwind CSS 4 | `portal`（1:1 复刻）+ `lipanel` | BRAND/MASTER 2026-08-20 | **跨项目 1:1 复制（反例，需纠正）** | 与 Li&Pass 逐字一致（`--portal-*`、组件、动效、CSP）；面板网格 1→2→3→4 列；`site_settings` 品牌信息后台可覆盖；原生 select 同 Pass |
 | Li&Notes | Hugo + 原生 CSS/JS（公开站无框架运行时） | `liblog` | BRAND/MASTER v2.2 / 2026-10-23 | 模板 V1.7 沉浸式页眉来源 + 文章站扩展 | 沉浸式页眉（顶部透明、滚动后同源雾化）、居中阅读列、桌面目录外置、代码工具栏固定、纸页目录、本地衬线正文、知识档案编号卡与移动端表格卡片化 |
-| Li&Media | React 19 + TypeScript + Vite + Tailwind CSS 4 + React Router 7 | `limedia` | BRAND V1.0 / 2026-09-05、MASTER V1.1 / 2026-09-06 | 模板全量实例化 + 卡片预烘焙玻璃调校（V1.8 回写） | 回忆库单页 + URL 驱动查看器：sticky 半透明页眉（769px 切换、`<details>` 二级菜单、外露首页）、**fixed 底部页脚变体**（44px 单行、44px 链接热区）、soft 氛围（fixed 全屏 4 极光 + 网格/光束/光点，移动端去光束光点）、**JS 均衡瀑布流**（matchMedia 六→二列）、媒体/搜索骨架屏、**卡片预烘焙玻璃**（成片表面无常驻 `backdrop-filter`，见 §4.5） |
+| Li&Media | React 19 + TypeScript + Vite + Tailwind CSS 4 + React Router 7 | `limedia` | BRAND V1.0 / 2026-09-05、MASTER V1.1 / 2026-09-06 | 模板全量实例化 + 卡片预烘焙玻璃调校（V1.8 回写） | 回忆库单页 + URL 驱动查看器：**沉浸式页眉**（V1.7 逐值：72/64px、scrollY>8px 切换雾化、流光线 0→0.2）、**模板页脚**（mt-auto 贴底 56px）、soft 氛围（fixed 全屏 4 极光 + 网格/光束/光点，移动端去光束光点）、**JS 均衡瀑布流**（matchMedia 六→二列）、媒体/搜索骨架屏、**卡片预烘焙玻璃**（成片表面无常驻 `backdrop-filter`，见 §4.5） |
 
 ## 2. 家族共性（全部项目已验证）
 
@@ -76,7 +76,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 | 认证卡签名描边 | `.card-signature`（mask 环 + `flow-gradient` 9s） | `.card-signature`（双背景 border-box） | `.card-signature::after`（mask 环 9s） | 未接（后台无认证卡） | `.card-signature`（后台登录卡） |
 | 卡片辉光 / Logo 辉光 | `.card-halo` / `.brand-halo`（4.5s） | `.card-halo` / `.brand-halo` | `.auth-halo` / `.auth-brand::before` | 未接 | `.card-halo`（登录卡）/ `.brand-halo`（页眉品牌图标） |
 | 流光线 | `.flow-rule`（5s，`flow-gradient` 250% 位移） | `.flow-rule`（顶栏/分区标题） | `.flow-line`（顶栏底部，200% 位移） | 未接 | `.flow-rule`（首页分区） |
-| 沉浸式页眉 | `.site-header` / `.site-header.is-scrolled`（V1.7；Li&Notes 已验证） | — | — | 公开站采用同源方向，完整透明滚动切换尚未接入 | —（sticky 半透明页眉变体，见 §4.5） |
+| 沉浸式页眉 | `.site-header` / `.site-header.is-scrolled`（V1.7；Li&Notes / Li&Media 已验证） | — | — | 公开站采用同源方向，完整透明滚动切换尚未接入 落地（2026-11-07，V1.7 逐值：72/64px、`scrollY > 8px` 切换同源雾化、流光线 0→0.2；e2e 契约 `site-shell.spec`） |
 | 极光层 | `.aurora` / `.aurora-blob`（4 枚，18/22/28/24s）+ `.aurora-soft` | `AuroraBackground` 4 枚 | 同模板（登录后 `.aurora-soft`） | `AuroraBackground` full=4 / soft=2 | `AmbientBackground` fixed 全屏 4 枚（24/22/28/18s）；`.aurora-soft` 0.55 |
 | 科技光效层 | `.tech-ambience` / `.tech-grid` / `.tech-beam` ×3 / `.tech-dot` ×8（12s / 10s 错峰 0.8/4.2/7.5s / 6s） | 同模板 | 同模板（`.tech-soft` 0.55） | 去光束：网格 + 8 枚强调色光点（`--tech-dot-color` 取六强调色） | 同模板；`.tech-ambience--soft`（网格 0.45 / 光束光点 0.35）；≤767px 去光束光点、停网格动画、极光减速 |
 | 文字浮现 | `.blur-unit`（450ms、35ms 错峰；零依赖） | `BlurText`（motion/react，按词） | `.blur-unit`（零依赖） | `BlurText`（motion/react，IntersectionObserver） | `.blur-unit`（零依赖，`BlurText` 组件） |
@@ -97,7 +97,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 | 本地徽章（公开站） | §5 `badge` 行（本地 SVG 胶囊，零外链） | — | — | `themes/blog-theme` badge 组件 | — |
 | 打印 / 代码高亮令牌 | §3.1 可选扩展（`--print-*` / `--code-*`） | — | — | `tokens.css`（白纸黑字 + Chroma 六色） | — |
 | 应用外壳 | AuthShell（`max-w-md` 居中卡）；AppShell = AppHeader + `max-w-7xl` + Footer | 同模板 | 微信式双栏（列表 300px + 内容 ≤880px；`100dvh` 内滚） | 公开站无交互外壳 + 后台管理外壳 | 前台无限画布外壳（sticky 页眉 + `max-w-7xl` 画布 + fixed 页脚）；后台登录卡直排 |
-| 页脚 | `.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`（`mt-auto` 贴底 + 半透明表面 + backdrop-blur；单行高 56px，`min-h-14` 兜底；`PageSkeleton` 骨架页脚占位同规格等高；版权/备案/链接全部由 brand.ts 驱动；**链接 muted（V1.5.1）**——不被全局链接主色覆盖，hover 转前景色） | `SiteFooter.tsx`（brand.ts 静态，Pass 已验证） | Chat 自有 `.site-footer`（`static/style.css`） | `site-footer` > `site-footer-inner`（V1.5 规格，2026-08-21 对齐：56px 单行 / 12px / 14×14 图标与占位 / backdrop-blur；brand.yaml + strings.yaml 驱动，等价 brand.ts；备案 + CC 协议） | **fixed 底部条变体**（见 §4.5）：`position: fixed; bottom: 0` + 44px 单行（`min-h-11`）+ 44px 链接热区 + `bg-surface/85` backdrop-blur；`page-shell` 底部 72px 让位；brand.ts 驱动、备案上线前留空；链接 muted 遵守 V1.5.1 |
+| 页脚 | `.site-footer` / `.site-footer-inner` / `.filing-icon-placeholder`（`mt-auto` 贴底 + 半透明表面 + backdrop-blur；单行高 56px，`min-h-14` 兜底；`PageSkeleton` 骨架页脚占位同规格等高；版权/备案/链接全部由 brand.ts 驱动；**链接 muted（V1.5.1）**——不被全局链接主色覆盖，hover 转前景色） | `SiteFooter.tsx`（brand.ts 静态，Pass 已验证） | Chat 自有 `.site-footer`（`static/style.css`） | `site-footer` > `site-footer-inner`（V1.5 规格，2026-08-21 对齐：56px 单行 / 12px / 14×14 图标与占位 / backdrop-blur；brand.yaml + strings.yaml 驱动，等价 brand.ts；备案 + CC 协议） 模板 V1.5 逐值落地（2026-11-07）：`relative mt-auto` 贴底 + 56px 单行（`min-h-14`）+ `bg-surface/60` backdrop-blur；`page-shell` 底部留白 96px；brand.ts 驱动、备案上线前留空；链接 muted 遵守 V1.5.1 |
 
 ## 4. 各项目独有模式（按需引用，不是默认内核）
 
@@ -142,8 +142,7 @@ Li&Chat 按模板附录 E 方法对浅色语义色做同色相加深，Li&Blog �
 **设计思路（从定位推导视觉的实例）**：照片/视频回忆库的产品主角是**真实内容本身**，界面只做安静的容器。推导路径：定位「一次上传，随时回看」→ 人格比喻「一位安静的档案管理员」→ 视觉结论：海玻璃家族主色原样沿用（`#25786D` / `#7FD4C6`）、氛围浓度全站 soft（表格与表单区域可读优先）、封面永远真实原图/服务端缩略图（缺失只显示低对比类型图标，不做标题哈希占位）、状态徽章承担信任表达（未发布/缺失/失败不伪装成正常内容）。这是家族里第一个「内容即装饰」的实例——氛围层让位给照片，比 Blog 的 soft 更进一步（公开页与后台都 soft）。
 
 - **卡片预烘焙玻璃调校（V1.8 回写视觉刷新规范 §5）**：成片列表表面（`.project-card` / `.post-card`）背景改为 `glass-shine + glass-bg-strong` 预烘焙着色，**不叠加常驻 `backdrop-filter`**。理由：卡片压在持续动画的极光氛围层上时，每卡常驻实时玻璃导致逐帧重采样，GPU/电量成本随画布卡数线性增长；`glass-bg-strong`（浅 `rgba(255,255,255,0.78)` / 深 `rgba(67,73,80,0.76)`）本就是无 backdrop 回退底色，观感同源。实时玻璃（`glass-bg` + `backdrop-filter: blur(18px) saturate(150%)`) 收敛到模态、查看器、页眉、页脚、返回顶部等**单一表面**。卡片媒体元素不保留常驻 `will-change`，动画期间由浏览器自动提升合成层。
-- **页眉变体（sticky 半透明，非沉浸式）**：`.site-header` = `sticky top-0 z-20 border-b border-border bg-surface/80 backdrop-blur`，内容行高 48px（`h-12`）。回忆库需要常驻的类型导航与主题入口，不采用 V1.7 顶部透明方案。桌面导航 769px 起显示（`hidden sm:flex` + ≤768px 显式 `.site-nav{display:none}` 双保险）；≤768px 外露首页链接 + `<details>` 二级菜单（外点/Escape 关闭、`summary` 焦点回归、44px 热区、面板 176px）；≤360px 隐藏品牌文字只留图标。
-- **页脚变体（fixed 底部条，非 `mt-auto` 贴底）**：`.site-footer { position: fixed; inset-inline: 0; bottom: 0; z-index: 30; }` + 44px 单行（`min-h-11`、`text-xs` 12px）+ `bg-surface/85` backdrop-blur + 顶边框。理由：无限画布滚动场景中页脚若在文档流贴底，分段加载会把它不断推远；固定条让「已到底了/加载失败重试」等画布状态常驻可达。配套 `.page-shell { padding-bottom: 72px }` 让位防遮挡；链接 44px 热区、muted→foreground（V1.5.1 遵守）；版权/备案/链接全部由 `brand.ts` 驱动，备案上线前留空不写假占位。
+- **页眉页脚（2026-11-07 对齐模板 1:1）**：沉浸式页眉 V1.7 与 mt-auto 页脚 V1.5 已逐值实例化（此前一度以 sticky 半透明 48px 页眉 + fixed 44px 底部条变体运行，按「效果必须一模一样」铁律废除）；滚动监听在 `SiteHeader` 内以 rAF 节流切换 `.is-scrolled`，`page-shell` 底部留白按模板 96px。
 - **瀑布流变体（JS 均衡分列，非纯 CSS columns）**：`.masonry` 为 CSS Grid，列数由 `matchMedia` 驱动（≥1600→6 / ≥1280→5 / ≥1024→4 / ≥768→3 / 其余 2），条目按 `index % N` 均衡分配进 `.canvas-column` 列容器。理由：媒体卡片需按序预载、滚动恢复与查看器锚定，纯 CSS columns 会破坏 DOM 列序与预载顺序。封面用已知宽高或图片 `naturalSize` 写 `aspect-ratio` 占位（加载前无布局抖动）；hover 微交互同模板（上浮 + 兄弟卡片压暗，`:has()` 实现）。
 - **骨架屏与画布状态**：`MediaSkeleton`（列数与画布同步）+ `SearchSkeleton`；`.shimmer` 扫光只动 `background-position`；卡片级 `card-shimmer` 1.6s（`prefers-reduced-motion` 静态化）。无限画布用 sentinel 分段加载，画布页脚状态（loading/retry/end）走 `aria-live`。
 - **内容边界（品牌层约束）**：内容类型只做 `photo`/`video`；后端公开接口只返回 `published`；网盘直链由服务端短期签发，前端不长期保存；首页预览状态（预热中/未预热/降级）作为公开信息展示，不暴露内部实现细节。
